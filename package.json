@@ -1,0 +1,23 @@
+{
+  "name": "yingler",
+  "version": "1.0.0",
+  "description": "A mobile-first networking app for Yrgo's industry event.",
+  "main": "index.js",
+  "scripts": {
+      "dev": "concurrently \"npm run dev --prefix server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amin/yingler.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amin/yingler/issues"
+  },
+  "homepage": "https://github.com/amin/yingler#readme",
+  "dependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
