@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <div>
       <img src={user.picture} alt={user.name} />
-      <p>{user.name}</p>
+      <p>{user.firstName} {user.lastName}</p>
       <p>{user.email}</p>
       <button onClick={() => signOut(auth)}>Sign out</button>
     </div>

@@ -58,6 +58,8 @@ export async function linkedinCallback(req, res) {
   await db.collection("users").doc(profile.sub).set(
     {
       name: profile.name,
+      firstName: profile.given_name,
+      lastName: profile.family_name,
       email: profile.email,
       picture: pictureUrl,
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
