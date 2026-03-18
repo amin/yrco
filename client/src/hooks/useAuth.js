@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../lib/firebase";
 
 export function useAuth() {
-  const [firebaseUser, setFirebaseUser] = useState(undefined);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
-    return onAuthStateChanged(auth, setFirebaseUser);
+    return onAuthStateChanged(auth, async (firebaseUser) => {
+      if (!firebaseUser) {
+        setUser(null);
+        return;
+      }
+
+      const snap = await getDoc(doc(db, "users", firebaseUser.uid));
+      setUser(snap.data());
+    });
   }, []);
 
-  return firebaseUser;
+  return user;
 }

@@ -1,9 +1,9 @@
 import { signOut } from "firebase/auth";
-import { useUser } from "../hooks/useUser";
+import { useAuth } from "../hooks/useAuth";
 import { auth } from "../lib/firebase";
 
 export default function Home() {
-  const user = useUser();
+  const user = useAuth();
 
   if (user === undefined) return null;
 

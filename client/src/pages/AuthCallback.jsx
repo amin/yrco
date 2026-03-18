@@ -13,7 +13,7 @@ export default function AuthCallback() {
     signInWithCustomToken(auth, token)
       .then(() => navigate("/"))
       .catch((err) => console.error("Auth failed:", err));
-  }, []);
+  }, [searchParams]);
 
   return <div>Signing in...</div>;
 }
