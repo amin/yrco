@@ -24,7 +24,10 @@ async function uploadProfilePicture(uid, pictureUrl) {
   const { bucket } = await import("../lib/firebase.js");
   const file = bucket.file(`profile-pictures/${uid}`);
 
-  await file.save(Buffer.from(data), { contentType: "image/jpeg", public: true });
+  await file.save(Buffer.from(data), {
+    contentType: "image/jpeg",
+    public: true,
+  });
 
   return file.publicUrl();
 }
@@ -32,43 +35,50 @@ async function uploadProfilePicture(uid, pictureUrl) {
 export async function linkedinCallback(req, res) {
   const { code } = req.query;
 
-  // Exchange code for access token
-  const { data: tokenData } = await axios.post(
-    LINKEDIN_TOKEN_URL,
-    new URLSearchParams({
-      grant_type: "authorization_code",
-      code,
-      redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
-      client_id: process.env.LINKEDIN_CLIENT_ID,
-      client_secret: process.env.LINKEDIN_CLIENT_SECRET,
-    }),
-    { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-  );
+  try {
+    // Exchange code for access token
+    const { data: tokenData } = await axios.post(
+      LINKEDIN_TOKEN_URL,
+      new URLSearchParams({
+        grant_type: "authorization_code",
+        code,
+        redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
+        client_id: process.env.LINKEDIN_CLIENT_ID,
+        client_secret: process.env.LINKEDIN_CLIENT_SECRET,
+      }),
+      { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
+    );
 
-  // Fetch LinkedIn profile
-  const { data: profile } = await axios.get(LINKEDIN_PROFILE_URL, {
-    headers: { Authorization: `Bearer ${tokenData.access_token}` },
-  });
+    // Fetch LinkedIn profile
+    const { data: profile } = await axios.get(LINKEDIN_PROFILE_URL, {
+      headers: { Authorization: `Bearer ${tokenData.access_token}` },
+    });
 
-  // Upload profile picture to Firebase Storage
-  const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
+    // Upload profile picture to Firebase Storage
+    const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
 
-  // Upsert user in Firestore
-  const { db } = await import("../lib/firebase.js");
-  await db.collection("users").doc(profile.sub).set(
-    {
-      name: profile.name,
-      firstName: profile.given_name,
-      lastName: profile.family_name,
-      email: profile.email,
-      picture: pictureUrl,
-      updatedAt: admin.firestore.FieldValue.serverTimestamp(),
-    },
-    { merge: true }
-  );
+    // Upsert user in Firestore
+    const { db } = await import("../lib/firebase.js");
+    await db.collection("users").doc(profile.sub).set(
+      {
+        name: profile.name,
+        firstName: profile.given_name,
+        lastName: profile.family_name,
+        email: profile.email,
+        picture: pictureUrl,
+        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true },
+    );
 
-  // Create Firebase custom token
-  const firebaseToken = await admin.auth().createCustomToken(profile.sub);
+    // Create Firebase custom token
+    const firebaseToken = await admin.auth().createCustomToken(profile.sub);
 
-  res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${firebaseToken}`);
+    res.redirect(
+      `${process.env.CLIENT_URL}/auth/callback?token=${firebaseToken}`,
+    );
+  } catch (err) {
+    console.error("LinkedIn auth error:", err);
+    res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
+  }
 }
