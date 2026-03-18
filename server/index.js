@@ -12,6 +12,9 @@ app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
 
 // Routes
+import authRouter from "./routes/auth.js";
+app.use("/auth", authRouter);
+
 app.get("/", (req, res) => {
   res.json({ message: "Yingler API is running" });
 });
