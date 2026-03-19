@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { logout } from "../lib/firebase";
 import api from "../lib/api";
+import Spinner from "../components/Spinner";
 
 export default function Dashboard() {
   const { data: user, isLoading } = useQuery({
@@ -8,6 +9,7 @@ export default function Dashboard() {
     queryFn: () => api.get("/users/me").then((res) => res.data),
   });
 
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
