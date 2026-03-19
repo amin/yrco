@@ -2,8 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-
-const { db } = await import("./lib/firebase.js");
+import authRouter from "./routes/auth.js";
+import { db } from "./lib/firebase.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,7 +14,6 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
-import authRouter from "./routes/auth.js";
 app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {

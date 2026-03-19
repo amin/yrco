@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
         return;
       }
 
+      setUser(undefined);
       const snap = await getDoc(doc(db, "users", firebaseUser.uid));
       setUser(snap.data());
     });
