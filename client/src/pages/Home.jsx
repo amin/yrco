@@ -1,5 +1,5 @@
 import { signOut } from "firebase/auth";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../context/AuthContext";
 import { auth } from "../lib/firebase";
 
 export default function Home() {
