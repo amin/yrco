@@ -7,11 +7,16 @@ const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/userinfo";
 
 export function linkedinRedirect(req, res) {
+  const state = crypto.randomUUID();
+
+  res.cookie("oauth_state", state, { httpOnly: true, sameSite: "lax" });
+
   const params = new URLSearchParams({
     response_type: "code",
     client_id: process.env.LINKEDIN_CLIENT_ID,
     redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
     scope: "openid profile email",
+    state,
   });
 
   res.redirect(`${LINKEDIN_AUTH_URL}?${params}`);
@@ -33,9 +38,14 @@ async function uploadProfilePicture(uid, pictureUrl) {
 }
 
 export async function linkedinCallback(req, res) {
-  const { code } = req.query;
+  const { code, state } = req.query;
 
   try {
+    if (!state || state !== req.cookies.oauth_state) {
+      return res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
+    }
+
+    res.clearCookie("oauth_state");
     // Exchange code for access token
     const { data: tokenData } = await axios.post(
       LINKEDIN_TOKEN_URL,
