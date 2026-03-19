@@ -22,7 +22,7 @@ export default function AuthCallback() {
     signInWithCustomToken(auth, token)
       .then(() => navigate("/"))
       .catch(() => redirectToError("Authentication failed"));
-  }, [searchParams]);
+  }, [searchParams, navigate]);
 
   return <Spinner label="Signing in..." />;
 }

@@ -15,10 +15,10 @@ api.interceptors.response.use(
   (error) => {
     const status = error?.response?.status;
 
-    if (!error.response) redirectToError("Network error");
-    if (status === 401) window.location.href = "/";
-    if (status === 403) window.location.href = "/403";
-    if (status >= 500) redirectToError(error?.response?.data?.error ?? "Server error");
+    if (!error.response) return redirectToError("Network error");
+    if (status === 401) return (window.location.href = "/");
+    if (status === 403) return (window.location.href = "/403");
+    if (status >= 500) return redirectToError(error?.response?.data?.error ?? "Server error");
 
     return Promise.reject(error);
   }
