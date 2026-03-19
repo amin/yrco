@@ -1,13 +1,24 @@
-import { useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Error() {
-  const [searchParams] = useSearchParams();
-  const message = searchParams.get("message") ?? "Something went wrong";
+  const [message, setMessage] = useState("Something went wrong");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("errorMessage");
+    const param = new URLSearchParams(window.location.search).get("message");
+
+    if (stored) {
+      setMessage(stored);
+      localStorage.removeItem("errorMessage");
+    } else if (param) {
+      setMessage(decodeURIComponent(param));
+    }
+  }, []);
 
   return (
     <div>
       <p>{message}</p>
-      <a href="/">Try again</a>
+      <button onClick={() => window.history.back()}>Try again</button>
     </div>
   );
 }
