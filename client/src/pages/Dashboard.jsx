@@ -1,8 +1,13 @@
-import { useAuth } from "../context/AuthContext";
+import { useQuery } from "@tanstack/react-query";
 import { logout } from "../lib/firebase";
+import api from "../lib/api";
 
 export default function Dashboard() {
-  const user = useAuth();
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["me"],
+    queryFn: () => api.get("/users/me").then((res) => res.data),
+  });
+
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">

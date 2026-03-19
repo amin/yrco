@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.js";
+import usersRouter from "./routes/users.js";
 import { db } from "./lib/firebase.js";
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cookieParser());
 
 // Routes
 app.use("/auth", authRouter);
+app.use("/users", usersRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Yingler API is running" });
