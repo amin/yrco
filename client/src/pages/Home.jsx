@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { logout } from "../lib/firebase";
 
@@ -16,9 +17,7 @@ export default function Home() {
 
   return (
     <div>
-      <img src={user.picture} alt={user.name} />
-      <p>{user.firstName} {user.lastName}</p>
-      <p>{user.email}</p>
+      <Link to="/dashboard">Go to Dashboard</Link>
       <button onClick={logout}>Sign out</button>
     </div>
   );
