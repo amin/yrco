@@ -1,6 +1,5 @@
-import { signOut } from "firebase/auth";
 import { useAuth } from "../context/AuthContext";
-import { auth } from "../lib/firebase";
+import { logout } from "../lib/firebase";
 
 export default function Home() {
   const user = useAuth();
@@ -20,7 +19,7 @@ export default function Home() {
       <img src={user.picture} alt={user.name} />
       <p>{user.firstName} {user.lastName}</p>
       <p>{user.email}</p>
-      <button onClick={() => signOut(auth)}>Sign out</button>
+      <button onClick={logout}>Sign out</button>
     </div>
   );
 }
