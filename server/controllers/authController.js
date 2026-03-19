@@ -1,5 +1,6 @@
 import axios from "axios";
 import admin from "firebase-admin";
+import { db, bucket } from "../lib/firebase.js";
 
 const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
@@ -21,7 +22,6 @@ async function uploadProfilePicture(uid, pictureUrl) {
     responseType: "arraybuffer",
     headers: { "User-Agent": "Mozilla/5.0" },
   });
-  const { bucket } = await import("../lib/firebase.js");
   const file = bucket.file(`profile-pictures/${uid}`);
 
   await file.save(Buffer.from(data), {
@@ -58,7 +58,6 @@ export async function linkedinCallback(req, res) {
     const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
 
     // Upsert user in Firestore
-    const { db } = await import("../lib/firebase.js");
     await db.collection("users").doc(profile.sub).set(
       {
         name: profile.name,

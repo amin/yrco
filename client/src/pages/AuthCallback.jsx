@@ -10,9 +10,16 @@ export default function AuthCallback() {
   useEffect(() => {
     const token = searchParams.get("token");
 
+    if (!token) {
+      navigate("/error?message=auth_failed");
+      return;
+    }
+
+    window.history.replaceState({}, "", "/auth/callback");
+
     signInWithCustomToken(auth, token)
       .then(() => navigate("/"))
-      .catch((err) => console.error("Auth failed:", err));
+      .catch(() => navigate("/error?message=auth_failed"));
   }, [searchParams]);
 
   return <div>Signing in...</div>;
