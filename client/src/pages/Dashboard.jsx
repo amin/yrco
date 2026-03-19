@@ -1,13 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMe } from "../hooks/useMe";
 import { logout } from "../lib/firebase";
-import api from "../lib/api";
 import Spinner from "../components/Spinner";
 
 export default function Dashboard() {
-  const { data: user, isLoading } = useQuery({
-    queryKey: ["me"],
-    queryFn: () => api.get("/users/me").then((res) => res.data),
-  });
+  const { data: user, isLoading } = useMe();
 
   if (isLoading) return <Spinner />;
 

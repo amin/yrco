@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
+import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { db } from "./lib/firebase.js";
 
 const app = express();
@@ -21,6 +22,9 @@ app.use("/users", usersRouter);
 app.get("/", (req, res) => {
   res.json({ message: "Yingler API is running" });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
