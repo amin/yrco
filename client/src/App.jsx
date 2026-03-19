@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
-import AuthCallback from './pages/AuthCallback'
-import Error from './pages/Error'
-import Forbidden from './pages/Forbidden'
-import NotFound from './pages/NotFound'
+import AuthCallback from './pages/auth/Callback'
+import Error from './pages/errors/Error'
+import Forbidden from './pages/errors/Forbidden'
+import NotFound from './pages/errors/NotFound'
 import Dashboard from './pages/Dashboard'
 
 function App() {

@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import { signInWithCustomToken } from "firebase/auth";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { auth } from "../lib/firebase";
-import { redirectToError } from "../lib/errorRedirect";
-import Spinner from "../components/Spinner";
+import { auth } from "../../lib/firebase";
+import { redirectToError } from "../../lib/errorRedirect";
+import Spinner from "../../components/Spinner";
 
 export default function AuthCallback() {
   const navigate = useNavigate();
