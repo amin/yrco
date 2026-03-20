@@ -2,10 +2,10 @@
   "name": "yingler",
   "version": "1.0.0",
   "description": "A mobile-first networking app for Yrgo's industry event.",
-  "main": "index.js",
+  "private": true,
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
-    "install:all": "npm install --prefix server && npm install --prefix client"
+    "dev": "turbo run dev"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "url": "https://github.com/amin/yingler/issues"
   },
   "homepage": "https://github.com/amin/yingler#readme",
-  "dependencies": {
-    "concurrently": "^9.2.1"
+  "devDependencies": {
+    "turbo": "^2.5.4"
   }
 }
