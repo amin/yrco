@@ -30,10 +30,10 @@ export default function Home() {
         <h1 className="text-xl font-semibold text-gray-900 mb-2">Yingler</h1>
         <p className="text-sm text-gray-500 mb-6">Welcome back</p>
         <Link
-          to="/dashboard"
+          to="/me"
           className="block w-full bg-gray-900 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-gray-700 transition-colors mb-3"
         >
-          Go to Dashboard
+          Go to profile
         </Link>
         <button
           onClick={logout}

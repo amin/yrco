@@ -5,7 +5,7 @@ import AuthCallback from './pages/auth/Callback'
 import Error from './pages/errors/Error'
 import Forbidden from './pages/errors/Forbidden'
 import NotFound from './pages/errors/NotFound'
-import Dashboard from './pages/Dashboard'
+import Me from './pages/Me'
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
 
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/me" element={<Me />} />
       </Route>
     </Routes>
   )
