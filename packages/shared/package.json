@@ -1,5 +1,5 @@
 {
-  "name": "@yingler/shared",
+  "name": "@yingle/shared",
   "version": "1.0.0",
   "main": "./src/index.js",
   "type": "module",

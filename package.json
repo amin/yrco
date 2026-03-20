@@ -1,5 +1,5 @@
 {
-  "name": "yingler",
+  "name": "yingle",
   "version": "1.0.0",
   "description": "A mobile-first networking app for Yrgo's industry event.",
   "private": true,
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amin/yingler.git"
+    "url": "git+https://github.com/amin/yingle.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amin/yingler/issues"
+    "url": "https://github.com/amin/yingle/issues"
   },
-  "homepage": "https://github.com/amin/yingler#readme",
+  "homepage": "https://github.com/amin/yingle#readme",
   "devDependencies": {
     "turbo": "^2.5.4"
   }
