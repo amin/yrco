@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import authRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
+import wordsRouter from "./routes/words.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // Routes
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
+app.use("/words", wordsRouter);
 
 app.get("/", (_, res) => {
   res.json({ message: "Yingle API is running" });
