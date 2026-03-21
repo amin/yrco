@@ -1,5 +1,5 @@
 import axios from "axios";
-import { bucket } from "../lib/firebase.js";
+import * as storageRepo from "../repositories/storageRepository.js";
 
 const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
@@ -43,7 +43,5 @@ export async function uploadProfilePicture(uid, pictureUrl) {
     responseType: "arraybuffer",
     headers: { "User-Agent": "Mozilla/5.0" },
   });
-  const file = bucket.file(`profile-pictures/${uid}`);
-  await file.save(Buffer.from(data), { contentType: "image/jpeg", public: true });
-  return file.publicUrl();
+  return storageRepo.uploadImage(`profile-pictures/${uid}`, Buffer.from(data));
 }

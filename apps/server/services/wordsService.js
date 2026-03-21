@@ -1,19 +1,9 @@
-import { db } from "../lib/firebase.js";
-import { createCache } from "../lib/cache.js";
+import * as wordsRepo from "../repositories/wordsRepository.js";
 
-const wordsCache = createCache();
+export const getAllWords = () => wordsRepo.findAll();
 
-export async function getAllWords() {
-  if (wordsCache.has()) return wordsCache.get();
-  const snap = await db.collection("words").get();
-  wordsCache.set(
-    Object.fromEntries(snap.docs.map((doc) => [doc.id, { id: doc.id, ...doc.data() }]))
-  );
-  return wordsCache.get();
-}
-
-export async function getWordsByIds(ids) {
+export const getWordsByIds = async (ids) => {
   if (ids.length === 0) return [];
-  const words = await getAllWords();
+  const words = await wordsRepo.findAll();
   return ids.map((id) => words[id]).filter(Boolean);
-}
+};
