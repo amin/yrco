@@ -6,7 +6,11 @@ export default function SetupRoute() {
 
   if (user === undefined) return null;
   if (!user) return <Navigate to="/" />;
-  if (user.setupComplete === true) return <Navigate to="/me" />;
+  if (user.setupComplete === true) {
+    const redirect = sessionStorage.getItem("redirectAfterLogin");
+    sessionStorage.removeItem("redirectAfterLogin");
+    return <Navigate to={redirect || "/me"} />;
+  }
 
   return <Outlet />;
 }
