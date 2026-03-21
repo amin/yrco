@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as storageRepo from "../repositories/storageRepository.js";
+import { upsertUser } from "./usersService.js";
 
 const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
@@ -44,4 +45,22 @@ export async function uploadProfilePicture(uid, pictureUrl) {
     headers: { "User-Agent": "Mozilla/5.0" },
   });
   return storageRepo.uploadImage(`profile-pictures/${uid}`, Buffer.from(data));
+}
+
+export async function handleLinkedInCallback(code, state, expectedState) {
+  if (!state || state !== expectedState) throw new Error("Invalid OAuth state");
+
+  const accessToken = await exchangeLinkedInCode(code);
+  const profile = await fetchLinkedInProfile(accessToken);
+  const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
+
+  const { setupComplete } = await upsertUser(profile.sub, {
+    name: profile.name,
+    firstName: profile.given_name,
+    lastName: profile.family_name,
+    email: profile.email,
+    picture: pictureUrl,
+  });
+
+  return { uid: profile.sub, setupComplete };
 }

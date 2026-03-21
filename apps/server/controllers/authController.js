@@ -1,5 +1,4 @@
-import { buildLinkedInAuthUrl, exchangeLinkedInCode, fetchLinkedInProfile, uploadProfilePicture } from "../services/authService.js";
-import { upsertUser } from "../services/usersService.js";
+import { buildLinkedInAuthUrl, handleLinkedInCallback } from "../services/authService.js";
 
 export function linkedinRedirect(_req, res) {
   const state = crypto.randomUUID();
@@ -8,28 +7,15 @@ export function linkedinRedirect(_req, res) {
 }
 
 export async function linkedinCallback(req, res) {
-  const { code, state } = req.query;
-
   try {
-    if (!state || state !== req.signedCookies.oauth_state) {
-      return res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
-    }
+    const { uid, setupComplete } = await handleLinkedInCallback(
+      req.query.code,
+      req.query.state,
+      req.signedCookies.oauth_state,
+    );
 
     res.clearCookie("oauth_state", { signed: true });
-
-    const accessToken = await exchangeLinkedInCode(code);
-    const profile = await fetchLinkedInProfile(accessToken);
-    const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
-
-    const { setupComplete } = await upsertUser(profile.sub, {
-      name: profile.name,
-      firstName: profile.given_name,
-      lastName: profile.family_name,
-      email: profile.email,
-      picture: pictureUrl,
-    });
-
-    res.cookie("session", profile.sub, {
+    res.cookie("session", uid, {
       httpOnly: true,
       signed: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
