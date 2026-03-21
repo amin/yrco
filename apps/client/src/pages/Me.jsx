@@ -1,9 +1,9 @@
-import { useMe } from "../hooks/useMe";
-import { logout } from "../lib/auth";
+import { useMe, useLogout } from "../hooks/user";
 import Spinner from "../components/Spinner";
 
 export default function Me() {
   const { data: user, isLoading } = useMe();
+  const logout = useLogout();
 
   if (isLoading) return <Spinner />;
 

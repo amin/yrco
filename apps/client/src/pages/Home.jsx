@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { logout } from "../lib/auth";
+import { useLogout } from "../hooks/user";
 
 export default function Home() {
   const user = useAuth();
+  const logout = useLogout();
 
   if (user === undefined) return null;
 
