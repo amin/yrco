@@ -66,8 +66,13 @@ export async function linkedinCallback(req, res) {
     // Upload profile picture to Firebase Storage
     const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
 
+    // Check if user exists
+    const userRef = db.collection("users").doc(profile.sub);
+    const existing = await userRef.get();
+    const isNewUser = !existing.exists;
+
     // Upsert user in Firestore
-    await db.collection("users").doc(profile.sub).set(
+    await userRef.set(
       {
         name: profile.name,
         firstName: profile.given_name,
@@ -75,9 +80,12 @@ export async function linkedinCallback(req, res) {
         email: profile.email,
         picture: pictureUrl,
         updatedAt: FieldValue.serverTimestamp(),
+        ...(isNewUser && { setupComplete: false, createdAt: FieldValue.serverTimestamp() }),
       },
       { merge: true },
     );
+
+    const snap = isNewUser ? { setupComplete: false } : (await userRef.get()).data();
 
     res.cookie("session", profile.sub, {
       httpOnly: true,
@@ -87,7 +95,8 @@ export async function linkedinCallback(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect(process.env.CLIENT_URL);
+    const redirectTo = snap.setupComplete === false ? "/setup" : "/";
+    res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
 
     console.error("LinkedIn auth error:", err);
