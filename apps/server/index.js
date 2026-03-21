@@ -25,7 +25,7 @@ app.use("/users", usersRouter);
 app.use("/words", wordsRouter);
 
 app.get("/", (_, res) => {
-  res.json({ message: "Yingle API is running" });
+  res.json({ message: "Colyr API is running" });
 });
 
 app.use(notFound);

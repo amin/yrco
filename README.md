@@ -1,4 +1,4 @@
-# Yingler
+# Colyrr
 
 A mobile-first networking app for Yrgo's industry event.
 
@@ -24,7 +24,7 @@ Make networking fun. Students get randomly matched with companies.
 ## Project Structure
 
 ```
-yingle/
+colyr/
 ├── client/
 └── server/
 ```

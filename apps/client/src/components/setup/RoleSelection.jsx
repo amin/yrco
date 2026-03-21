@@ -7,7 +7,7 @@ export default function RoleSelection({ onSelect, onLogout }) {
   return (
     <div className="flex flex-col flex-1">
       <div className="flex-1 flex flex-col justify-center">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Yingle</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to Colyr</h1>
         <p className="text-sm text-gray-500 mb-8">Who are you attending as?</p>
         <div className="flex flex-col gap-3">
           {ROLES.map(({ value, label }) => (

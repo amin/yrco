@@ -1,6 +1,6 @@
 import { getUser, updateUser } from "../services/usersService.js";
 import { getWordsByIds } from "../services/wordsService.js";
-import { setupSchema } from "@yingle/shared";
+import { setupSchema } from "@colyr/shared";
 
 export async function getMe(req, res) {
   const user = await getUser(req.user.uid);

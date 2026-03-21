@@ -1,5 +1,5 @@
 {
-  "name": "yingle",
+  "name": "colyr",
   "version": "1.0.0",
   "description": "A mobile-first networking app for Yrgo's industry event.",
   "private": true,
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amin/yingle.git"
+    "url": "git+https://github.com/amin/colyr.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amin/yingle/issues"
+    "url": "https://github.com/amin/colyr/issues"
   },
-  "homepage": "https://github.com/amin/yingle#readme",
+  "homepage": "https://github.com/amin/colyr#readme",
   "devDependencies": {
     "turbo": "^2.5.4"
   }
