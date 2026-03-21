@@ -1,1 +1,1 @@
-export { setupSchema } from "./setupSchema.js";
+export { setupSchema, studentFieldsSchema, organizationFieldsSchema } from "./setupSchema.js";

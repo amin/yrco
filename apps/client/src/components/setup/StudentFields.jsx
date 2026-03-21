@@ -1,7 +1,21 @@
+import { useState } from "react";
+import { studentFieldsSchema } from "@colyr/shared";
+
 const EDUCATION_OPTIONS = ["Web Developer", "Digital Designer"];
 
 export default function StudentFields({ fields, onChange, onBack, onSubmit }) {
-  const isValid = EDUCATION_OPTIONS.includes(fields.education);
+  const [errors, setErrors] = useState({});
+
+  function handleNext() {
+    const result = studentFieldsSchema.safeParse(fields);
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach(({ path, message }) => { fieldErrors[path[0]] = message; });
+      setErrors(fieldErrors);
+      return;
+    }
+    onSubmit();
+  }
 
   return (
     <div className="flex flex-col flex-1">
@@ -33,19 +47,20 @@ export default function StudentFields({ fields, onChange, onBack, onSubmit }) {
               </button>
             ))}
           </div>
+          {errors.education && <p className="text-red-500 text-sm -mt-1">{errors.education}</p>}
           <input
             placeholder="Website (optional)"
             value={fields.website ?? ""}
             onChange={(e) => onChange("website", e.target.value)}
             className="w-full border border-gray-200 rounded-xl px-4 py-4 text-sm outline-none focus:border-gray-400 bg-white"
           />
+          {errors.website && <p className="text-red-500 text-sm -mt-1">{errors.website}</p>}
         </div>
       </div>
 
       <button
-        onClick={onSubmit}
-        disabled={!isValid}
-        className="w-full bg-blue-600 text-white text-sm font-medium py-4 rounded-xl hover:bg-blue-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed mt-6"
+        onClick={handleNext}
+        className="w-full bg-blue-600 text-white text-sm font-medium py-4 rounded-xl hover:bg-blue-500 transition-colors mt-6"
       >
         Next
       </button>
