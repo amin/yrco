@@ -1,11 +1,11 @@
-import { db, FieldValue } from "../lib/firebase.js";
-import { getWordCache } from "../lib/wordCache.js";
+import { getUser, updateUser } from "../services/usersService.js";
+import { getWordsByIds } from "../services/wordsService.js";
 import { setupSchema } from "@yingle/shared";
 
 export async function getMe(req, res) {
-  const snap = await db.collection("users").doc(req.user.uid).get();
-  if (!snap.exists) return res.status(404).json({ error: "User not found" });
-  res.json(snap.data());
+  const user = await getUser(req.user.uid);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  res.json(user);
 }
 
 export async function completeSetup(req, res) {
@@ -15,27 +15,15 @@ export async function completeSetup(req, res) {
   }
 
   const { role, ...fields } = result.data;
-
-  await db.collection("users").doc(req.user.uid).update({
-    role,
-    ...fields,
-    setupComplete: true,
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await updateUser(req.user.uid, { role, ...fields, setupComplete: true });
 
   res.json({ ok: true });
 }
 
 export async function getMyWords(req, res) {
-  const [userSnap, wordCache] = await Promise.all([
-    db.collection("users").doc(req.user.uid).get(),
-    getWordCache(),
-  ]);
+  const user = await getUser(req.user.uid);
+  if (!user) return res.status(404).json({ error: "User not found" });
 
-  if (!userSnap.exists) return res.status(404).json({ error: "User not found" });
-
-  const wordIds = userSnap.data().wordIds ?? [];
-  const words = wordIds.map((id) => wordCache[id]).filter(Boolean);
-
+  const words = await getWordsByIds(user.wordIds ?? []);
   res.json(words);
 }

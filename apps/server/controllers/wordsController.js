@@ -1,7 +1,6 @@
-import { db } from "../lib/firebase.js";
+import { getAllWords } from "../services/wordsService.js";
 
-export async function getWords(req, res) {
-  const snap = await db.collection("words").get();
-  const words = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+export async function getWords(_req, res) {
+  const words = Object.values(await getAllWords());
   res.json(words);
 }
