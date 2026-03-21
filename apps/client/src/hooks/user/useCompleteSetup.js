@@ -6,9 +6,9 @@ export function useCompleteSetup() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (role) => {
-      setupSchema.parse({ role });
-      return api.post("/users/me/setup", { role });
+    mutationFn: (data) => {
+      setupSchema.parse(data);
+      return api.post("/users/me/setup", data);
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["me"] }),
   });

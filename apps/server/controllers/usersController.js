@@ -13,8 +13,11 @@ export async function completeSetup(req, res) {
     return res.status(400).json({ error: result.error.issues[0].message });
   }
 
+  const { role, ...fields } = result.data;
+
   await db.collection("users").doc(req.user.uid).update({
-    role: result.data.role,
+    role,
+    ...fields,
     setupComplete: true,
     updatedAt: FieldValue.serverTimestamp(),
   });
