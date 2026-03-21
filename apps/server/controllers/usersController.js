@@ -1,4 +1,5 @@
 import { db, FieldValue } from "../lib/firebase.js";
+import { setupSchema } from "@yingle/shared";
 
 export async function getMe(req, res) {
   const snap = await db.collection("users").doc(req.user.uid).get();
@@ -7,14 +8,13 @@ export async function getMe(req, res) {
 }
 
 export async function completeSetup(req, res) {
-  const { role } = req.body;
-
-  if (role !== "student" && role !== "organization") {
-    return res.status(400).json({ error: "Invalid role" });
+  const result = setupSchema.safeParse(req.body);
+  if (!result.success) {
+    return res.status(400).json({ error: result.error.issues[0].message });
   }
 
   await db.collection("users").doc(req.user.uid).update({
-    role,
+    role: result.data.role,
     setupComplete: true,
     updatedAt: FieldValue.serverTimestamp(),
   });
