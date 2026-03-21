@@ -12,7 +12,7 @@ api.interceptors.response.use(
     const status = error?.response?.status;
 
     if (!error.response) return redirectToError("Network error");
-    if (status === 401 && !error.config?._skipAuthRedirect) return (window.location.href = "/");
+    if (status === 401 && !error.config?._skipAuthRedirect) return (window.location.href = "/login");
     if (status === 403) return (window.location.href = "/403");
     if (status >= 500) return redirectToError(error?.response?.data?.error ?? "Server error");
 
