@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMe, useLogout } from "../hooks/user";
-import { useMyWords } from "../hooks/useWords";
+import { useMyWords } from "../hooks/words";
 import Spinner from "../components/Spinner";
 
 export default function Me() {

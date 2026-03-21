@@ -1,4 +1,4 @@
-import { useWords } from "../../hooks/useWords";
+import { useWords } from "../../hooks/words";
 
 const MAX = 5;
 
