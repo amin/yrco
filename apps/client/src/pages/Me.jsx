@@ -1,5 +1,5 @@
 import { useMe } from "../hooks/useMe";
-import { logout } from "../lib/firebase";
+import { logout } from "../lib/auth";
 import Spinner from "../components/Spinner";
 
 export default function Dashboard() {

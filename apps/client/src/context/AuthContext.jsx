@@ -1,17 +1,30 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../lib/firebase";
+import { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import api from "../lib/api";
 
 const AuthContext = createContext(undefined);
 
+async function fetchMe() {
+  try {
+    const res = await api.get("/users/me", { _skipAuthRedirect: true });
+    return res.data;
+  } catch (err) {
+    if (err.response?.status === 401) return null;
+    throw err;
+  }
+}
+
 export function AuthProvider({ children }) {
-  const [firebaseUser, setFirebaseUser] = useState(undefined);
+  const { data: user, isLoading } = useQuery({
+    queryKey: ["me"],
+    queryFn: fetchMe,
+  });
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, setFirebaseUser);
-  }, []);
-
-  return <AuthContext.Provider value={firebaseUser}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={isLoading ? undefined : user}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export function useAuth() {

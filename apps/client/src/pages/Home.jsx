@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { logout } from "../lib/firebase";
+import { logout } from "../lib/auth";
 
 export default function Home() {
   const user = useAuth();
@@ -11,7 +11,7 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-sm text-center">
-          <h1 className="text-xl font-semibold text-gray-900 mb-2">Yingler</h1>
+          <h1 className="text-xl font-semibold text-gray-900 mb-2">Yingle</h1>
           <p className="text-sm text-gray-500 mb-6">Sign in to get started</p>
           <a
             href={`${import.meta.env.VITE_SERVER_URL}/auth/linkedin`}
@@ -27,7 +27,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 w-full max-w-sm text-center">
-        <h1 className="text-xl font-semibold text-gray-900 mb-2">Yingler</h1>
+        <h1 className="text-xl font-semibold text-gray-900 mb-2">Yingle</h1>
         <p className="text-sm text-gray-500 mb-6">Welcome back</p>
         <Link
           to="/me"

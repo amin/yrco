@@ -1,12 +1,11 @@
 import axios from "axios";
-import admin from "firebase-admin";
-import { db, bucket } from "../lib/firebase.js";
+import { db, bucket, FieldValue } from "../lib/firebase.js";
 
 const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/userinfo";
 
-export function linkedinRedirect(req, res) {
+export function linkedinRedirect(_, res) {
   const state = crypto.randomUUID();
 
   res.cookie("oauth_state", state, { httpOnly: true, sameSite: "lax" });
@@ -75,19 +74,27 @@ export async function linkedinCallback(req, res) {
         lastName: profile.family_name,
         email: profile.email,
         picture: pictureUrl,
-        updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        updatedAt: FieldValue.serverTimestamp(),
       },
       { merge: true },
     );
 
-    // Create Firebase custom token
-    const firebaseToken = await admin.auth().createCustomToken(profile.sub);
+    res.cookie("session", profile.sub, {
+      httpOnly: true,
+      signed: true,
+      sameSite: "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
-    res.redirect(
-      `${process.env.CLIENT_URL}/auth/callback?token=${firebaseToken}`,
-    );
+    res.redirect(process.env.CLIENT_URL);
   } catch (err) {
+
     console.error("LinkedIn auth error:", err);
     res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
   }
+}
+
+export function logout(req, res) {
+  res.clearCookie("session");
+  res.json({ ok: true });
 }
