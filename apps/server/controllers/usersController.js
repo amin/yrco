@@ -1,4 +1,5 @@
 import { db, FieldValue } from "../lib/firebase.js";
+import { getWordCache } from "../lib/wordCache.js";
 import { setupSchema } from "@yingle/shared";
 
 export async function getMe(req, res) {
@@ -26,16 +27,15 @@ export async function completeSetup(req, res) {
 }
 
 export async function getMyWords(req, res) {
-  const userSnap = await db.collection("users").doc(req.user.uid).get();
+  const [userSnap, wordCache] = await Promise.all([
+    db.collection("users").doc(req.user.uid).get(),
+    getWordCache(),
+  ]);
+
   if (!userSnap.exists) return res.status(404).json({ error: "User not found" });
 
   const wordIds = userSnap.data().wordIds ?? [];
-  if (wordIds.length === 0) return res.json([]);
-
-  const snaps = await Promise.all(wordIds.map((id) => db.collection("words").doc(id).get()));
-  const words = snaps
-    .filter((s) => s.exists)
-    .map((s) => ({ id: s.id, ...s.data() }));
+  const words = wordIds.map((id) => wordCache[id]).filter(Boolean);
 
   res.json(words);
 }
