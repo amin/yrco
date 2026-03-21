@@ -95,7 +95,7 @@ export async function linkedinCallback(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    const redirectTo = snap.setupComplete === false ? "/setup" : "/";
+    const redirectTo = snap.setupComplete === false ? "/setup" : "/login";
     res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
 

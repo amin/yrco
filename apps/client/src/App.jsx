@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import SetupRoute from './components/SetupRoute'
 import Home from './pages/Home'
+import Login from './pages/Login'
 import Error from './pages/errors/Error'
 import Forbidden from './pages/errors/Forbidden'
 import NotFound from './pages/errors/NotFound'
@@ -14,6 +15,7 @@ function App() {
       {/* Public routes */}
      
       <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/error" element={<Error />} />
       <Route path="/403" element={<Forbidden />} />
       <Route path="*" element={<NotFound />} />
