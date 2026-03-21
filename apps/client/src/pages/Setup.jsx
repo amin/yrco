@@ -29,46 +29,41 @@ export default function Setup() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 w-full max-w-sm overflow-hidden">
-        <div
-          className="flex transition-transform duration-300 ease-in-out"
-          style={{ transform: `translateX(${TRANSLATE[step]})`, width: "300%" }}
-        >
-          {/* Step 0 — Role selection */}
-          <div className="w-1/3 p-8 text-center">
-            <RoleSelection onSelect={selectRole} onLogout={logout} />
-          </div>
+    <div className="min-h-screen bg-gray-50 overflow-hidden">
+      <div
+        className="flex transition-transform duration-300 ease-in-out min-h-screen"
+        style={{ transform: `translateX(${TRANSLATE[step]})`, width: "300%" }}
+      >
+        <div className="w-1/3 p-6 flex flex-col">
+          <RoleSelection onSelect={selectRole} onLogout={logout} />
+        </div>
 
-          {/* Step 1 — Role-specific fields */}
-          <div className="w-1/3 p-8 text-center">
-            {role === "student" ? (
-              <StudentFields
-                fields={fields}
-                onChange={handleChange}
-                onBack={() => setStep(0)}
-                onSubmit={() => setStep(2)}
-              />
-            ) : (
-              <OrganizationFields
-                fields={fields}
-                onChange={handleChange}
-                onBack={() => setStep(0)}
-                onSubmit={() => setStep(2)}
-              />
-            )}
-          </div>
-
-          {/* Step 2 — Word selection */}
-          <div className="w-1/3 p-8 text-center">
-            <WordSelection
-              selected={wordIds}
-              onChange={setWordIds}
-              onBack={() => setStep(1)}
-              onSubmit={handleSubmit}
-              isPending={isPending}
+        <div className="w-1/3 p-6 flex flex-col">
+          {role === "student" ? (
+            <StudentFields
+              fields={fields}
+              onChange={handleChange}
+              onBack={() => setStep(0)}
+              onSubmit={() => setStep(2)}
             />
-          </div>
+          ) : (
+            <OrganizationFields
+              fields={fields}
+              onChange={handleChange}
+              onBack={() => setStep(0)}
+              onSubmit={() => setStep(2)}
+            />
+          )}
+        </div>
+
+        <div className="w-1/3 p-6 flex flex-col">
+          <WordSelection
+            selected={wordIds}
+            onChange={setWordIds}
+            onBack={() => setStep(1)}
+            onSubmit={handleSubmit}
+            isPending={isPending}
+          />
         </div>
       </div>
     </div>
