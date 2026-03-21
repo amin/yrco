@@ -1,4 +1,4 @@
-export default function OrganizationFields({ fields, onChange, onBack, onSubmit, isPending }) {
+export default function OrganizationFields({ fields, onChange, onBack, onSubmit }) {
   const isValid = fields.organizationName?.trim() && fields.roleAtCompany?.trim();
 
   return (
@@ -27,10 +27,10 @@ export default function OrganizationFields({ fields, onChange, onBack, onSubmit,
       </div>
       <button
         onClick={onSubmit}
-        disabled={!isValid || isPending}
+        disabled={!isValid}
         className="w-full bg-blue-600 text-white text-sm font-medium py-2.5 rounded-lg hover:bg-blue-500 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
       >
-        {isPending ? "Saving…" : "Confirm"}
+        Next
       </button>
     </>
   );

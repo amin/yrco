@@ -24,3 +24,18 @@ export async function completeSetup(req, res) {
 
   res.json({ ok: true });
 }
+
+export async function getMyWords(req, res) {
+  const userSnap = await db.collection("users").doc(req.user.uid).get();
+  if (!userSnap.exists) return res.status(404).json({ error: "User not found" });
+
+  const wordIds = userSnap.data().wordIds ?? [];
+  if (wordIds.length === 0) return res.json([]);
+
+  const snaps = await Promise.all(wordIds.map((id) => db.collection("words").doc(id).get()));
+  const words = snaps
+    .filter((s) => s.exists)
+    .map((s) => ({ id: s.id, ...s.data() }));
+
+  res.json(words);
+}
