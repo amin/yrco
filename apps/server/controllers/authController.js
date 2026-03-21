@@ -90,12 +90,12 @@ export async function linkedinCallback(req, res) {
     res.cookie("session", profile.sub, {
       httpOnly: true,
       signed: true,
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    const redirectTo = snap.setupComplete === false ? "/setup" : "/login";
+    const redirectTo = snap.setupComplete === false ? "/setup" : "/me";
     res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
 

@@ -6,7 +6,7 @@ export default function SetupRoute() {
 
   if (user === undefined) return null;
   if (!user) return <Navigate to="/" />;
-  if (user.setupComplete !== false) return <Navigate to="/" />;
+  if (user.setupComplete === true) return <Navigate to="/me" />;
 
   return <Outlet />;
 }

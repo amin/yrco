@@ -8,10 +8,10 @@ export default function Error() {
     const param = new URLSearchParams(window.location.search).get("message");
 
     if (stored) {
-      setMessage(stored);
+      setMessage(stored.slice(0, 200));
       localStorage.removeItem("errorMessage");
     } else if (param) {
-      setMessage(decodeURIComponent(param));
+      setMessage(param.slice(0, 200));
     }
   }, []);
 
