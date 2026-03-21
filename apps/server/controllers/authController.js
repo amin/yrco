@@ -8,7 +8,7 @@ const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/userinfo";
 export function linkedinRedirect(_, res) {
   const state = crypto.randomUUID();
 
-  res.cookie("oauth_state", state, { httpOnly: true, sameSite: "lax" });
+  res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax" });
 
   const params = new URLSearchParams({
     response_type: "code",
@@ -40,11 +40,11 @@ export async function linkedinCallback(req, res) {
   const { code, state } = req.query;
 
   try {
-    if (!state || state !== req.cookies.oauth_state) {
+    if (!state || state !== req.signedCookies.oauth_state) {
       return res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
     }
 
-    res.clearCookie("oauth_state");
+    res.clearCookie("oauth_state", { signed: true });
     // Exchange code for access token
     const { data: tokenData } = await axios.post(
       LINKEDIN_TOKEN_URL,
@@ -82,7 +82,8 @@ export async function linkedinCallback(req, res) {
     res.cookie("session", profile.sub, {
       httpOnly: true,
       signed: true,
-      sameSite: "lax",
+      sameSite: "strict",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -94,7 +95,7 @@ export async function linkedinCallback(req, res) {
   }
 }
 
-export function logout(req, res) {
-  res.clearCookie("session");
+export function logout(_, res) {
+  res.clearCookie("session", { signed: true });
   res.json({ ok: true });
 }
