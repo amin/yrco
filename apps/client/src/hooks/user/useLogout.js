@@ -5,7 +5,10 @@ export function useLogout() {
   const queryClient = useQueryClient();
 
   return async () => {
-    await api.post("/auth/logout");
-    queryClient.setQueryData(["me"], null);
+    try {
+      await api.post("/auth/logout");
+    } finally {
+      queryClient.setQueryData(["me"], null);
+    }
   };
 }
