@@ -1,9 +1,7 @@
 import * as userRepo from "../repositories/userRepository.js";
 import { getWordsByIds } from "./wordsService.js";
-import { setupSchema } from "@colyr/shared";
 
 export const getUser = (uid) => userRepo.findById(uid);
-
 
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
@@ -17,11 +15,7 @@ export const upsertUser = async (uid, profileData) => {
   return { setupComplete: isNew ? false : existing.setupComplete };
 };
 
-export const completeSetup = (uid, body) => {
-  const result = setupSchema.safeParse(body);
-  if (!result.success) throw new Error(result.error.issues[0].message);
-
-  const { role, ...fields } = result.data;
+export const completeSetup = (uid, { role, ...fields }) => {
   return userRepo.update(uid, { role, ...fields, setupComplete: true });
 };
 

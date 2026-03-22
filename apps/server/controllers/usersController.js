@@ -1,4 +1,5 @@
 import { getUser, completeSetup, getMyWords } from "../services/usersService.js";
+import { setupSchema } from "@colyr/shared";
 
 export async function getMe(req, res) {
   const user = await getUser(req.user.uid);
@@ -7,12 +8,11 @@ export async function getMe(req, res) {
 }
 
 export async function setupComplete(req, res) {
-  try {
-    await completeSetup(req.user.uid, req.body);
-    res.json({ ok: true });
-  } catch (err) {
-    res.status(400).json({ error: err.message });
-  }
+  const result = setupSchema.safeParse(req.body);
+  if (!result.success) return res.status(400).json({ error: result.error.issues[0].message });
+
+  await completeSetup(req.user.uid, result.data);
+  res.json({ ok: true });
 }
 
 export async function getMyWordsHandler(req, res) {
