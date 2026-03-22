@@ -4,7 +4,6 @@ import { setupSchema } from "@colyr/shared";
 
 export const getUser = (uid) => userRepo.findById(uid);
 
-export const updateUser = (uid, data) => userRepo.update(uid, data);
 
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
