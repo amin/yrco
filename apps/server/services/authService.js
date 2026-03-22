@@ -17,7 +17,7 @@ export function buildLinkedInAuthUrl(state) {
   return `${LINKEDIN_AUTH_URL}?${params}`;
 }
 
-export async function exchangeLinkedInCode(code) {
+async function exchangeLinkedInCode(code) {
   const { data } = await axios.post(
     LINKEDIN_TOKEN_URL,
     new URLSearchParams({
@@ -32,14 +32,14 @@ export async function exchangeLinkedInCode(code) {
   return data.access_token;
 }
 
-export async function fetchLinkedInProfile(accessToken) {
+async function fetchLinkedInProfile(accessToken) {
   const { data } = await axios.get(LINKEDIN_PROFILE_URL, {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   return data;
 }
 
-export async function uploadProfilePicture(uid, pictureUrl) {
+async function uploadProfilePicture(uid, pictureUrl) {
   const { data } = await axios.get(pictureUrl, {
     responseType: "arraybuffer",
     headers: { "User-Agent": "Mozilla/5.0" },
