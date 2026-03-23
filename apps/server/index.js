@@ -4,10 +4,10 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
-import authRouter from "./routes/auth.js";
-import accountRouter from "./routes/account.js";
-import usersRouter from "./routes/users.js";
-import wordsRouter from "./routes/words.js";
+import authRouter from "./routes/authRoutes.js";
+import accountRouter from "./routes/accountRoutes.js";
+import usersRouter from "./routes/usersRoutes.js";
+import wordsRouter from "./routes/wordsRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { globalLimiter, authLimiter } from "./middleware/rateLimit.js";
