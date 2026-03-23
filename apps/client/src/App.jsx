@@ -7,6 +7,7 @@ import Error from './pages/errors/Error'
 import Forbidden from './pages/errors/Forbidden'
 import NotFound from './pages/errors/NotFound'
 import Me from './pages/Me'
+import Profile from './pages/Profile'
 import Setup from './pages/Setup'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/error" element={<Error />} />
       <Route path="/403" element={<Forbidden />} />
+      <Route path="/:username" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
 
       {/* Setup route — only for users with setupComplete: false */}
