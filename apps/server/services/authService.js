@@ -15,7 +15,7 @@ const generateUsername = async (firstName, uid) => {
   return `${base}${n}`;
 };
 
-const upsertUser = async (uid, profileData) => {
+export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
   const isNew = !existing;
   const username = isNew ? await generateUsername(profileData.firstName, uid) : existing.username;
