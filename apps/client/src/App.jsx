@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import SetupRoute from './components/SetupRoute'
 import Home from './pages/Home'
@@ -15,6 +15,11 @@ function App() {
   const me = useAuth()
   const logout = useLogout()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  if (me && me.setupComplete === false && location.pathname !== '/setup' && location.pathname !== '/login') {
+    return <Navigate to="/setup" replace />
+  }
 
   return (
     <>
