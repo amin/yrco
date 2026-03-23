@@ -1,4 +1,5 @@
 import { db } from "../lib/firebase.js";
+import { clearCollections } from "./helpers/clearDb.js";
 
 const words = [
   { word: "Curious", color: "#F59E0B", icebreaker: "What's the last thing you went down a rabbit hole learning about?" },
@@ -23,7 +24,9 @@ const words = [
   { word: "Social", color: "#FDBA74", icebreaker: "What's the best event or meetup you've ever been to?" },
 ];
 
-async function seed() {
+async function seedWords() {
+  await clearCollections("words");
+
   const collection = db.collection("words");
   const batch = db.batch();
 
@@ -36,7 +39,7 @@ async function seed() {
   console.log(`Seeded ${words.length} words.`);
 }
 
-seed().catch((err) => {
+seedWords().catch((err) => {
   console.error("Seed failed:", err);
   process.exit(1);
 });

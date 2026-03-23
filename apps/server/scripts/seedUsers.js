@@ -1,4 +1,5 @@
 import { db, FieldValue } from "../lib/firebase.js";
+import { clearCollections } from "./helpers/clearDb.js";
 
 const words = await db.collection("words").get();
 const wordIds = words.docs.map((doc) => doc.id);
@@ -47,6 +48,8 @@ const users = [
 ];
 
 async function seedUsers() {
+  await clearCollections("users", "usernames");
+
   const usersBatch = db.batch();
   const usernamesBatch = db.batch();
 
