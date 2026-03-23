@@ -17,6 +17,8 @@ function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  if (me === undefined) return null
+
   if (me && me.setupComplete === false && location.pathname !== '/setup' && location.pathname !== '/login') {
     return <Navigate to="/setup" replace />
   }
