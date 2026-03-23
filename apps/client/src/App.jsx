@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useNavigate } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import SetupRoute from './components/SetupRoute'
 import Home from './pages/Home'
@@ -6,13 +6,29 @@ import Login from './pages/Login'
 import Error from './pages/errors/Error'
 import Forbidden from './pages/errors/Forbidden'
 import NotFound from './pages/errors/NotFound'
-import Me from './pages/Me'
 import Profile from './pages/Profile'
 import Setup from './pages/Setup'
+import { useAuth } from './context/AuthContext'
+import { useLogout } from './hooks/user'
 
 function App() {
+  const me = useAuth()
+  const logout = useLogout()
+  const navigate = useNavigate()
+
   return (
-    <Routes>
+    <>
+      {me && (
+        <div className="fixed top-4 right-4 z-50">
+          <button
+            onClick={() => logout().then(() => navigate('/login'))}
+            className="border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+          >
+            Sign out
+          </button>
+        </div>
+      )}
+      <Routes>
       {/* Public routes */}
      
       <Route path="/" element={<Home />} />
@@ -29,9 +45,9 @@ function App() {
 
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
-        <Route path="/me" element={<Me />} />
       </Route>
     </Routes>
+    </>
   )
 }
 

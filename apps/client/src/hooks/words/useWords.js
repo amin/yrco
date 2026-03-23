@@ -15,7 +15,7 @@ export function useMyWords() {
   return useQuery({
     queryKey: ["myWords"],
     queryFn: async () => {
-      const res = await api.get("/users/me/words");
+      const res = await api.get("/account/words");
       return res.data;
     },
   });

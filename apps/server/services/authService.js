@@ -54,7 +54,7 @@ export async function handleLinkedInCallback(code, state, expectedState) {
   const profile = await fetchLinkedInProfile(accessToken);
   const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
 
-  const { setupComplete } = await upsertUser(profile.sub, {
+  const { setupComplete, username } = await upsertUser(profile.sub, {
     name: profile.name,
     firstName: profile.given_name,
     lastName: profile.family_name,
@@ -62,5 +62,5 @@ export async function handleLinkedInCallback(code, state, expectedState) {
     picture: pictureUrl,
   });
 
-  return { uid: profile.sub, setupComplete };
+  return { uid: profile.sub, setupComplete, username };
 }

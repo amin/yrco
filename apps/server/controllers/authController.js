@@ -8,7 +8,7 @@ export function linkedinRedirect(_req, res) {
 
 export async function linkedinCallback(req, res) {
   try {
-    const { uid, setupComplete } = await handleLinkedInCallback(
+    const { uid, setupComplete, username } = await handleLinkedInCallback(
       req.query.code,
       req.query.state,
       req.signedCookies.oauth_state,
@@ -23,7 +23,7 @@ export async function linkedinCallback(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect(`${process.env.CLIENT_URL}${setupComplete === false ? "/setup" : "/me"}`);
+    res.redirect(`${process.env.CLIENT_URL}${setupComplete === false ? "/setup" : `/@${username}`}`);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
     res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);

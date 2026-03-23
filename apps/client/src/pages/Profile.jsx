@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProfile } from "../hooks/user";
-import { useWords } from "../hooks/words";
 import Spinner from "../components/Spinner";
 import NotFound from "./errors/NotFound";
 
@@ -9,13 +8,12 @@ export default function Profile() {
   const { username: raw } = useParams();
   const username = raw?.startsWith("@") ? raw.slice(1) : raw;
   const { data: profile, isLoading } = useProfile(username);
-  const { data: allWords } = useWords();
   const [activeId, setActiveId] = useState(null);
 
   if (isLoading) return <Spinner />;
   if (!profile) return <NotFound />;
 
-  const words = allWords?.filter((w) => profile.wordIds?.includes(w.id)) ?? [];
+  const words = profile.words ?? [];
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -55,6 +53,7 @@ export default function Profile() {
           )}
         </div>
       )}
+
     </div>
   );
 }

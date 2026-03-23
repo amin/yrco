@@ -6,6 +6,7 @@ const router = Router();
 
 router.get("/linkedin", linkedinRedirect);
 router.get("/linkedin/callback", linkedinCallback);
+
 router.post("/logout", requireAuth, logout);
 
 export default router;

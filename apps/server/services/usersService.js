@@ -7,7 +7,8 @@ export const getPublicProfile = async (username) => {
   const user = await userRepo.findByUsername(username);
   if (!user) return null;
   const { name, firstName, lastName, picture, username: u, wordIds, website } = user;
-  return { name, firstName, lastName, picture, username: u, wordIds, website };
+  const words = await getWordsByIds(wordIds ?? []);
+  return { name, firstName, lastName, picture, username: u, website, words };
 };
 
 const generateUsername = async (firstName) => {
@@ -22,17 +23,14 @@ const generateUsername = async (firstName) => {
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
   const isNew = !existing;
+  const username = isNew ? await generateUsername(profileData.firstName) : existing.username;
 
   await userRepo.save(uid, {
     ...profileData,
-    ...(isNew && {
-      setupComplete: false,
-      createdAt: new Date(),
-      username: await generateUsername(profileData.firstName),
-    }),
+    ...(isNew && { setupComplete: false, createdAt: new Date(), username }),
   });
 
-  return { setupComplete: isNew ? false : existing.setupComplete };
+  return { setupComplete: isNew ? false : existing.setupComplete, username };
 };
 
 export const completeSetup = (uid, { role, ...fields }) => {

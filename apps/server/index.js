@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import authRouter from "./routes/auth.js";
+import accountRouter from "./routes/account.js";
 import usersRouter from "./routes/users.js";
 import wordsRouter from "./routes/words.js";
 
@@ -27,6 +28,7 @@ app.use("/auth", authLimiter);
 
 // Routes
 app.use("/auth", authRouter);
+app.use("/account", accountRouter);
 app.use("/users", usersRouter);
 app.use("/words", wordsRouter);
 app.get("/", (_, res) => {

@@ -9,7 +9,7 @@ export default function SetupRoute() {
   if (user.setupComplete === true) {
     const redirect = sessionStorage.getItem("redirectAfterLogin");
     sessionStorage.removeItem("redirectAfterLogin");
-    return <Navigate to={redirect || "/me"} />;
+    return <Navigate to={redirect || `/@${user.username}`} />;
   }
 
   return <Outlet />;
