@@ -14,9 +14,12 @@ export const update = async (uid, data) => {
 };
 
 export const findByUsername = async (username) => {
-  const snap = await db.collection("users").where("username", "==", username).limit(1).get();
-  if (snap.empty) return null;
-  return snap.docs[0].data();
+  const usernameSnap = await db.collection("usernames").doc(username).get();
+  if (!usernameSnap.exists) return null;
+  const { uid } = usernameSnap.data();
+  const userSnap = await db.collection("users").doc(uid).get();
+  if (!userSnap.exists) return null;
+  return userSnap.data();
 };
 
 export const claimUsername = async (username, uid) => {
