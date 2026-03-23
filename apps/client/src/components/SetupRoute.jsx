@@ -5,7 +5,7 @@ export default function SetupRoute() {
   const user = useAuth();
 
   if (user === undefined) return null;
-  if (!user) return <Navigate to="/" />;
+  if (!user) return <Navigate to="/login" />;
   if (user.setupComplete === true) {
     const redirect = sessionStorage.getItem("redirectAfterLogin");
     sessionStorage.removeItem("redirectAfterLogin");
