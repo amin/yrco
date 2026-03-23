@@ -13,6 +13,11 @@ export const update = async (uid, data) => {
   });
 };
 
+export const isUsernameTaken = async (username) => {
+  const snap = await db.collection("users").where("username", "==", username).limit(1).get();
+  return !snap.empty;
+};
+
 export const save = async (uid, data) => {
   await db.collection("users").doc(uid).set(
     { ...data, updatedAt: FieldValue.serverTimestamp() },

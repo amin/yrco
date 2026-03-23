@@ -3,13 +3,26 @@ import { getWordsByIds } from "./wordsService.js";
 
 export const getUser = (uid) => userRepo.findById(uid);
 
+const generateUsername = async (firstName) => {
+  const base = firstName.toLowerCase();
+  if (!(await userRepo.isUsernameTaken(base))) return base;
+
+  let n = 1;
+  while (await userRepo.isUsernameTaken(`${base}${n}`)) n++;
+  return `${base}${n}`;
+};
+
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
   const isNew = !existing;
 
   await userRepo.save(uid, {
     ...profileData,
-    ...(isNew && { setupComplete: false, createdAt: new Date() }),
+    ...(isNew && {
+      setupComplete: false,
+      createdAt: new Date(),
+      username: await generateUsername(profileData.firstName),
+    }),
   });
 
   return { setupComplete: isNew ? false : existing.setupComplete };
