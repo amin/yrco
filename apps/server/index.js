@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Rate limiting
-//app.use(globalLimiter);
+app.use(globalLimiter);
 app.use("/auth", authLimiter);
 
 // Routes
@@ -33,9 +33,6 @@ app.use("/auth", authRouter);
 app.use("/account", accountRouter);
 app.use("/users", usersRouter);
 app.use("/words", wordsRouter);
-app.get("/", (_, res) => {
-  res.json({ message: "Colyr API is running" });
-});
 
 app.use(notFound);
 app.use(errorHandler);
