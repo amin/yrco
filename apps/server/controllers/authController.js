@@ -2,7 +2,7 @@ import { buildLinkedInAuthUrl, handleLinkedInCallback } from "../services/authSe
 
 export function linkedinRedirect(_req, res) {
   const state = crypto.randomUUID();
-  res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax" });
+  res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
   res.redirect(buildLinkedInAuthUrl(state));
 }
 
