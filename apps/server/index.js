@@ -6,7 +6,7 @@ import helmet from "helmet";
 import authRouter from "./routes/auth.js";
 import usersRouter from "./routes/users.js";
 import wordsRouter from "./routes/words.js";
-import { getProfile } from "./controllers/usersController.js";
+
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { globalLimiter, authLimiter } from "./middleware/rateLimit.js";
 
@@ -29,8 +29,6 @@ app.use("/auth", authLimiter);
 app.use("/auth", authRouter);
 app.use("/users", usersRouter);
 app.use("/words", wordsRouter);
-app.get("/@:username", getProfile);
-
 app.get("/", (_, res) => {
   res.json({ message: "Colyr API is running" });
 });
