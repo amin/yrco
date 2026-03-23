@@ -12,8 +12,9 @@ export async function getAccount(req, res) {
 }
 
 export async function getWords(req, res) {
-  const words = await findMyWords(req.user.uid);
-  if (!words) return res.status(404).json({ error: "User not found" });
+  const user = await findAccount(req.user.uid);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  const words = await findMyWords(user.wordIds);
   res.json(words);
 }
 

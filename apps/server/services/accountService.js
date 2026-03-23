@@ -7,8 +7,4 @@ export const saveSetup = (uid, { role, ...fields }) => {
   return userRepo.update(uid, { role, ...fields, setupComplete: true });
 };
 
-export const findMyWords = async (uid) => {
-  const user = await userRepo.findById(uid);
-  if (!user) return null;
-  return getWordsByIds(user.wordIds ?? []);
-};
+export const findMyWords = (wordIds) => getWordsByIds(wordIds ?? []);
