@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
+
 import authRouter from "./routes/auth.js";
 import accountRouter from "./routes/account.js";
 import usersRouter from "./routes/users.js";
@@ -34,6 +35,7 @@ app.use("/account", accountRouter);
 app.use("/users", usersRouter);
 app.use("/words", wordsRouter);
 
+// Error handling
 app.use(notFound);
 app.use(errorHandler);
 
