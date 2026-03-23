@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useProfile } from "../hooks/user";
 import Spinner from "../components/Spinner";
 import NotFound from "./errors/NotFound";
 
 export default function Profile() {
   const { username: raw } = useParams();
-  const username = raw?.startsWith("@") ? raw.slice(1) : raw;
+
+  if (!raw?.startsWith("@")) return <Navigate to={`/@${raw}`} replace />;
+
+  const username = raw.slice(1);
   const { data: profile, isLoading } = useProfile(username);
   const [activeId, setActiveId] = useState(null);
 
