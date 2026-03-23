@@ -10,7 +10,7 @@ export default function Login() {
     if (!user) return;
     const redirect = sessionStorage.getItem("redirectAfterLogin");
     sessionStorage.removeItem("redirectAfterLogin");
-    navigate(redirect || "/me", { replace: true });
+    navigate(redirect || `/@${user.username}`, { replace: true });
   }, [user, navigate]);
 
   if (user === undefined) return null;
