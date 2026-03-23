@@ -6,8 +6,11 @@ const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/userinfo";
 
-const generateUsername = async (firstName, uid) => {
-  const base = firstName.toLowerCase().replace(/[^a-z0-9_]/g, "");
+const transliterate = (str) =>
+  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+const generateUsername = async (firstName, lastName, uid) => {
+  const base = transliterate(`${firstName}${lastName}`).toLowerCase().replace(/[^a-z0-9_]/g, "");
   if (await userRepo.claimUsername(base, uid)) return base;
 
   let n = 1;
@@ -18,7 +21,7 @@ const generateUsername = async (firstName, uid) => {
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
   const isNew = !existing;
-  const username = isNew ? await generateUsername(profileData.firstName, uid) : existing.username;
+  const username = isNew ? await generateUsername(profileData.firstName, profileData.lastName, uid) : existing.username;
 
   await userRepo.save(uid, {
     ...profileData,
