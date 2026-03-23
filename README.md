@@ -1,4 +1,4 @@
-# Colyrr
+# Colyr
 
 A mobile-first networking app for Yrgo's industry event.
 
@@ -6,7 +6,7 @@ A mobile-first networking app for Yrgo's industry event.
 
 ## Goal
 
-Make networking fun. Students get randomly matched with companies.
+Making it easy for students and companies to connect and build relationships.
 
 ---
 
