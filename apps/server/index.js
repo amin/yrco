@@ -15,15 +15,17 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(helmet({
-  crossOriginResourcePolicy: { policy: "cross-origin" }, // allow Firebase Storage images
-}));
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // allow Firebase Storage images
+  }),
+);
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Rate limiting
-app.use(globalLimiter);
+//app.use(globalLimiter);
 app.use("/auth", authLimiter);
 
 // Routes

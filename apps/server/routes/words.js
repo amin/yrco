@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { getWords } from "../controllers/wordsController.js";
-import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/", requireAuth, getWords);
+router.get("/", getWords);
 
 export default router;
