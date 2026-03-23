@@ -13,6 +13,12 @@ export const update = async (uid, data) => {
   });
 };
 
+export const findByUsername = async (username) => {
+  const snap = await db.collection("users").where("username", "==", username).limit(1).get();
+  if (snap.empty) return null;
+  return snap.docs[0].data();
+};
+
 export const isUsernameTaken = async (username) => {
   const snap = await db.collection("users").where("username", "==", username).limit(1).get();
   return !snap.empty;

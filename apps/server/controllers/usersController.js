@@ -1,4 +1,4 @@
-import { getUser, completeSetup, getMyWords } from "../services/usersService.js";
+import { getUser, completeSetup, getMyWords, getPublicProfile } from "../services/usersService.js";
 import { setupSchema } from "@colyr/shared";
 
 export async function getMe(req, res) {
@@ -19,4 +19,10 @@ export async function getMyWordsHandler(req, res) {
   const words = await getMyWords(req.user.uid);
   if (!words) return res.status(404).json({ error: "User not found" });
   res.json(words);
+}
+
+export async function getProfile(req, res) {
+  const profile = await getPublicProfile(req.params.username);
+  if (!profile) return res.status(404).json({ error: "User not found" });
+  res.json(profile);
 }

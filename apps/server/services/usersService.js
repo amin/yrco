@@ -3,6 +3,13 @@ import { getWordsByIds } from "./wordsService.js";
 
 export const getUser = (uid) => userRepo.findById(uid);
 
+export const getPublicProfile = async (username) => {
+  const user = await userRepo.findByUsername(username);
+  if (!user) return null;
+  const { name, firstName, lastName, picture, username: u, wordIds, website } = user;
+  return { name, firstName, lastName, picture, username: u, wordIds, website };
+};
+
 const generateUsername = async (firstName) => {
   const base = firstName.toLowerCase();
   if (!(await userRepo.isUsernameTaken(base))) return base;
