@@ -11,19 +11,19 @@ export const getPublicProfile = async (username) => {
   return { name, firstName, lastName, picture, username: u, website, words };
 };
 
-const generateUsername = async (firstName) => {
-  const base = firstName.toLowerCase();
-  if (!(await userRepo.isUsernameTaken(base))) return base;
+const generateUsername = async (firstName, uid) => {
+  const base = firstName.toLowerCase().replace(/[^a-z0-9_]/g, "");
+  if (await userRepo.claimUsername(base, uid)) return base;
 
   let n = 1;
-  while (await userRepo.isUsernameTaken(`${base}${n}`)) n++;
+  while (!(await userRepo.claimUsername(`${base}${n}`, uid))) n++;
   return `${base}${n}`;
 };
 
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
   const isNew = !existing;
-  const username = isNew ? await generateUsername(profileData.firstName) : existing.username;
+  const username = isNew ? await generateUsername(profileData.firstName, uid) : existing.username;
 
   await userRepo.save(uid, {
     ...profileData,

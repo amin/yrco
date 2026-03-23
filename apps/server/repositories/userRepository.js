@@ -19,9 +19,19 @@ export const findByUsername = async (username) => {
   return snap.docs[0].data();
 };
 
-export const isUsernameTaken = async (username) => {
-  const snap = await db.collection("users").where("username", "==", username).limit(1).get();
-  return !snap.empty;
+export const claimUsername = async (username, uid) => {
+  const ref = db.collection("usernames").doc(username);
+  try {
+    await db.runTransaction(async (tx) => {
+      const snap = await tx.get(ref);
+      if (snap.exists && snap.data().uid !== uid) throw new Error("TAKEN");
+      tx.set(ref, { uid });
+    });
+    return true;
+  } catch (err) {
+    if (err.message === "TAKEN") return false;
+    throw err;
+  }
 };
 
 export const save = async (uid, data) => {
