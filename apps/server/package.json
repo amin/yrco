@@ -5,9 +5,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "seed": "node scripts/seed.js",
-    "seed:users": "node scripts/seedUsers.js",
+    "dev": "NODE_ENV=development nodemon --env-file=.env.development index.js",
+    "start": "NODE_ENV=production node --env-file=.env.production index.js",
+    "seed": "NODE_ENV=development node --env-file=.env.development scripts/seed.js",
+    "seed:users": "NODE_ENV=development node --env-file=.env.development scripts/seedUsers.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -19,7 +20,6 @@
     "axios": "^1.13.6",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",
     "firebase-admin": "^13.7.0",

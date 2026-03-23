@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { db } from "../lib/firebase.js";
 
 const words = [

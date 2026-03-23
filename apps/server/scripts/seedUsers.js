@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { db, FieldValue } from "../lib/firebase.js";
 
 const words = await db.collection("words").get();
