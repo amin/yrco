@@ -10,14 +10,27 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error?.response?.status;
+    const pathname = window.location.pathname;
 
-    if (!error.response) return redirectToError("Network error");
-    if (status === 401 && !error.config?._skipAuthRedirect) return (window.location.href = "/login");
-    if (status === 403) return (window.location.href = "/403");
-    if (status >= 500) return redirectToError(error?.response?.data?.error ?? "Server error");
+    if (!error.response) {
+      if (pathname !== "/error") redirectToError("Network error");
+      return Promise.reject(error);
+    }
+    if (status === 401 && !error.config?._skipAuthRedirect) {
+      if (pathname !== "/login") window.location.href = "/login";
+      return Promise.reject(error);
+    }
+    if (status === 403) {
+      if (pathname !== "/403") window.location.href = "/403";
+      return Promise.reject(error);
+    }
+    if (status >= 500) {
+      if (pathname !== "/error") redirectToError(error?.response?.data?.error ?? "Server error");
+      return Promise.reject(error);
+    }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
