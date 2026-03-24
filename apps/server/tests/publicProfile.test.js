@@ -1,0 +1,67 @@
+import { vi, describe, it, expect, beforeEach } from "vitest";
+
+vi.mock("../repositories/userRepository.js", () => ({
+  findByUsername: vi.fn(),
+}));
+
+vi.mock("../repositories/wordsRepository.js", () => ({
+  findAll: vi.fn().mockResolvedValue({
+    "word-1": { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
+    "word-2": { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+  }),
+}));
+
+vi.mock("../repositories/storageRepository.js", () => ({
+  uploadImage: vi.fn(),
+}));
+
+import * as userRepo from "../repositories/userRepository.js";
+import { getPublicProfile } from "../services/usersService.js";
+
+beforeEach(() => vi.clearAllMocks());
+
+const fullUser = {
+  name: "Alex Eriksson",
+  firstName: "Alex",
+  lastName: "Eriksson",
+  picture: "https://example.com/alex.jpg",
+  username: "alex",
+  email: "alex@example.com",
+  setupComplete: true,
+  connectionIds: ["uid-2", "uid-3"],
+  wordIds: ["word-1", "word-2"],
+};
+
+describe("getPublicProfile", () => {
+  it("returns profile with words", async () => {
+    userRepo.findByUsername.mockResolvedValue(fullUser);
+    const profile = await getPublicProfile("alex");
+
+    expect(profile.username).toBe("alex");
+    expect(profile.firstName).toBe("Alex");
+    expect(profile.words).toHaveLength(2);
+    expect(profile.words[0].word).toBe("Curious");
+  });
+
+  it("strips private fields from response", async () => {
+    userRepo.findByUsername.mockResolvedValue(fullUser);
+    const profile = await getPublicProfile("alex");
+
+    expect(profile.email).toBeUndefined();
+    expect(profile.setupComplete).toBeUndefined();
+    expect(profile.connectionIds).toBeUndefined();
+    expect(profile.wordIds).toBeUndefined();
+  });
+
+  it("returns null when user does not exist", async () => {
+    userRepo.findByUsername.mockResolvedValue(null);
+    const profile = await getPublicProfile("nobody");
+    expect(profile).toBeNull();
+  });
+
+  it("returns empty words array when user has no wordIds", async () => {
+    userRepo.findByUsername.mockResolvedValue({ ...fullUser, wordIds: undefined });
+    const profile = await getPublicProfile("alex");
+    expect(profile.words).toEqual([]);
+  });
+});

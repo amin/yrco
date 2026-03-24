@@ -76,3 +76,33 @@ describe("generateUsername", () => {
     expect(username).toBe("asabrittaostromberg");
   });
 });
+
+describe("upsertUser returning user", () => {
+  it("preserves existing username on subsequent login", async () => {
+    userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
+    const { username } = await upsertUser("uid-1", profile);
+    expect(username).toBe("amintest");
+    expect(userRepo.claimUsername).not.toHaveBeenCalled();
+  });
+
+  it("preserves setupComplete status on subsequent login", async () => {
+    userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
+    const { setupComplete } = await upsertUser("uid-1", profile);
+    expect(setupComplete).toBe(true);
+  });
+
+  it("does not overwrite createdAt or username on save", async () => {
+    userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
+    await upsertUser("uid-1", profile);
+
+    const savedData = userRepo.save.mock.calls[0][1];
+    expect(savedData.createdAt).toBeUndefined();
+    expect(savedData.username).toBeUndefined();
+  });
+
+  it("sets setupComplete to false for new users", async () => {
+    userRepo.claimUsername.mockResolvedValue(true);
+    const { setupComplete } = await upsertUser("uid-1", profile);
+    expect(setupComplete).toBe(false);
+  });
+});
