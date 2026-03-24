@@ -31,10 +31,10 @@ export default function Profile() {
       <div className="p-6 pb-0">
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Profile</h1>
         <div className="flex items-center gap-4 mb-6">
-          <img src={profile.picture} alt={profile.name} className="w-16 h-16 rounded-full object-cover" />
+          <img src={profile.picture} alt={profile.name} className="w-20 h-20 rounded-full object-cover" />
           <div className="flex-1">
-            <p className="font-semibold text-gray-900 text-lg">{profile.firstName} {profile.lastName}</p>
-            <p className="text-sm text-gray-500">@{profile.username}</p>
+            <p className="font-semibold text-gray-900 text-2xl">{profile.firstName} {profile.lastName}</p>
+            <p className="text-base text-gray-500">@{profile.username}</p>
           </div>
           {user && !isOwnProfile && (
             isConnected ? (
