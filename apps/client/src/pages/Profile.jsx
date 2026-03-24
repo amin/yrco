@@ -43,7 +43,7 @@ export default function Profile() {
               href={profile.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-500 hover:underline mb-4"
+              className="text-base text-blue-500 hover:underline mb-4"
             >
               {profile.website}
             </a>
