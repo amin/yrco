@@ -35,6 +35,17 @@ export default function Profile() {
           <div className="flex-1">
             <p className="font-semibold text-gray-900 text-2xl">{profile.firstName} {profile.lastName}</p>
             <p className="text-base text-gray-500">@{profile.username}</p>
+            {profile.website && (
+              <a
+                href={profile.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base text-blue-500 hover:underline truncate"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {profile.website}
+              </a>
+            )}
           </div>
           {user && !isOwnProfile && (
             isConnected ? (
