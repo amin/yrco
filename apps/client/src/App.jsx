@@ -39,6 +39,12 @@ function App() {
       {me && (
         <div className="fixed top-4 right-4 z-50 flex gap-2">
           <Link
+            to={`/@${me.username}`}
+            className="border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+          >
+            My Profile
+          </Link>
+          <Link
             to="/connections"
             className="border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
           >
