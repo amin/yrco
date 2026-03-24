@@ -4,7 +4,7 @@ import { publicProfileSchema } from "@colyr/shared";
 
 export const getPublicProfile = async (username) => {
   const user = await userRepo.findByUsername(username);
-  if (!user) return null;
+  if (!user) throw { status: 404, message: "User not found" };
   const words = await getWordsByIds(user.wordIds ?? []);
   return publicProfileSchema.parse({ ...user, words });
 };

@@ -26,6 +26,8 @@ const fullUser = {
   lastName: "Eriksson",
   picture: "https://example.com/alex.jpg",
   username: "alex",
+  role: "student",
+  education: "Web Developer",
   email: "alex@example.com",
   setupComplete: true,
   connectionIds: ["uid-2", "uid-3"],
@@ -53,10 +55,9 @@ describe("getPublicProfile", () => {
     expect(profile.wordIds).toBeUndefined();
   });
 
-  it("returns null when user does not exist", async () => {
+  it("throws 404 when user does not exist", async () => {
     userRepo.findByUsername.mockResolvedValue(null);
-    const profile = await getPublicProfile("nobody");
-    expect(profile).toBeNull();
+    await expect(getPublicProfile("nobody")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 
   it("returns empty words array when user has no wordIds", async () => {

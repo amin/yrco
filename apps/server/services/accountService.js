@@ -2,7 +2,11 @@ import * as userRepo from "../repositories/userRepository.js";
 import { getWordsByIds } from "./wordsService.js";
 import { publicProfileSchema } from "@colyr/shared";
 
-export const findAccount = (uid) => userRepo.findById(uid);
+export const findAccount = async (uid) => {
+  const user = await userRepo.findById(uid);
+  if (!user) throw { status: 404, message: "User not found" };
+  return user;
+};
 
 export const saveSetup = (uid, { role, ...fields }) => {
   return userRepo.update(uid, { role, ...fields, setupComplete: true });
@@ -12,23 +16,19 @@ export const findMyWords = (wordIds) => getWordsByIds(wordIds ?? []);
 
 const resolveTargetUid = async (uid, username) => {
   const targetUid = await userRepo.findUidByUsername(username);
-  if (!targetUid) return { error: "not_found" };
-  if (targetUid === uid) return { error: "self" };
-  return { targetUid };
+  if (!targetUid) throw { status: 404, message: "User not found" };
+  if (targetUid === uid) throw { status: 400, message: "You cannot connect with yourself" };
+  return targetUid;
 };
 
 export const connectWithUser = async (uid, username) => {
-  const resolved = await resolveTargetUid(uid, username);
-  if (resolved.error) return resolved;
-  await userRepo.addConnection(uid, resolved.targetUid);
-  return { ok: true };
+  const targetUid = await resolveTargetUid(uid, username);
+  await userRepo.addConnection(uid, targetUid);
 };
 
 export const disconnectFromUser = async (uid, username) => {
-  const resolved = await resolveTargetUid(uid, username);
-  if (resolved.error) return resolved;
-  await userRepo.removeConnection(uid, resolved.targetUid);
-  return { ok: true };
+  const targetUid = await resolveTargetUid(uid, username);
+  await userRepo.removeConnection(uid, targetUid);
 };
 
 export const getConnections = async (connectionIds) => {

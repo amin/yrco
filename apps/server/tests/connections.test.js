@@ -28,22 +28,19 @@ beforeEach(() => vi.clearAllMocks());
 describe("connectWithUser", () => {
   it("adds a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    const result = await connectWithUser("my-uid", "alex");
-    expect(result).toEqual({ ok: true });
+    await connectWithUser("my-uid", "alex");
     expect(userRepo.addConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
-  it("returns not_found when target user does not exist", async () => {
+  it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    const result = await connectWithUser("my-uid", "nobody");
-    expect(result).toEqual({ error: "not_found" });
+    await expect(connectWithUser("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 
-  it("returns self when trying to connect with yourself", async () => {
+  it("throws 400 when trying to connect with yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    const result = await connectWithUser("my-uid", "myusername");
-    expect(result).toEqual({ error: "self" });
+    await expect(connectWithUser("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 });
@@ -51,22 +48,19 @@ describe("connectWithUser", () => {
 describe("disconnectFromUser", () => {
   it("removes a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    const result = await disconnectFromUser("my-uid", "alex");
-    expect(result).toEqual({ ok: true });
+    await disconnectFromUser("my-uid", "alex");
     expect(userRepo.removeConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
-  it("returns not_found when target user does not exist", async () => {
+  it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    const result = await disconnectFromUser("my-uid", "nobody");
-    expect(result).toEqual({ error: "not_found" });
+    await expect(disconnectFromUser("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 
-  it("returns self when trying to disconnect from yourself", async () => {
+  it("throws 400 when trying to disconnect from yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    const result = await disconnectFromUser("my-uid", "myusername");
-    expect(result).toEqual({ error: "self" });
+    await expect(disconnectFromUser("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 });
@@ -80,6 +74,8 @@ describe("getConnections", () => {
         lastName: "Eriksson",
         picture: "https://example.com/alex.jpg",
         username: "alex",
+        role: "student",
+        education: "Web Developer",
         email: "alex@example.com",
         setupComplete: true,
         wordIds: ["word-1", "word-2"],
