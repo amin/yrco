@@ -1,5 +1,6 @@
 import * as userRepo from "../repositories/userRepository.js";
 import { getWordsByIds } from "./wordsService.js";
+import { publicProfileSchema } from "@colyr/shared";
 
 export const findAccount = (uid) => userRepo.findById(uid);
 
@@ -28,4 +29,15 @@ export const disconnectFromUser = async (uid, username) => {
   if (resolved.error) return resolved;
   await userRepo.removeConnection(uid, resolved.targetUid);
   return { ok: true };
+};
+
+export const getConnections = async (connectionIds) => {
+  const users = await userRepo.findByIds(connectionIds ?? []);
+  const results = await Promise.all(
+    users.map(async (u) => {
+      const words = await getWordsByIds(u.wordIds ?? []);
+      return publicProfileSchema.parse({ ...u, words });
+    })
+  );
+  return results;
 };

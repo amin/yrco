@@ -4,6 +4,7 @@ import {
   findMyWords,
   connectWithUser,
   disconnectFromUser,
+  getConnections,
 } from "../services/accountService.js";
 import { setupSchema, usernameSchema } from "@colyr/shared";
 
@@ -47,4 +48,11 @@ export async function removeConnection(req, res) {
   if (result.error === "not_found") return res.status(404).json({ error: "User not found" });
   if (result.error === "self") return res.status(400).json({ error: "You cannot disconnect from yourself" });
   res.json({ ok: true });
+}
+
+export async function listConnections(req, res) {
+  const user = await findAccount(req.user.uid);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  const connections = await getConnections(user.connectionIds);
+  res.json(connections);
 }

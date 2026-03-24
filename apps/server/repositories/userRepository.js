@@ -56,6 +56,13 @@ export const removeConnection = async (uid, targetUid) => {
   });
 };
 
+export const findByIds = async (uids) => {
+  if (uids.length === 0) return [];
+  const refs = uids.map((uid) => db.collection("users").doc(uid));
+  const snaps = await db.getAll(...refs);
+  return snaps.filter((s) => s.exists).map((s) => s.data());
+};
+
 export const save = async (uid, data) => {
   await db.collection("users").doc(uid).set(
     { ...data, updatedAt: FieldValue.serverTimestamp() },
