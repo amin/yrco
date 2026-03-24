@@ -18,16 +18,16 @@ export default function Connections() {
           <Link
             key={c.username}
             to={`/@${c.username}`}
-            className="bg-white rounded-xl p-4 flex items-center gap-4 border border-gray-100 active:opacity-80 transition-opacity"
+            className="bg-white rounded-xl p-5 flex items-center gap-4 border border-gray-100 active:opacity-80 transition-opacity"
           >
-            <img src={c.picture} alt={c.name} className="w-12 h-12 rounded-full object-cover" />
+            <img src={c.picture} alt={c.name} className="w-14 h-14 rounded-full object-cover" />
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-gray-900 truncate">{c.firstName} {c.lastName}</p>
-              <p className="text-sm text-gray-500">@{c.username}</p>
+              <p className="font-semibold text-gray-900 text-lg truncate">{c.firstName} {c.lastName}</p>
+              <p className="text-base text-gray-500">@{c.username}</p>
             </div>
-            <div className="flex gap-1">
+            <div className="flex gap-1.5">
               {c.words.map((w) => (
-                <span key={w.id} className="w-5 h-5 rounded-full" style={{ backgroundColor: w.color }} />
+                <span key={w.id} className="w-6 h-6 rounded-full" style={{ backgroundColor: w.color }} />
               ))}
             </div>
           </Link>

@@ -41,7 +41,7 @@ export default function Profile() {
               <button
                 onClick={() => removeConnection.mutate(username)}
                 disabled={removeConnection.isPending}
-                className="px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                className="px-5 py-3 rounded-xl text-base font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
               >
                 Connected
               </button>
@@ -49,7 +49,7 @@ export default function Profile() {
               <button
                 onClick={() => addConnection.mutate({ username })}
                 disabled={addConnection.isPending}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
+                className="px-5 py-3 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
                 Connect
               </button>
@@ -60,27 +60,27 @@ export default function Profile() {
 
       {words.length > 0 && (
         <div className="px-6">
-          <div className="flex flex-col gap-2 mb-3">
-            {words.map(({ id, word, color }) => (
+          <div className="flex flex-col gap-3 mb-3">
+            {words.map(({ id, word, color, icebreaker }) => (
               <button
                 key={id}
                 onClick={() => setActiveId(activeId === id ? null : id)}
-                className="w-full rounded-xl py-4 flex items-center justify-between px-5 transition-opacity active:opacity-80"
+                className="w-full rounded-2xl px-6 py-5 flex flex-col text-left transition-all active:scale-[0.98] cursor-pointer"
                 style={{ backgroundColor: color }}
               >
-                <span className="text-white font-semibold">{word}</span>
-                <span className="text-white/70 text-xs font-mono">{color}</span>
+                <div className="flex items-center justify-between w-full">
+                  <span className="text-white text-xl font-bold tracking-tight">{word}</span>
+                  <span className="text-white/60 text-lg">{activeId === id ? "−" : "+"}</span>
+                </div>
+                {activeId === id && (
+                  <>
+                    <div className="w-full border-t border-white/20 mt-4 mb-3" />
+                    <p className="text-white text-lg font-medium leading-relaxed">"{icebreaker}"</p>
+                  </>
+                )}
               </button>
             ))}
           </div>
-
-          {activeId && (
-            <div className="rounded-xl p-4 bg-white border border-gray-100 mb-4">
-              <p className="text-sm text-gray-600 italic">
-                "{words.find((w) => w.id === activeId)?.icebreaker}"
-              </p>
-            </div>
-          )}
         </div>
       )}
 
