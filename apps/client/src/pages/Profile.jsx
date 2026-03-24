@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
-import { useProfile } from "../hooks/user";
+import { useProfile, useConnections, useAddConnection, useRemoveConnection } from "../hooks/user";
+import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/Spinner";
 import NotFound from "./errors/NotFound";
 
@@ -11,6 +12,13 @@ export default function Profile() {
 
   const username = raw.slice(1);
   const { data: profile, isLoading } = useProfile(username);
+  const user = useAuth();
+  const { data: connections } = useConnections();
+  const addConnection = useAddConnection();
+  const removeConnection = useRemoveConnection();
+
+  const isOwnProfile = user?.username === username;
+  const isConnected = connections?.some((c) => c.username === username);
   const [activeId, setActiveId] = useState(null);
 
   if (isLoading) return <Spinner />;
@@ -24,10 +32,29 @@ export default function Profile() {
         <h1 className="text-2xl font-bold text-gray-900 mb-6">Profile</h1>
         <div className="flex items-center gap-4 mb-6">
           <img src={profile.picture} alt={profile.name} className="w-16 h-16 rounded-full object-cover" />
-          <div>
+          <div className="flex-1">
             <p className="font-semibold text-gray-900 text-lg">{profile.firstName} {profile.lastName}</p>
             <p className="text-sm text-gray-500">@{profile.username}</p>
           </div>
+          {user && !isOwnProfile && (
+            isConnected ? (
+              <button
+                onClick={() => removeConnection.mutate(username)}
+                disabled={removeConnection.isPending}
+                className="px-4 py-2 rounded-lg text-sm font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+              >
+                Connected
+              </button>
+            ) : (
+              <button
+                onClick={() => addConnection.mutate({ username })}
+                disabled={addConnection.isPending}
+                className="px-4 py-2 rounded-lg text-sm font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
+              >
+                Connect
+              </button>
+            )
+          )}
         </div>
       </div>
 
