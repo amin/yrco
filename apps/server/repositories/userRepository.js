@@ -37,6 +37,25 @@ export const claimUsername = async (username, uid) => {
   }
 };
 
+export const findUidByUsername = async (username) => {
+  const snap = await db.collection("usernames").doc(username).get();
+  return snap.exists ? snap.data().uid : null;
+};
+
+export const addConnection = async (uid, targetUid) => {
+  await db.collection("users").doc(uid).update({
+    connectionIds: FieldValue.arrayUnion(targetUid),
+    updatedAt: FieldValue.serverTimestamp(),
+  });
+};
+
+export const removeConnection = async (uid, targetUid) => {
+  await db.collection("users").doc(uid).update({
+    connectionIds: FieldValue.arrayRemove(targetUid),
+    updatedAt: FieldValue.serverTimestamp(),
+  });
+};
+
 export const save = async (uid, data) => {
   await db.collection("users").doc(uid).set(
     { ...data, updatedAt: FieldValue.serverTimestamp() },
