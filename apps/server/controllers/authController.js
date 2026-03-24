@@ -8,11 +8,11 @@ export function linkedinRedirect(_req, res) {
 
 export async function linkedinCallback(req, res) {
   try {
-    const { uid, setupComplete, username } = await handleLinkedInCallback(
-      req.query.code,
-      req.query.state,
-      req.signedCookies.oauth_state,
-    );
+    const { code, state } = req.query;
+    if (!state || state !== req.signedCookies.oauth_state)
+      throw new Error("Invalid OAuth state");
+
+    const { uid, setupComplete, username } = await handleLinkedInCallback(code);
 
     res.clearCookie("oauth_state", { signed: true });
     res.cookie("session", uid, {

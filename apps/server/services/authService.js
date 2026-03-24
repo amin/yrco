@@ -72,9 +72,7 @@ async function uploadProfilePicture(uid, pictureUrl) {
   return storageRepo.uploadImage(`profile-pictures/${uid}`, Buffer.from(data));
 }
 
-export async function handleLinkedInCallback(code, state, expectedState) {
-  if (!state || state !== expectedState) throw new Error("Invalid OAuth state");
-
+export async function handleLinkedInCallback(code) {
   const accessToken = await exchangeLinkedInCode(code);
   const profile = await fetchLinkedInProfile(accessToken);
   const pictureUrl = await uploadProfilePicture(profile.sub, profile.picture);
