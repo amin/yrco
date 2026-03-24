@@ -26,7 +26,7 @@ function App() {
 
   return (
     <>
-      {me === null && (
+      {me === null && location.pathname !== '/' && (
         <div className="fixed top-4 right-4 z-50">
           <button
             onClick={() => navigate('/login')}
@@ -36,7 +36,7 @@ function App() {
           </button>
         </div>
       )}
-      {me && (
+      {me && location.pathname !== '/' && (
         <>
           <div className="fixed top-4 left-4 z-50 flex gap-2">
             <Link
