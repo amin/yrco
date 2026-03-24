@@ -37,27 +37,32 @@ function App() {
         </div>
       )}
       {me && (
-        <div className="fixed top-4 right-4 z-50 flex gap-2">
-          <Link
-            to={`/@${me.username}`}
-            className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
-          >
-            My Profile
-          </Link>
-          <Link
-            to="/connections"
-            className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
-          >
-            Connections
-          </Link>
-          <button
-            onClick={() => logout().then(() => navigate('/login'))}
-            className="border border-red-500 text-white text-base font-medium px-5 py-3 rounded-xl bg-red-500 hover:bg-red-600 transition-colors shadow-sm cursor-pointer"
-          >
-            Sign out
-          </button>
-        </div>
+        <>
+          <div className="fixed top-4 left-4 z-50 flex gap-2">
+            <Link
+              to={`/@${me.username}`}
+              className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+            >
+              My Profile
+            </Link>
+            <Link
+              to="/connections"
+              className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+            >
+              Connections
+            </Link>
+          </div>
+          <div className="fixed top-4 right-4 z-50">
+            <button
+              onClick={() => logout().then(() => navigate('/login'))}
+              className="border border-red-500 text-white text-base font-medium px-5 py-3 rounded-xl bg-red-500 hover:bg-red-600 transition-colors shadow-sm cursor-pointer"
+            >
+              Sign out
+            </button>
+          </div>
+        </>
       )}
+      <div className="pt-20">
       <Routes>
       {/* Public routes */}
      
@@ -78,6 +83,7 @@ function App() {
         <Route path="/connections" element={<Connections />} />
       </Route>
     </Routes>
+    </div>
     </>
   )
 }

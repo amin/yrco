@@ -25,7 +25,8 @@ api.interceptors.response.use(
       return Promise.reject(error);
     }
     if (status >= 500) {
-      if (pathname !== "/error") redirectToError(error?.response?.data?.error ?? "Server error");
+      if (pathname !== "/error")
+        redirectToError(error?.response?.data?.error ?? "Server error");
       return Promise.reject(error);
     }
 

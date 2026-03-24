@@ -29,30 +29,31 @@ export default function Profile() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <div className="p-6 pb-0">
-        <h1 className="text-2xl font-bold text-gray-900 mb-6">Profile</h1>
-        <div className="flex items-center gap-4 mb-6">
-          <img src={profile.picture} alt={profile.name} className="w-20 h-20 rounded-full object-cover" />
-          <div className="flex-1">
-            <p className="font-semibold text-gray-900 text-2xl">{profile.firstName} {profile.lastName}</p>
-            <p className="text-base text-gray-500">@{profile.username}</p>
-            {profile.website && (
-              <a
-                href={profile.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-base text-blue-500 hover:underline truncate"
-                onClick={(e) => e.stopPropagation()}
-              >
-                {profile.website}
-              </a>
-            )}
-          </div>
+        <div className="flex flex-col items-center text-center mb-6">
+          <img src={profile.picture} alt={profile.name} className="w-24 h-24 rounded-full object-cover mb-4 shadow-sm" />
+          <p className="font-bold text-gray-900 text-2xl">{profile.firstName} {profile.lastName}</p>
+          <p className="text-base text-gray-400 mb-1">@{profile.username}</p>
+          <p className="text-base text-gray-600 font-medium mb-2">
+            {profile.role === "student"
+              ? profile.education
+              : `${profile.roleAtCompany} at ${profile.organizationName}`}
+          </p>
+          {profile.website && (
+            <a
+              href={profile.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-blue-500 hover:underline mb-4"
+            >
+              {profile.website}
+            </a>
+          )}
           {user && !isOwnProfile && (
             isConnected ? (
               <button
                 onClick={() => removeConnection.mutate(username)}
                 disabled={removeConnection.isPending}
-                className="px-5 py-3 rounded-xl text-base font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                className="px-6 py-2.5 rounded-xl text-base font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
               >
                 Connected
               </button>
@@ -60,7 +61,7 @@ export default function Profile() {
               <button
                 onClick={() => addConnection.mutate({ username })}
                 disabled={addConnection.isPending}
-                className="px-5 py-3 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
+                className="px-6 py-2.5 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
               >
                 Connect
               </button>

@@ -14,5 +14,9 @@ export const publicProfileSchema = z.object({
   picture: z.string(),
   username: z.string(),
   website: z.string().optional(),
+  role: z.enum(["student", "organization"]),
+  education: z.string().optional(),
+  organizationName: z.string().optional(),
+  roleAtCompany: z.string().optional(),
   words: z.array(wordSchema),
 });
