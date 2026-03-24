@@ -20,15 +20,20 @@ const generateUsername = async (firstName, lastName, uid) => {
 
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
-  const isNew = !existing;
-  const username = isNew ? await generateUsername(profileData.firstName, profileData.lastName, uid) : existing.username;
 
+  if (existing) {
+    await userRepo.save(uid, profileData);
+    return { setupComplete: existing.setupComplete, username: existing.username };
+  }
+
+  const username = await generateUsername(profileData.firstName, profileData.lastName, uid);
   await userRepo.save(uid, {
     ...profileData,
-    ...(isNew && { setupComplete: false, createdAt: new Date(), username }),
+    setupComplete: false,
+    createdAt: new Date(),
+    username,
   });
-
-  return { setupComplete: isNew ? false : existing.setupComplete, username };
+  return { setupComplete: false, username };
 };
 
 export function buildLinkedInAuthUrl(state) {
