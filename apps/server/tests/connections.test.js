@@ -105,4 +105,19 @@ describe("getConnections", () => {
     const result = await getConnections(undefined);
     expect(result).toEqual([]);
   });
+
+  it("throws when user data fails schema validation (e.g. missing role)", async () => {
+    userRepo.findByIds.mockResolvedValue([
+      {
+        name: "Bad User",
+        firstName: "Bad",
+        lastName: "User",
+        picture: "https://example.com/bad.jpg",
+        username: "baduser",
+        // missing required 'role' field
+        wordIds: [],
+      },
+    ]);
+    await expect(getConnections(["uid-bad"])).rejects.toThrow();
+  });
 });

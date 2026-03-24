@@ -75,6 +75,46 @@ describe("generateUsername", () => {
     // å→a, ö→o, - and * are stripped
     expect(username).toBe("asabrittaostromberg");
   });
+
+  it("lowercases all characters", async () => {
+    userRepo.claimUsername.mockResolvedValue(true);
+    const { username } = await upsertUser("uid-1", {
+      ...profile,
+      firstName: "JOHN",
+      lastName: "DOE",
+    });
+    expect(username).toBe("johndoe");
+  });
+
+  it("preserves numbers in names", async () => {
+    userRepo.claimUsername.mockResolvedValue(true);
+    const { username } = await upsertUser("uid-1", {
+      ...profile,
+      firstName: "Agent",
+      lastName: "007",
+    });
+    expect(username).toBe("agent007");
+  });
+
+  it("strips emoji from names", async () => {
+    userRepo.claimUsername.mockResolvedValue(true);
+    const { username } = await upsertUser("uid-1", {
+      ...profile,
+      firstName: "Alex🔥",
+      lastName: "Cool😎",
+    });
+    expect(username).toBe("alexcool");
+  });
+
+  it("handles accented Latin characters (é, ñ, ü)", async () => {
+    userRepo.claimUsername.mockResolvedValue(true);
+    const { username } = await upsertUser("uid-1", {
+      ...profile,
+      firstName: "René",
+      lastName: "Muñoz",
+    });
+    expect(username).toBe("renemunoz");
+  });
 });
 
 describe("upsertUser returning user", () => {
