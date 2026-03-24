@@ -1,5 +1,12 @@
 import { Router } from "express";
-import { getAccount, completeSetup, getWords, addConnection, removeConnection, listConnections } from "../controllers/accountController.js";
+import {
+  getAccount,
+  completeSetup,
+  getWords,
+  addConnection,
+  removeConnection,
+  listConnections,
+} from "../controllers/accountController.js";
 import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();

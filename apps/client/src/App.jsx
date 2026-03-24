@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import SetupRoute from './components/SetupRoute'
 import Home from './pages/Home'
@@ -8,6 +8,7 @@ import Forbidden from './pages/errors/Forbidden'
 import NotFound from './pages/errors/NotFound'
 import Profile from './pages/Profile'
 import Setup from './pages/Setup'
+import Connections from './pages/Connections'
 import { useAuth } from './context/AuthContext'
 import { useLogout } from './hooks/user'
 
@@ -36,7 +37,13 @@ function App() {
         </div>
       )}
       {me && (
-        <div className="fixed top-4 right-4 z-50">
+        <div className="fixed top-4 right-4 z-50 flex gap-2">
+          <Link
+            to="/connections"
+            className="border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+          >
+            Connections
+          </Link>
           <button
             onClick={() => logout().then(() => navigate('/login'))}
             className="border border-gray-200 text-gray-700 text-sm font-medium px-4 py-2 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
@@ -62,6 +69,7 @@ function App() {
 
       {/* Protected routes */}
       <Route element={<ProtectedRoute />}>
+        <Route path="/connections" element={<Connections />} />
       </Route>
     </Routes>
     </>
