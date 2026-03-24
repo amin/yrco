@@ -13,7 +13,7 @@ export const publicProfileSchema = z.object({
   lastName: z.string(),
   picture: z.string(),
   username: z.string(),
-  website: z.string().optional(),
+  website: z.url().optional(),
   role: z.enum(["student", "organization"]),
   education: z.string().optional(),
   organizationName: z.string().optional(),

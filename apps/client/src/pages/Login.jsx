@@ -8,8 +8,9 @@ export default function Login() {
 
   useEffect(() => {
     if (!user) return;
-    const redirect = sessionStorage.getItem("redirectAfterLogin");
+    const stored = sessionStorage.getItem("redirectAfterLogin");
     sessionStorage.removeItem("redirectAfterLogin");
+    const redirect = stored && stored.startsWith("/") && !stored.startsWith("//") ? stored : null;
     navigate(redirect || `/@${user.username}`, { replace: true });
   }, [user, navigate]);
 

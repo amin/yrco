@@ -8,7 +8,7 @@ export function useLogout() {
     try {
       await api.post("/auth/logout");
     } finally {
-      queryClient.setQueryData(["me"], null);
+      queryClient.clear();
     }
   };
 }

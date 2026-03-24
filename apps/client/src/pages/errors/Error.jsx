@@ -5,13 +5,9 @@ export default function Error() {
 
   useEffect(() => {
     const stored = localStorage.getItem("errorMessage");
-    const param = new URLSearchParams(window.location.search).get("message");
-
     if (stored) {
       setMessage(stored.slice(0, 200));
       localStorage.removeItem("errorMessage");
-    } else if (param) {
-      setMessage(param.slice(0, 200));
     }
   }, []);
 

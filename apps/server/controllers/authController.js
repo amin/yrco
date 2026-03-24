@@ -26,7 +26,7 @@ export async function linkedinCallback(req, res) {
     res.redirect(`${process.env.CLIENT_URL}${setupComplete === false ? "/setup" : `/@${username}`}`);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
-    res.redirect(`${process.env.CLIENT_URL}/error?message=auth_failed`);
+    res.redirect(`${process.env.CLIENT_URL}/error`);
   }
 }
 
