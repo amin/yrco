@@ -1,10 +1,9 @@
-import { buildLinkedInAuthUrl } from "../services/linkedInService.js";
-import { processLinkedInCallback } from "../useCases/auth/index.js";
+import { processLinkedInCallback, redirectToLinkedIn } from "../useCases/auth/index.js";
 
 export function handleLinkedinRedirect(_req, res) {
   const state = crypto.randomUUID();
   res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
-  res.redirect(buildLinkedInAuthUrl(state));
+  res.redirect(redirectToLinkedIn(state));
 }
 
 export async function handleLinkedinCallback(req, res) {
