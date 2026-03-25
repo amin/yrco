@@ -5,7 +5,7 @@ export default function QROverlay({ username, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center"
+      className="fixed inset-0 bg-black/60 z-60 flex items-center justify-center"
       onClick={onClose}
     >
       <div
