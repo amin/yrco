@@ -1,5 +1,5 @@
-export { getMyAccount } from "./getAccount.js";
-export { getMyWords } from "./getWords.js";
+export { getMyAccount } from "./getMyAccount.js";
+export { getMyWords } from "./getMyWords.js";
 export { completeSetup } from "./completeSetup.js";
 export { addConnection } from "./addConnection.js";
 export { removeConnection } from "./removeConnection.js";
