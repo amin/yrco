@@ -17,29 +17,29 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { findAccount, saveSetup, findMyWords } from "../services/accountService.js";
+import { getAccount, completeSetup, getWords } from "../useCases/account/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
-describe("findAccount", () => {
+describe("getAccount", () => {
   it("returns user when found", async () => {
     const user = { uid: "uid-1", name: "Alex" };
     userRepo.findById.mockResolvedValue(user);
-    const result = await findAccount("uid-1");
+    const result = await getAccount("uid-1");
     expect(result).toEqual(user);
     expect(userRepo.findById).toHaveBeenCalledWith("uid-1");
   });
 
   it("throws 404 when user not found", async () => {
     userRepo.findById.mockResolvedValue(null);
-    await expect(findAccount("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getAccount("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 });
 
-describe("saveSetup", () => {
+describe("completeSetup", () => {
   it("passes role and fields to repository with setupComplete true", async () => {
     userRepo.update.mockResolvedValue();
-    await saveSetup("uid-1", { role: "student", education: "Web Developer" });
+    await completeSetup("uid-1", { role: "student", education: "Web Developer" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "student",
       education: "Web Developer",
@@ -49,7 +49,7 @@ describe("saveSetup", () => {
 
   it("handles organization role with its fields", async () => {
     userRepo.update.mockResolvedValue();
-    await saveSetup("uid-1", { role: "organization", organizationName: "Acme" });
+    await completeSetup("uid-1", { role: "organization", organizationName: "Acme" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "organization",
       organizationName: "Acme",
@@ -58,26 +58,29 @@ describe("saveSetup", () => {
   });
 });
 
-describe("findMyWords", () => {
-  it("returns words matching the given IDs", async () => {
-    const result = await findMyWords(["word-1", "word-2"]);
+describe("getWords", () => {
+  it("returns words for the user", async () => {
+    userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-2"] });
+    const result = await getWords("uid-1");
     expect(result).toHaveLength(2);
     expect(result[0].word).toBe("Curious");
     expect(result[1].word).toBe("Creative");
   });
 
-  it("returns empty array when wordIds is undefined", async () => {
-    const result = await findMyWords(undefined);
-    expect(result).toEqual([]);
+  it("throws 404 when user not found", async () => {
+    userRepo.findById.mockResolvedValue(null);
+    await expect(getWords("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 
-  it("returns empty array when wordIds is empty", async () => {
-    const result = await findMyWords([]);
+  it("returns empty array when user has no wordIds", async () => {
+    userRepo.findById.mockResolvedValue({ wordIds: undefined });
+    const result = await getWords("uid-1");
     expect(result).toEqual([]);
   });
 
   it("filters out non-existent word IDs", async () => {
-    const result = await findMyWords(["word-1", "word-999"]);
+    userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-999"] });
+    const result = await getWords("uid-1");
     expect(result).toHaveLength(1);
     expect(result[0].word).toBe("Curious");
   });

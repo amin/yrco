@@ -1,4 +1,5 @@
-import { buildLinkedInAuthUrl, handleLinkedInCallback } from "../services/authService.js";
+import { buildLinkedInAuthUrl } from "../services/linkedInService.js";
+import { handleLinkedInCallback } from "../useCases/auth/index.js";
 
 export function linkedinRedirect(_req, res) {
   const state = crypto.randomUUID();

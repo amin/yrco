@@ -1,4 +1,4 @@
-import { getPublicProfile } from "../services/usersService.js";
+import { getPublicProfile } from "../useCases/users/index.js";
 import { usernameSchema } from "@colyr/shared";
 
 export async function getProfile(req, res) {

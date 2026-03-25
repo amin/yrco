@@ -7,7 +7,7 @@ vi.mock("../repositories/wordsRepository.js", () => ({
   }),
 }));
 
-import { getAllWords, getWordsByIds } from "../services/wordsService.js";
+import { getAllWords, getWordsByIds } from "../useCases/words/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 

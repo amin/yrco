@@ -15,7 +15,7 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import axios from "axios";
-import { handleLinkedInCallback } from "../services/authService.js";
+import { handleLinkedInCallback } from "../useCases/auth/index.js";
 
 const linkedInProfile = {
   sub: "linkedin-uid-1",
