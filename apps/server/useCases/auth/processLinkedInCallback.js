@@ -2,7 +2,7 @@ import * as linkedInRepo from "../../repositories/linkedInRepository.js";
 import * as storageRepo from "../../repositories/storageRepository.js";
 import { upsertUser } from "./_upsertUser.js";
 
-export async function handleLinkedInCallback(code) {
+export async function processLinkedInCallback(code) {
   const accessToken = await linkedInRepo.fetchAccessToken(code);
   const profile = await linkedInRepo.fetchProfile(accessToken);
   const picture = await linkedInRepo.downloadProfilePicture(profile.picture);

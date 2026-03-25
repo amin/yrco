@@ -17,7 +17,7 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as linkedInRepo from "../repositories/linkedInRepository.js";
-import { handleLinkedInCallback } from "../useCases/auth/index.js";
+import { processLinkedInCallback } from "../useCases/auth/index.js";
 
 const linkedInProfile = {
   sub: "linkedin-uid-1",
@@ -35,9 +35,9 @@ beforeEach(() => {
   linkedInRepo.downloadProfilePicture.mockResolvedValue(Buffer.from("img"));
 });
 
-describe("handleLinkedInCallback", () => {
+describe("processLinkedInCallback", () => {
   it("returns uid, setupComplete and username on success", async () => {
-    const result = await handleLinkedInCallback("auth-code");
+    const result = await processLinkedInCallback("auth-code");
     expect(result).toEqual({
       uid: "linkedin-uid-1",
       setupComplete: false,
@@ -46,22 +46,22 @@ describe("handleLinkedInCallback", () => {
   });
 
   it("fetches access token with the auth code", async () => {
-    await handleLinkedInCallback("auth-code");
+    await processLinkedInCallback("auth-code");
     expect(linkedInRepo.fetchAccessToken).toHaveBeenCalledWith("auth-code");
   });
 
   it("propagates error when token exchange fails", async () => {
     linkedInRepo.fetchAccessToken.mockRejectedValue(new Error("LinkedIn API down"));
-    await expect(handleLinkedInCallback("bad-code")).rejects.toThrow("LinkedIn API down");
+    await expect(processLinkedInCallback("bad-code")).rejects.toThrow("LinkedIn API down");
   });
 
   it("propagates error when profile fetch fails", async () => {
     linkedInRepo.fetchProfile.mockRejectedValue(new Error("Profile fetch failed"));
-    await expect(handleLinkedInCallback("auth-code")).rejects.toThrow("Profile fetch failed");
+    await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Profile fetch failed");
   });
 
   it("propagates error when picture download fails", async () => {
     linkedInRepo.downloadProfilePicture.mockRejectedValue(new Error("Image download failed"));
-    await expect(handleLinkedInCallback("auth-code")).rejects.toThrow("Image download failed");
+    await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Image download failed");
   });
 });
