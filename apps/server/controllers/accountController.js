@@ -42,6 +42,5 @@ export async function handleRemoveConnection(req, res) {
 }
 
 export async function handleListConnections(req, res) {
-  const user = await getMyAccount(req.user.uid);
-  res.json(await listConnections(user.connectionIds));
+  res.json(await listConnections(req.user.uid));
 }
