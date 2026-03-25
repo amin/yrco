@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { Routes, Route, Navigate, Link, useNavigate, useLocation } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
 import SetupRoute from './components/SetupRoute'
+import QROverlay from './components/QROverlay'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Error from './pages/errors/Error'
@@ -17,6 +19,7 @@ function App() {
   const logout = useLogout()
   const navigate = useNavigate()
   const location = useLocation()
+  const [qrOpen, setQrOpen] = useState(false)
 
   if (me === undefined) return null
 
@@ -26,6 +29,7 @@ function App() {
 
   return (
     <>
+      {qrOpen && <QROverlay username={me.username} onClose={() => setQrOpen(false)} />}
       {me === null && location.pathname !== '/' && (
         <div className="fixed top-4 right-4 z-50">
           <button
@@ -45,6 +49,12 @@ function App() {
             >
               My Profile
             </Link>
+            <button
+              onClick={() => setQrOpen(true)}
+              className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm cursor-pointer"
+            >
+              QR
+            </button>
             <Link
               to="/connections"
               className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
