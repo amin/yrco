@@ -1,2 +1,2 @@
-export { upsertUser } from "./upsertUser.js";
+export { upsertUser } from "./_upsertUser.js";
 export { handleLinkedInCallback } from "./handleLinkedInCallback.js";
