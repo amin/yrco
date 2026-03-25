@@ -9,7 +9,7 @@ async function fetchMe() {
     const res = await api.get("/account", { _skipAuthRedirect: true });
     return res.data;
   } catch (err) {
-    if (err.response?.status === 401) return null;
+    if (err.response?.status === 401 || err.response?.status === 404) return null;
     throw err;
   }
 }

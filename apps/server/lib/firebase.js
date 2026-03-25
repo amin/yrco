@@ -9,6 +9,4 @@ admin.initializeApp({
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
 });
 
-export const db = admin.firestore();
 export const bucket = admin.storage().bucket();
-export const { FieldValue } = admin.firestore;

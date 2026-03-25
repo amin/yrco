@@ -1,13 +1,18 @@
-import { db } from "../lib/firebase.js";
+import Word from "../models/Word.js";
 import { createCache } from "../lib/cache.js";
 
 const cache = createCache();
 
 export const findAll = async () => {
   if (cache.has()) return cache.get();
-  const snap = await db.collection("words").get();
+  const docs = await Word.find().lean();
   cache.set(
-    Object.fromEntries(snap.docs.map((doc) => [doc.id, { id: doc.id, ...doc.data() }])),
+    Object.fromEntries(
+      docs.map((doc) => {
+        const id = doc._id.toString();
+        return [id, { id, word: doc.word, color: doc.color, icebreaker: doc.icebreaker }];
+      }),
+    ),
   );
   return cache.get();
 };

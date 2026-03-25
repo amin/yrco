@@ -1,4 +1,4 @@
-import { db } from "../lib/firebase.js";
+import Word from "../models/Word.js";
 import { clearCollections } from "./helpers/clearDb.js";
 
 const words = [
@@ -26,17 +26,9 @@ const words = [
 
 async function seedWords() {
   await clearCollections("words");
-
-  const collection = db.collection("words");
-  const batch = db.batch();
-
-  words.forEach((entry) => {
-    const ref = collection.doc();
-    batch.set(ref, entry);
-  });
-
-  await batch.commit();
-  console.log(`Seeded ${words.length} words.`);
+  const inserted = await Word.insertMany(words);
+  console.log(`Seeded ${inserted.length} words.`);
+  process.exit(0);
 }
 
 seedWords().catch((err) => {

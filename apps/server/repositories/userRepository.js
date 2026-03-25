@@ -1,85 +1,73 @@
-import { db, FieldValue } from "../lib/firebase.js";
+import User from "../models/User.js";
 
 export const findById = async (uid) => {
-  const snap = await db.collection("users").doc(uid).get();
-  if (!snap.exists) return null;
-  return snap.data();
+  return User.findOne({ uid }).lean();
 };
 
 export const update = async (uid, data) => {
-  await db.collection("users").doc(uid).update({
-    ...data,
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await User.updateOne({ uid }, { $set: data });
 };
 
 export const findByUsername = async (username) => {
-  const usernameSnap = await db.collection("usernames").doc(username).get();
-  if (!usernameSnap.exists) return null;
-  const { uid } = usernameSnap.data();
-  const userSnap = await db.collection("users").doc(uid).get();
-  if (!userSnap.exists) return null;
-  return userSnap.data();
+  return User.findOne({ username }).lean();
 };
 
 export const claimUsername = async (username, uid) => {
-  const ref = db.collection("usernames").doc(username);
-  try {
-    await db.runTransaction(async (tx) => {
-      const snap = await tx.get(ref);
-      if (snap.exists && snap.data().uid !== uid) throw new Error("TAKEN");
-      tx.set(ref, { uid });
-    });
-    return true;
-  } catch (err) {
-    if (err.message === "TAKEN") return false;
-    throw err;
-  }
+  const existing = await User.findOne({ username }, { uid: 1 }).lean();
+  if (!existing) return true;
+  return existing.uid === uid;
 };
 
 export const findUidByUsername = async (username) => {
-  const snap = await db.collection("usernames").doc(username).get();
-  return snap.exists ? snap.data().uid : null;
+  const user = await User.findOne({ username }, { uid: 1 }).lean();
+  return user?.uid ?? null;
 };
 
 export const addConnection = async (uid, targetUid) => {
-  await db.collection("users").doc(uid).update({
-    connectionIds: FieldValue.arrayUnion(targetUid),
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await User.updateOne({ uid }, { $addToSet: { connectionIds: targetUid } });
 };
 
 export const removeConnection = async (uid, targetUid) => {
-  await db.collection("users").doc(uid).update({
-    connectionIds: FieldValue.arrayRemove(targetUid),
-    updatedAt: FieldValue.serverTimestamp(),
-  });
+  await User.updateOne({ uid }, { $pull: { connectionIds: targetUid } });
 };
 
 export const findByIds = async (uids) => {
   if (uids.length === 0) return [];
-  const refs = uids.map((uid) => db.collection("users").doc(uid));
-  const snaps = await db.getAll(...refs);
-  return snaps.filter((s) => s.exists).map((s) => s.data());
+  return User.find({ uid: { $in: uids } }).lean();
 };
 
 export const save = async (uid, data) => {
-  await db.collection("users").doc(uid).set(
-    { ...data, updatedAt: FieldValue.serverTimestamp() },
-    { merge: true },
+  await User.findOneAndUpdate(
+    { uid },
+    { $set: { uid, ...data } },
+    { upsert: true },
   );
 };
 
 export const findAll = async (page, limit) => {
-  const snapshot = await db.collection("users")
-    .orderBy("createdAt")
-    .offset((page - 1) * limit)
+  return User.find()
+    .sort({ createdAt: 1 })
+    .skip((page - 1) * limit)
     .limit(limit + 1)
-    .get();
-  return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() }));
+    .lean();
 };
 
 export const fetchAll = async () => {
-  const snapshot = await db.collection("users").orderBy("createdAt").get();
-  return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() }));
+  return User.find().sort({ createdAt: 1 }).lean();
+};
+
+export const search = async (query, page, pageSize) => {
+  const filter = {
+    $or: [
+      { username: { $regex: query, $options: "i" } },
+      { firstName: { $regex: query, $options: "i" } },
+      { lastName: { $regex: query, $options: "i" } },
+      { organizationName: { $regex: query, $options: "i" } },
+    ],
+  };
+  return User.find(filter)
+    .sort({ createdAt: 1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize + 1)
+    .lean();
 };

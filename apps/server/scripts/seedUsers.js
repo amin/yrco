@@ -1,8 +1,9 @@
-import { db, FieldValue } from "../lib/firebase.js";
+import Word from "../models/Word.js";
+import User from "../models/User.js";
 import { clearCollections } from "./helpers/clearDb.js";
 
-const words = await db.collection("words").get();
-const wordIds = words.docs.map((doc) => doc.id);
+const wordDocs = await Word.find().lean();
+const wordIds = wordDocs.map((d) => d._id.toString());
 
 const users = [
   {
@@ -51,24 +52,10 @@ const users = [
 ];
 
 async function seedUsers() {
-  await clearCollections("users", "usernames");
-
-  const usersBatch = db.batch();
-  const usernamesBatch = db.batch();
-
-  for (const { uid, username, ...data } of users) {
-    usersBatch.set(db.collection("users").doc(uid), {
-      ...data,
-      username,
-      createdAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp(),
-    });
-    usernamesBatch.set(db.collection("usernames").doc(username), { uid });
-  }
-
-  await usersBatch.commit();
-  await usernamesBatch.commit();
+  await clearCollections("users");
+  await User.insertMany(users);
   console.log(`Seeded ${users.length} users.`);
+  process.exit(0);
 }
 
 seedUsers().catch((err) => {
