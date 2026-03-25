@@ -11,7 +11,7 @@ export async function handleLinkedinCallback(req, res) {
   try {
     const { code, state } = req.query;
     if (!state || state !== req.signedCookies.oauth_state)
-      throw new Error("Invalid OAuth state");
+      throw { status: 400, message: "Invalid OAuth state" };
 
     const { uid, setupComplete, username } = await handleLinkedInCallback(code);
 
