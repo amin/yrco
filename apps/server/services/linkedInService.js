@@ -1,10 +1,10 @@
 const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 
-export function buildLinkedInAuthUrl(state) {
+export function buildLinkedInAuthUrl(state, { clientId, redirectUri }) {
   const params = new URLSearchParams({
     response_type: "code",
-    client_id: process.env.LINKEDIN_CLIENT_ID,
-    redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
+    client_id: clientId,
+    redirect_uri: redirectUri,
     scope: "openid profile email",
     state,
   });

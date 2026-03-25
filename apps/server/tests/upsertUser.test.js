@@ -11,7 +11,7 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { upsertUser } from "../useCases/auth/index.js";
+import { upsertUser } from "../useCases/auth/helpers/_upsertUser.js";
 
 const profile = {
   name: "Amin Test",
