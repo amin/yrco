@@ -5,9 +5,12 @@ vi.mock("../repositories/userRepository.js", () => ({
 }));
 
 vi.mock("../repositories/wordsRepository.js", () => ({
-  findAll: vi.fn().mockResolvedValue({
-    "word-1": { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
-    "word-2": { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+  findByIds: vi.fn().mockImplementation((ids) => {
+    const words = {
+      "word-1": { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
+      "word-2": { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+    };
+    return Promise.resolve(ids.map((id) => words[id]).filter(Boolean));
   }),
 }));
 
