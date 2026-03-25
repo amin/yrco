@@ -17,22 +17,22 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getAccount, completeSetup, getWords } from "../useCases/account/index.js";
+import { getMyAccount, completeSetup, getMyWords } from "../useCases/account/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
-describe("getAccount", () => {
+describe("getMyAccount", () => {
   it("returns user when found", async () => {
     const user = { uid: "uid-1", name: "Alex" };
     userRepo.findById.mockResolvedValue(user);
-    const result = await getAccount("uid-1");
+    const result = await getMyAccount("uid-1");
     expect(result).toEqual(user);
     expect(userRepo.findById).toHaveBeenCalledWith("uid-1");
   });
 
   it("throws 404 when user not found", async () => {
     userRepo.findById.mockResolvedValue(null);
-    await expect(getAccount("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getMyAccount("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 });
 
@@ -58,10 +58,10 @@ describe("completeSetup", () => {
   });
 });
 
-describe("getWords", () => {
+describe("getMyWords", () => {
   it("returns words for the user", async () => {
     userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-2"] });
-    const result = await getWords("uid-1");
+    const result = await getMyWords("uid-1");
     expect(result).toHaveLength(2);
     expect(result[0].word).toBe("Curious");
     expect(result[1].word).toBe("Creative");
@@ -69,18 +69,18 @@ describe("getWords", () => {
 
   it("throws 404 when user not found", async () => {
     userRepo.findById.mockResolvedValue(null);
-    await expect(getWords("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getMyWords("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 
   it("returns empty array when user has no wordIds", async () => {
     userRepo.findById.mockResolvedValue({ wordIds: undefined });
-    const result = await getWords("uid-1");
+    const result = await getMyWords("uid-1");
     expect(result).toEqual([]);
   });
 
   it("filters out non-existent word IDs", async () => {
     userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-999"] });
-    const result = await getWords("uid-1");
+    const result = await getMyWords("uid-1");
     expect(result).toHaveLength(1);
     expect(result[0].word).toBe("Curious");
   });
