@@ -11,3 +11,9 @@ export const findAll = async () => {
   );
   return cache.get();
 };
+
+export const findByIds = async (ids) => {
+  if (ids.length === 0) return [];
+  const words = await findAll();
+  return ids.map((id) => words[id]).filter(Boolean);
+};

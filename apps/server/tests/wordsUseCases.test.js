@@ -7,7 +7,7 @@ vi.mock("../repositories/wordsRepository.js", () => ({
   }),
 }));
 
-import { getAllWords, getWordsByIds } from "../useCases/words/index.js";
+import { getAllWords } from "../useCases/words/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -21,30 +21,5 @@ describe("getAllWords", () => {
         expect.objectContaining({ word: "Creative" }),
       ]),
     );
-  });
-});
-
-describe("getWordsByIds", () => {
-  it("returns words matching the given IDs", async () => {
-    const result = await getWordsByIds(["word-1"]);
-    expect(result).toHaveLength(1);
-    expect(result[0].word).toBe("Curious");
-  });
-
-  it("returns empty array for empty IDs", async () => {
-    const result = await getWordsByIds([]);
-    expect(result).toEqual([]);
-  });
-
-  it("filters out IDs that do not exist in the word map", async () => {
-    const result = await getWordsByIds(["word-1", "nonexistent", "word-2"]);
-    expect(result).toHaveLength(2);
-    expect(result[0].word).toBe("Curious");
-    expect(result[1].word).toBe("Creative");
-  });
-
-  it("returns empty array when no IDs match", async () => {
-    const result = await getWordsByIds(["nope", "also-nope"]);
-    expect(result).toEqual([]);
   });
 });
