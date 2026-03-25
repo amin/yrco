@@ -1,4 +1,4 @@
-import { buildLinkedInAuthUrl } from "../../services/linkedInService.js";
+import { buildLinkedInAuthUrl } from "../../helpers/buildLinkedInAuthUrl.js";
 
 export const redirectToLinkedIn = (state) =>
   buildLinkedInAuthUrl(state, {

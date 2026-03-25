@@ -1,5 +1,5 @@
 import * as userRepo from "../../../repositories/userRepository.js";
-import { generateUsernameBase } from "../../../services/usernameService.js";
+import { generateUsernameBase } from "../../../helpers/generateUsernameBase.js";
 
 const generateUsername = async (firstName, lastName, uid) => {
   const base = generateUsernameBase(firstName, lastName);

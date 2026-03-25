@@ -1,7 +1,7 @@
 import * as userRepo from "../../repositories/userRepository.js";
 import * as wordsRepo from "../../repositories/wordsRepository.js";
-import { buildPublicProfile } from "../../services/profileService.js";
-import { filterBySearch } from "../../services/userService.js";
+import { buildPublicProfile } from "../../helpers/buildPublicProfile.js";
+import { filterBySearch } from "../../helpers/filterBySearch.js";
 
 export const listUsers = async (page, search, pageSize = 20) => {
   let candidates;
