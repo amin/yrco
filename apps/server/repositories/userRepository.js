@@ -69,3 +69,12 @@ export const save = async (uid, data) => {
     { merge: true },
   );
 };
+
+export const findAll = async (page, limit) => {
+  const snapshot = await db.collection("users")
+    .orderBy("createdAt")
+    .offset((page - 1) * limit)
+    .limit(limit + 1)
+    .get();
+  return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() }));
+};
