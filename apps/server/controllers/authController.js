@@ -1,5 +1,5 @@
 import { buildLinkedInAuthUrl } from "../services/linkedInService.js";
-import { handleLinkedInCallback } from "../useCases/auth/index.js";
+import { processLinkedInCallback } from "../useCases/auth/index.js";
 
 export function handleLinkedinRedirect(_req, res) {
   const state = crypto.randomUUID();
@@ -13,7 +13,7 @@ export async function handleLinkedinCallback(req, res) {
     if (!state || state !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
-    const { uid, setupComplete, username } = await handleLinkedInCallback(code);
+    const { uid, setupComplete, username } = await processLinkedInCallback(code);
 
     res.clearCookie("oauth_state", { signed: true });
     res.cookie("session", uid, {
