@@ -1,13 +1,13 @@
 import { buildLinkedInAuthUrl } from "../services/linkedInService.js";
 import { handleLinkedInCallback } from "../useCases/auth/index.js";
 
-export function linkedinRedirect(_req, res) {
+export function handleLinkedinRedirect(_req, res) {
   const state = crypto.randomUUID();
   res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
   res.redirect(buildLinkedInAuthUrl(state));
 }
 
-export async function linkedinCallback(req, res) {
+export async function handleLinkedinCallback(req, res) {
   try {
     const { code, state } = req.query;
     if (!state || state !== req.signedCookies.oauth_state)
@@ -31,7 +31,7 @@ export async function linkedinCallback(req, res) {
   }
 }
 
-export function logout(_req, res) {
+export function handleLogout(_req, res) {
   res.clearCookie("session", { signed: true });
   res.json({ ok: true });
 }
