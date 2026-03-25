@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, useNavigate, useLocation } from "react-router-dom";
 import { useProfile, useConnections, useAddConnection, useRemoveConnection } from "../hooks/user";
 import { useAuth } from "../context/AuthContext";
 import Spinner from "../components/Spinner";
@@ -17,6 +17,8 @@ export default function Profile() {
   const addConnection = useAddConnection();
   const removeConnection = useRemoveConnection();
 
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const isOwnProfile = user?.username === username;
   const isConnected = connections?.some((c) => c.username === username);
   const [activeId, setActiveId] = useState(null);
@@ -48,20 +50,32 @@ export default function Profile() {
               {profile.website}
             </a>
           )}
-          {user && !isOwnProfile && (
-            isConnected ? (
-              <button
-                onClick={() => removeConnection.mutate(username)}
-                disabled={removeConnection.isPending}
-                className="px-6 py-2.5 rounded-xl text-base font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
-              >
-                Connected
-              </button>
+          {!isOwnProfile && (
+            user ? (
+              isConnected ? (
+                <button
+                  onClick={() => removeConnection.mutate(username)}
+                  disabled={removeConnection.isPending}
+                  className="px-6 py-2.5 rounded-xl text-base font-medium border border-gray-300 text-gray-700 hover:bg-gray-100 transition-colors disabled:opacity-50"
+                >
+                  Connected
+                </button>
+              ) : (
+                <button
+                  onClick={() => addConnection.mutate({ username })}
+                  disabled={addConnection.isPending}
+                  className="px-6 py-2.5 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
+                >
+                  Connect
+                </button>
+              )
             ) : (
               <button
-                onClick={() => addConnection.mutate({ username })}
-                disabled={addConnection.isPending}
-                className="px-6 py-2.5 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors disabled:opacity-50"
+                onClick={() => {
+                  sessionStorage.setItem("redirectAfterLogin", pathname);
+                  navigate("/login");
+                }}
+                className="px-6 py-2.5 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors cursor-pointer"
               >
                 Connect
               </button>

@@ -1,8 +1,14 @@
 import { processLinkedInCallback, redirectToLinkedIn } from "../useCases/auth/index.js";
 
-export function handleLinkedinRedirect(_req, res) {
+export function handleLinkedinRedirect(req, res) {
   const state = crypto.randomUUID();
   res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
+
+  const redirect = req.query.redirect;
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//") && redirect.length <= 200) {
+    res.cookie("post_auth_redirect", redirect, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
+  }
+
   res.redirect(redirectToLinkedIn(state));
 }
 
@@ -23,7 +29,16 @@ export async function handleLinkedinCallback(req, res) {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect(`${process.env.CLIENT_URL}${setupComplete === false ? "/setup" : `/@${username}`}`);
+    const postAuthRedirect = req.signedCookies.post_auth_redirect;
+    res.clearCookie("post_auth_redirect", { signed: true });
+
+    let redirectTo;
+    if (setupComplete === false) {
+      redirectTo = postAuthRedirect ? `/setup?redirect=${encodeURIComponent(postAuthRedirect)}` : "/setup";
+    } else {
+      redirectTo = postAuthRedirect || `/@${username}`;
+    }
+    res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
     res.redirect(`${process.env.CLIENT_URL}/error`);
