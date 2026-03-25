@@ -9,7 +9,7 @@ import usersRouter from "./routes/usersRoutes.js";
 import wordsRouter from "./routes/wordsRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
-import { globalLimiter, authLimiter } from "./middleware/rateLimit.js";
+import { globalLimiter } from "./middleware/rateLimit.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -26,7 +26,6 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Rate limiting
 app.use(globalLimiter);
-app.use("/auth", authLimiter);
 
 // Routes
 app.use("/auth", authRouter);
