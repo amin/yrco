@@ -10,5 +10,6 @@ export async function handleGetProfile(req, res) {
 
 export async function handleListUsers(req, res) {
   const page = Math.max(1, parseInt(req.query.page) || 1);
-  res.json(await listUsers(page));
+  const search = req.query.search?.trim() || "";
+  res.json(await listUsers(page, search));
 }

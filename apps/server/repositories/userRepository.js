@@ -78,3 +78,8 @@ export const findAll = async (page, limit) => {
     .get();
   return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() }));
 };
+
+export const fetchAll = async () => {
+  const snapshot = await db.collection("users").orderBy("createdAt").get();
+  return snapshot.docs.map((d) => ({ uid: d.id, ...d.data() }));
+};

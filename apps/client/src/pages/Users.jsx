@@ -1,17 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUsers } from "../hooks/user";
 import Spinner from "../components/Spinner";
 
 export default function Users() {
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useUsers(page);
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
-  if (isLoading) return <Spinner />;
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const { data, isLoading } = useUsers(page, debouncedSearch);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col p-6">
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Users</h1>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search by name, username or company..."
+        className="w-full border border-gray-200 rounded-xl px-4 py-4 text-sm outline-none focus:border-gray-400 bg-white mb-6"
+      />
+      {isLoading ? <Spinner /> : null}
       <div className="flex flex-col gap-3">
         {data?.users.map((user) => (
           <Link
