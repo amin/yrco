@@ -1,6 +1,6 @@
 import * as linkedInRepo from "../../repositories/linkedInRepository.js";
 import * as storageRepo from "../../repositories/storageRepository.js";
-import { upsertUser } from "./_upsertUser.js";
+import { upsertUser } from "./helpers/_upsertUser.js";
 
 export async function processLinkedInCallback(code) {
   const accessToken = await linkedInRepo.fetchAccessToken(code);

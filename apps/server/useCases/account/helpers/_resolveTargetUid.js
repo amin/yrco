@@ -1,4 +1,4 @@
-import * as userRepo from "../../repositories/userRepository.js";
+import * as userRepo from "../../../repositories/userRepository.js";
 
 export const resolveTargetUid = async (uid, username) => {
   const targetUid = await userRepo.findUidByUsername(username);
