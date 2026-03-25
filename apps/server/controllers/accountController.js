@@ -2,11 +2,11 @@ import * as accountUseCases from "../useCases/account/index.js";
 import { setupSchema, usernameSchema } from "@colyr/shared";
 
 export async function getAccount(req, res) {
-  res.json(await accountUseCases.getAccount(req.user.uid));
+  res.json(await accountUseCases.getMyAccount(req.user.uid));
 }
 
 export async function getWords(req, res) {
-  res.json(await accountUseCases.getWords(req.user.uid));
+  res.json(await accountUseCases.getMyWords(req.user.uid));
 }
 
 export async function completeSetup(req, res) {
@@ -35,6 +35,6 @@ export async function removeConnection(req, res) {
 }
 
 export async function listConnections(req, res) {
-  const user = await accountUseCases.getAccount(req.user.uid);
+  const user = await accountUseCases.getMyAccount(req.user.uid);
   res.json(await accountUseCases.listConnections(user.connectionIds));
 }
