@@ -1,22 +1,22 @@
 import { Router } from "express";
 import {
-  getAccount,
-  completeSetup,
-  getWords,
-  addConnection,
-  removeConnection,
-  listConnections,
+  handleGetAccount,
+  handleCompleteSetup,
+  handleGetWords,
+  handleAddConnection,
+  handleRemoveConnection,
+  handleListConnections,
 } from "../controllers/accountController.js";
 import { requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
 router.use(requireAuth);
-router.get("/", getAccount);
-router.get("/words", getWords);
-router.post("/setup", completeSetup);
-router.get("/connections", listConnections);
-router.post("/connections", addConnection);
-router.delete("/connections/:username", removeConnection);
+router.get("/", handleGetAccount);
+router.get("/words", handleGetWords);
+router.post("/setup", handleCompleteSetup);
+router.get("/connections", handleListConnections);
+router.post("/connections", handleAddConnection);
+router.delete("/connections/:username", handleRemoveConnection);
 
 export default router;
