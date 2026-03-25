@@ -1,51 +1,9 @@
 import axios from "axios";
-import * as userRepo from "../repositories/userRepository.js";
-import * as storageRepo from "../repositories/storageRepository.js";
+import * as storageRepo from "../../repositories/storageRepository.js";
+import { upsertUser } from "./upsertUser.js";
 
-const LINKEDIN_AUTH_URL = "https://www.linkedin.com/oauth/v2/authorization";
 const LINKEDIN_TOKEN_URL = "https://www.linkedin.com/oauth/v2/accessToken";
 const LINKEDIN_PROFILE_URL = "https://api.linkedin.com/v2/userinfo";
-
-const transliterate = (str) =>
-  str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-
-const generateUsername = async (firstName, lastName, uid) => {
-  const base = transliterate(`${firstName}${lastName}`).toLowerCase().replace(/[^a-z0-9_]/g, "");
-  if (await userRepo.claimUsername(base, uid)) return base;
-
-  let n = 1;
-  while (!(await userRepo.claimUsername(`${base}${n}`, uid))) n++;
-  return `${base}${n}`;
-};
-
-export const upsertUser = async (uid, profileData) => {
-  const existing = await userRepo.findById(uid);
-
-  if (existing) {
-    await userRepo.save(uid, profileData);
-    return { setupComplete: existing.setupComplete, username: existing.username };
-  }
-
-  const username = await generateUsername(profileData.firstName, profileData.lastName, uid);
-  await userRepo.save(uid, {
-    ...profileData,
-    setupComplete: false,
-    createdAt: new Date(),
-    username,
-  });
-  return { setupComplete: false, username };
-};
-
-export function buildLinkedInAuthUrl(state) {
-  const params = new URLSearchParams({
-    response_type: "code",
-    client_id: process.env.LINKEDIN_CLIENT_ID,
-    redirect_uri: process.env.LINKEDIN_REDIRECT_URI,
-    scope: "openid profile email",
-    state,
-  });
-  return `${LINKEDIN_AUTH_URL}?${params}`;
-}
 
 async function exchangeLinkedInCode(code) {
   const { data } = await axios.post(

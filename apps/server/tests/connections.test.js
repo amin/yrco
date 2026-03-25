@@ -21,51 +21,51 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { connectWithUser, disconnectFromUser, getConnections } from "../services/accountService.js";
+import { addConnection, removeConnection, listConnections } from "../useCases/account/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
-describe("connectWithUser", () => {
+describe("addConnection", () => {
   it("adds a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    await connectWithUser("my-uid", "alex");
+    await addConnection("my-uid", "alex");
     expect(userRepo.addConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
   it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    await expect(connectWithUser("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(addConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 
   it("throws 400 when trying to connect with yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    await expect(connectWithUser("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
+    await expect(addConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 });
 
-describe("disconnectFromUser", () => {
+describe("removeConnection", () => {
   it("removes a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    await disconnectFromUser("my-uid", "alex");
+    await removeConnection("my-uid", "alex");
     expect(userRepo.removeConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
   it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    await expect(disconnectFromUser("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(removeConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 
   it("throws 400 when trying to disconnect from yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    await expect(disconnectFromUser("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
+    await expect(removeConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 });
 
-describe("getConnections", () => {
+describe("listConnections", () => {
   it("returns profiles with words for each connection", async () => {
     userRepo.findByIds.mockResolvedValue([
       {
@@ -82,7 +82,7 @@ describe("getConnections", () => {
       },
     ]);
 
-    const result = await getConnections(["target-uid"]);
+    const result = await listConnections(["target-uid"]);
 
     expect(result).toHaveLength(1);
     expect(result[0].username).toBe("alex");
@@ -95,14 +95,14 @@ describe("getConnections", () => {
 
   it("returns empty array when no connections", async () => {
     userRepo.findByIds.mockResolvedValue([]);
-    const result = await getConnections([]);
+    const result = await listConnections([]);
     expect(result).toEqual([]);
     expect(userRepo.findByIds).toHaveBeenCalledWith([]);
   });
 
   it("returns empty array when connectionIds is undefined", async () => {
     userRepo.findByIds.mockResolvedValue([]);
-    const result = await getConnections(undefined);
+    const result = await listConnections(undefined);
     expect(result).toEqual([]);
   });
 
@@ -118,6 +118,6 @@ describe("getConnections", () => {
         wordIds: [],
       },
     ]);
-    await expect(getConnections(["uid-bad"])).rejects.toThrow();
+    await expect(listConnections(["uid-bad"])).rejects.toThrow();
   });
 });

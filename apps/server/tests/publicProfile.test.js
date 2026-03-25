@@ -16,7 +16,7 @@ vi.mock("../repositories/storageRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getPublicProfile } from "../services/usersService.js";
+import { getPublicProfile } from "../useCases/users/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
