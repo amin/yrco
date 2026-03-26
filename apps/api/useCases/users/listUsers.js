@@ -8,11 +8,13 @@ export const listUsers = async (page, search, pageSize = 20) => {
     : await userRepo.findAll(page, pageSize);
   const hasMore = candidates.length > pageSize;
   const slice = candidates.slice(0, pageSize);
-  const users = await Promise.all(
-    slice.map(async (user) => {
-      const words = await wordsRepo.findByIds(user.wordIds ?? []);
-      return buildPublicProfile(user, words);
-    }),
-  );
+
+  const allWords = await wordsRepo.findAll();
+  const wordMap = Object.fromEntries(allWords.map((w) => [w.id, w]));
+  const users = slice.map((user) => {
+    const words = (user.wordIds ?? []).map((id) => wordMap[id]).filter(Boolean);
+    return buildPublicProfile(user, words);
+  });
+
   return { users, hasMore };
 };

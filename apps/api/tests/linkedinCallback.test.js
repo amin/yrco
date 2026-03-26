@@ -16,7 +16,7 @@ vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn().mockResolvedValue("https://storage.example.com/pic.jpg"),
 }));
 
-import * as linkedInRepo from "../services/linkedInService.js";
+import * as linkedInService from "../services/linkedInService.js";
 import { processLinkedInCallback } from "../useCases/auth/index.js";
 
 const linkedInProfile = {
@@ -30,9 +30,9 @@ const linkedInProfile = {
 
 beforeEach(() => {
   vi.clearAllMocks();
-  linkedInRepo.fetchAccessToken.mockResolvedValue("tok-123");
-  linkedInRepo.fetchProfile.mockResolvedValue(linkedInProfile);
-  linkedInRepo.downloadProfilePicture.mockResolvedValue(Buffer.from("img"));
+  linkedInService.fetchAccessToken.mockResolvedValue("tok-123");
+  linkedInService.fetchProfile.mockResolvedValue(linkedInProfile);
+  linkedInService.downloadProfilePicture.mockResolvedValue(Buffer.from("img"));
 });
 
 describe("processLinkedInCallback", () => {
@@ -47,21 +47,21 @@ describe("processLinkedInCallback", () => {
 
   it("fetches access token with the auth code", async () => {
     await processLinkedInCallback("auth-code");
-    expect(linkedInRepo.fetchAccessToken).toHaveBeenCalledWith("auth-code");
+    expect(linkedInService.fetchAccessToken).toHaveBeenCalledWith("auth-code");
   });
 
   it("propagates error when token exchange fails", async () => {
-    linkedInRepo.fetchAccessToken.mockRejectedValue(new Error("LinkedIn API down"));
+    linkedInService.fetchAccessToken.mockRejectedValue(new Error("LinkedIn API down"));
     await expect(processLinkedInCallback("bad-code")).rejects.toThrow("LinkedIn API down");
   });
 
   it("propagates error when profile fetch fails", async () => {
-    linkedInRepo.fetchProfile.mockRejectedValue(new Error("Profile fetch failed"));
+    linkedInService.fetchProfile.mockRejectedValue(new Error("Profile fetch failed"));
     await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Profile fetch failed");
   });
 
   it("propagates error when picture download fails", async () => {
-    linkedInRepo.downloadProfilePicture.mockRejectedValue(new Error("Image download failed"));
+    linkedInService.downloadProfilePicture.mockRejectedValue(new Error("Image download failed"));
     await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Image download failed");
   });
 });

@@ -1,3 +1,4 @@
+import crypto from "crypto";
 import { processLinkedInCallback, redirectToLinkedIn } from "../useCases/auth/index.js";
 
 export function handleLinkedinRedirect(req, res) {
