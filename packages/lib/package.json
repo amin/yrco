@@ -1,7 +1,7 @@
 {
-  "name": "@colyr/shared",
+  "name": "@colyr/lib",
   "version": "1.0.0",
-  "main": "./src/index.js",
+  "main": "./validation/index.js",
   "type": "module",
   "license": "ISC",
   "dependencies": {

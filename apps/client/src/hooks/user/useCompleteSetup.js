@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { setupSchema } from "@colyr/shared";
+import { setupSchema } from "@colyr/lib";
 import api from "../../lib/api";
 
 export function useCompleteSetup() {

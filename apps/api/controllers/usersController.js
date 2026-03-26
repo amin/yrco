@@ -1,5 +1,5 @@
 import { getPublicProfile, listUsers } from "../useCases/users/index.js";
-import { usernameSchema } from "@colyr/shared";
+import { usernameSchema } from "@colyr/lib";
 
 export async function handleGetProfile(req, res) {
   const result = usernameSchema.safeParse(req.params.username);

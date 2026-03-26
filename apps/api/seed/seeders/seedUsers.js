@@ -1,11 +1,7 @@
-import Word from "../models/Word.js";
-import User from "../models/User.js";
-import { clearCollections } from "./helpers/clearDb.js";
+import Word from "../../models/Word.js";
+import User from "../../models/User.js";
 
-const wordDocs = await Word.find().lean();
-const wordIds = wordDocs.map((d) => d._id.toString());
-
-const users = [
+const users = (wordIds) => [
   { uid: "uid_a1b2c3d4e5f6", username: "alex", name: "Alex Eriksson", firstName: "Alex", lastName: "Eriksson", email: "alex@example.com", picture: "https://i.pravatar.cc/150?u=alex", website: "https://alexeriksson.se", role: "student", education: "Web Developer", setupComplete: true, wordIds: wordIds.slice(0, 5) },
   { uid: "uid_b2c3d4e5f6a1", username: "sara", name: "Sara Lindqvist", firstName: "Sara", lastName: "Lindqvist", email: "sara@example.com", picture: "https://i.pravatar.cc/150?u=sara", website: "https://saralindqvist.design", role: "student", education: "Digital Designer", setupComplete: true, wordIds: wordIds.slice(2, 7) },
   { uid: "uid_c3d4e5f6a1b2", username: "marcus", name: "Marcus Berg", firstName: "Marcus", lastName: "Berg", email: "marcus@example.com", picture: "https://i.pravatar.cc/150?u=marcus", website: "https://spotify.com", role: "organization", organizationName: "Spotify", roleAtCompany: "Engineering Manager", setupComplete: true, wordIds: wordIds.slice(5, 10) },
@@ -49,14 +45,10 @@ const users = [
   { uid: "uid_e1f2a7b8c9d0", username: "rasmus", name: "Rasmus Öberg", firstName: "Rasmus", lastName: "Öberg", email: "rasmus@example.com", picture: "https://i.pravatar.cc/150?u=rasmus", role: "student", education: "Cloud Engineer", setupComplete: true, wordIds: wordIds.slice(5, 11) },
 ];
 
-async function seedUsers() {
-  await clearCollections("users");
-  await User.insertMany(users);
-  console.log(`Seeded ${users.length} users.`);
-  process.exit(0);
+export async function seedUsers() {
+  const wordDocs = await Word.find().lean();
+  const wordIds = wordDocs.map((d) => d._id.toString());
+  const data = users(wordIds);
+  await User.insertMany(data);
+  console.log(`Seeded ${data.length} users.`);
 }
-
-seedUsers().catch((err) => {
-  console.error("Seed failed:", err);
-  process.exit(1);
-});

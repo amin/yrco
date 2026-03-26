@@ -6,7 +6,7 @@ import {
   removeConnection,
   listConnections,
 } from "../useCases/account/index.js";
-import { setupSchema, usernameSchema } from "@colyr/shared";
+import { setupSchema, usernameSchema } from "@colyr/lib";
 
 export async function handleGetAccount(req, res) {
   res.json(await getMyAccount(req.user.uid));
