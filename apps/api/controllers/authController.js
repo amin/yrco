@@ -1,5 +1,6 @@
 import crypto from "crypto";
-import { processLinkedInCallback, redirectToLinkedIn } from "../useCases/auth/index.js";
+import { processLinkedInCallback } from "../useCases/auth/index.js";
+import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
 export function handleLinkedinRedirect(req, res) {
@@ -11,7 +12,10 @@ export function handleLinkedinRedirect(req, res) {
     res.cookie("post_auth_redirect", redirect, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
   }
 
-  res.redirect(redirectToLinkedIn(state));
+  res.redirect(buildLinkedInAuthUrl(state, {
+    clientId: process.env.LINKEDIN_CLIENT_ID,
+    redirectUri: process.env.LINKEDIN_REDIRECT_URI,
+  }));
 }
 
 export async function handleLinkedinCallback(req, res) {
