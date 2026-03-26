@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import { processLinkedInCallback, redirectToLinkedIn } from "../useCases/auth/index.js";
+import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
 export function handleLinkedinRedirect(req, res) {
   const state = crypto.randomUUID();
@@ -33,12 +34,7 @@ export async function handleLinkedinCallback(req, res) {
     const postAuthRedirect = req.signedCookies.post_auth_redirect;
     res.clearCookie("post_auth_redirect", { signed: true });
 
-    let redirectTo;
-    if (setupComplete === false) {
-      redirectTo = postAuthRedirect ? `/setup?redirect=${encodeURIComponent(postAuthRedirect)}` : "/setup";
-    } else {
-      redirectTo = postAuthRedirect || `/@${username}`;
-    }
+    const redirectTo = buildPostAuthRedirect(setupComplete, username, postAuthRedirect);
     res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
