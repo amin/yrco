@@ -5,12 +5,12 @@ async function seed() {
   const args = process.argv.slice(2).filter((a) => a !== "--");
   const target = args[0];
 
-  const toRun = target ? [target] : COLLECTIONS;
-
   if (target && !COLLECTIONS.includes(target)) {
     console.error(`No seeder found for "${target}". Available: ${COLLECTIONS.join(", ")}`);
     process.exit(1);
   }
+
+  const toRun = target ? [target] : COLLECTIONS;
 
   for (const name of toRun) {
     await mongoose.connection.collection(name).deleteMany({});
