@@ -1,4 +1,4 @@
-import Word from "../../models/Word.js";
+import Word from "../../../models/Word.js";
 
 const words = [
   { word: "Curious", color: "#F59E0B", icebreaker: "What's the last thing you went down a rabbit hole learning about?" },

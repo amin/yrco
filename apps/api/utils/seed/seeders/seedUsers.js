@@ -1,5 +1,5 @@
-import Word from "../../models/Word.js";
-import User from "../../models/User.js";
+import Word from "../../../models/Word.js";
+import User from "../../../models/User.js";
 
 const users = (wordIds) => [
   { uid: "uid_a1b2c3d4e5f6", username: "alex", name: "Alex Eriksson", firstName: "Alex", lastName: "Eriksson", email: "alex@example.com", picture: "https://i.pravatar.cc/150?u=alex", website: "https://alexeriksson.se", role: "student", education: "Web Developer", setupComplete: true, wordIds: wordIds.slice(0, 5) },

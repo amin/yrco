@@ -7,9 +7,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon --env-file=.env.development index.js",
     "start": "NODE_ENV=production node --env-file=.env.production index.js",
-    "seed": "NODE_ENV=development node --env-file=.env.development seed/index.js",
-    "seed:words": "NODE_ENV=development node --env-file=.env.development seed/seeders/seedWords.js",
-    "seed:users": "NODE_ENV=development node --env-file=.env.development seed/seeders/seedUsers.js",
+    "db:seed": "NODE_ENV=development node --env-file=.env.development utils/seed/seedDB.js",
+    "db:clear": "NODE_ENV=development node --env-file=.env.development utils/seed/clearDB.js",
     "test": "vitest run",
     "test:watch": "vitest"
   },
