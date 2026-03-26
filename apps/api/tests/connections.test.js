@@ -1,5 +1,9 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
+vi.mock("../services/emailService.js", () => ({
+  sendWelcomeEmail: vi.fn(),
+}));
+
 vi.mock("../repositories/userRepository.js", () => ({
   findById: vi.fn(),
   findUidByUsername: vi.fn(),
