@@ -17,6 +17,8 @@
   "license": "ISC",
   "dependencies": {
     "@colyr/lib": "workspace:*",
+    "@react-email/components": "^1.0.10",
+    "@react-email/render": "^2.0.4",
     "axios": "^1.13.6",
     "cloudinary": "^2.9.0",
     "cookie-parser": "^1.4.7",
@@ -24,7 +26,10 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",
     "helmet": "^8.1.0",
-    "mongoose": "^9.3.3"
+    "mongoose": "^9.3.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "resend": "^6.9.4"
   },
   "devDependencies": {
     "nodemon": "^3.1.14",

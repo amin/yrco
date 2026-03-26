@@ -19,6 +19,18 @@ vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 
+vi.mock("../services/emailService.js", () => ({
+  sendEmail: vi.fn(),
+}));
+
+vi.mock("../emails/WelcomeEmail.js", () => ({
+  default: vi.fn(() => null),
+}));
+
+vi.mock("@react-email/render", () => ({
+  render: vi.fn().mockResolvedValue("<html></html>"),
+}));
+
 import * as userRepo from "../repositories/userRepository.js";
 import { getMyAccount, completeSetup, getMyWords } from "../useCases/account/index.js";
 
@@ -42,6 +54,7 @@ describe("getMyAccount", () => {
 describe("completeSetup", () => {
   it("passes role and fields to repository with setupComplete true", async () => {
     userRepo.update.mockResolvedValue();
+    userRepo.findById.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", wordIds: [] });
     await completeSetup("uid-1", { role: "student", education: "Web Developer" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "student",
@@ -52,6 +65,7 @@ describe("completeSetup", () => {
 
   it("handles organization role with its fields", async () => {
     userRepo.update.mockResolvedValue();
+    userRepo.findById.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", wordIds: [] });
     await completeSetup("uid-1", { role: "organization", organizationName: "Acme" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "organization",
