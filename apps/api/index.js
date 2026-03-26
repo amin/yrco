@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(
   helmet({
-    crossOriginResourcePolicy: { policy: "cross-origin" }, // allow Firebase Storage images
+    crossOriginResourcePolicy: { policy: "cross-origin" }, // allow cross-origin images
   }),
 );
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
