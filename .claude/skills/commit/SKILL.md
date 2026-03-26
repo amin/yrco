@@ -92,17 +92,15 @@ Analyze the diff to determine:
 
 ### 4. Execute Commit
 
-```bash
-# Single line
-git commit -m "<type>[scope]: <description>"
+Always include the co-author footer:
 
-# Multi-line with body/footer
+```bash
 git commit -m "$(cat <<'EOF'
 <type>[scope]: <description>
 
 <optional body>
 
-<optional footer>
+Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"
 ```
