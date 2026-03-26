@@ -8,15 +8,16 @@ import {
   handleListConnections,
 } from "../controllers/accountController.js";
 import { requireAuth } from "../middleware/auth.js";
+import { requireSetup } from "../middleware/requireSetup.js";
 
 const router = Router();
 
 router.use(requireAuth);
 router.get("/", handleGetAccount);
-router.get("/words", handleGetWords);
 router.post("/setup", handleCompleteSetup);
-router.get("/connections", handleListConnections);
-router.post("/connections", handleAddConnection);
-router.delete("/connections/:username", handleRemoveConnection);
+router.get("/words", requireSetup, handleGetWords);
+router.get("/connections", requireSetup, handleListConnections);
+router.post("/connections", requireSetup, handleAddConnection);
+router.delete("/connections/:username", requireSetup, handleRemoveConnection);
 
 export default router;

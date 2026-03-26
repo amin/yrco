@@ -14,12 +14,12 @@ export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
 
   if (existing) {
-    await userRepo.save(uid, profileData);
+    await userRepo.upsert(uid, profileData);
     return { setupComplete: existing.setupComplete, username: existing.username };
   }
 
   const username = await generateUsername(profileData.firstName, profileData.lastName, uid);
-  await userRepo.save(uid, {
+  await userRepo.upsert(uid, {
     ...profileData,
     setupComplete: false,
     createdAt: new Date(),

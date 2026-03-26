@@ -3,7 +3,7 @@ import { vi, describe, it, expect, beforeEach } from "vitest";
 vi.mock("../repositories/userRepository.js", () => ({
   findById: vi.fn().mockResolvedValue(null),
   claimUsername: vi.fn(),
-  save: vi.fn(),
+  upsert: vi.fn(),
 }));
 
 vi.mock("../services/storageService.js", () => ({
@@ -135,7 +135,7 @@ describe("upsertUser returning user", () => {
     userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
     await upsertUser("uid-1", profile);
 
-    const savedData = userRepo.save.mock.calls[0][1];
+    const savedData = userRepo.upsert.mock.calls[0][1];
     expect(savedData.createdAt).toBeUndefined();
     expect(savedData.username).toBeUndefined();
   });

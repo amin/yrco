@@ -9,7 +9,7 @@ vi.mock("../services/linkedInService.js", () => ({
 vi.mock("../repositories/userRepository.js", () => ({
   findById: vi.fn().mockResolvedValue(null),
   claimUsername: vi.fn().mockResolvedValue(true),
-  save: vi.fn(),
+  upsert: vi.fn(),
 }));
 
 vi.mock("../services/storageService.js", () => ({

@@ -36,7 +36,7 @@ export const findByIds = async (uids) => {
   return User.find({ uid: { $in: uids } }).lean();
 };
 
-export const save = async (uid, data) => {
+export const upsert = async (uid, data) => {
   await User.findOneAndUpdate(
     { uid },
     { $set: { uid, ...data } },
@@ -50,10 +50,6 @@ export const findAll = async (page, limit) => {
     .skip((page - 1) * limit)
     .limit(limit + 1)
     .lean();
-};
-
-export const fetchAll = async () => {
-  return User.find().sort({ createdAt: 1 }).lean();
 };
 
 export const search = async (query, page, pageSize) => {
