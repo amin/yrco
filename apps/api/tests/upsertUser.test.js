@@ -6,7 +6,7 @@ vi.mock("../repositories/userRepository.js", () => ({
   save: vi.fn(),
 }));
 
-vi.mock("../repositories/storageRepository.js", () => ({
+vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 

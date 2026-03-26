@@ -1,5 +1,5 @@
-import * as linkedInRepo from "../../repositories/linkedInRepository.js";
-import * as storageRepo from "../../repositories/storageRepository.js";
+import * as linkedInRepo from "../../services/linkedInService.js";
+import * as storageRepo from "../../services/storageService.js";
 import { upsertUser } from "./helpers/_upsertUser.js";
 
 export async function processLinkedInCallback(code) {

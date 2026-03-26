@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../repositories/linkedInRepository.js", () => ({
+vi.mock("../services/linkedInService.js", () => ({
   fetchAccessToken: vi.fn(),
   fetchProfile: vi.fn(),
   downloadProfilePicture: vi.fn(),
@@ -12,11 +12,11 @@ vi.mock("../repositories/userRepository.js", () => ({
   save: vi.fn(),
 }));
 
-vi.mock("../repositories/storageRepository.js", () => ({
+vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn().mockResolvedValue("https://storage.example.com/pic.jpg"),
 }));
 
-import * as linkedInRepo from "../repositories/linkedInRepository.js";
+import * as linkedInRepo from "../services/linkedInService.js";
 import { processLinkedInCallback } from "../useCases/auth/index.js";
 
 const linkedInProfile = {

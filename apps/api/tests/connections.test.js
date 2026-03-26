@@ -19,7 +19,7 @@ vi.mock("../repositories/wordsRepository.js", () => ({
   }),
 }));
 
-vi.mock("../repositories/storageRepository.js", () => ({
+vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 
