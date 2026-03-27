@@ -1,6 +1,6 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../repositories/traitsRepository.js", () => ({
+vi.mock("../repositories/traitRepository.js", () => ({
   findAll: vi.fn().mockResolvedValue([
     { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
     { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },

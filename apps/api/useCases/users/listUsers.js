@@ -1,5 +1,5 @@
 import * as userRepo from "../../repositories/userRepository.js";
-import * as traitsRepo from "../../repositories/traitsRepository.js";
+import * as traitsRepo from "../../repositories/traitRepository.js";
 import { buildPublicProfiles } from "../../helpers/buildPublicProfile.js";
 
 export const listUsers = async (page, search, pageSize = 20) => {

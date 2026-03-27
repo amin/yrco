@@ -1,5 +1,5 @@
 import * as userRepo from "../../repositories/userRepository.js";
-import * as traitsRepo from "../../repositories/traitsRepository.js";
+import * as traitsRepo from "../../repositories/traitRepository.js";
 
 export const getMyTraits = async (uid) => {
   const user = await userRepo.findById(uid);

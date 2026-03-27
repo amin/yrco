@@ -1,5 +1,5 @@
 import * as userRepo from "../../repositories/userRepository.js";
-import * as traitsRepo from "../../repositories/traitsRepository.js";
+import * as traitsRepo from "../../repositories/traitRepository.js";
 import * as emailService from "../../services/emailService.js";
 
 export const completeSetup = async (uid, data) => {

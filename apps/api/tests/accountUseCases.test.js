@@ -5,7 +5,7 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
-vi.mock("../repositories/traitsRepository.js", () => ({
+vi.mock("../repositories/traitRepository.js", () => ({
   findByIds: vi.fn().mockImplementation((ids) => {
     const traits = {
       "trait-1": { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
