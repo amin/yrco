@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { requireAuth } from "../middleware/auth.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 import { requireSetup } from "../middleware/requireSetup.js";
 import {
   handleGetProfile,

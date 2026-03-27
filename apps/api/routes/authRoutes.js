@@ -1,6 +1,10 @@
 import { Router } from "express";
-import { handleLinkedinRedirect, handleLinkedinCallback, handleLogout } from "../controllers/authController.js";
-import { requireAuth } from "../middleware/auth.js";
+import {
+  handleLinkedinRedirect,
+  handleLinkedinCallback,
+  handleLogout,
+} from "../controllers/authController.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 import { authLimiter } from "../middleware/rateLimit.js";
 
 const router = Router();
