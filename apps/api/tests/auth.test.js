@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { requireAuth } from "../middleware/auth.js";
+import { requireAuth } from "../middleware/requireAuth.js";
 
 const mockRes = () => {
   const res = {};

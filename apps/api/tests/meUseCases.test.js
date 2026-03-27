@@ -14,22 +14,22 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getMyAccount, completeSetup } from "../useCases/users/index.js";
+import { getCurrentUser, completeSetup } from "../useCases/users/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
-describe("getMyAccount", () => {
+describe("getCurrentUser", () => {
   it("returns user when found", async () => {
     const user = { uid: "uid-1", name: "Alex" };
     userRepo.findById.mockResolvedValue(user);
-    const result = await getMyAccount("uid-1");
+    const result = await getCurrentUser("uid-1");
     expect(result).toEqual(user);
     expect(userRepo.findById).toHaveBeenCalledWith("uid-1");
   });
 
   it("throws 404 when user not found", async () => {
     userRepo.findById.mockResolvedValue(null);
-    await expect(getMyAccount("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getCurrentUser("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 });
 

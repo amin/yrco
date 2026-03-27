@@ -1,6 +1,6 @@
-export { getPublicProfile } from "./getProfile.js";
+export { getPublicProfile } from "./getPublicProfile.js";
 export { listUsers } from "./listUsers.js";
-export { getMyAccount } from "./getMyAccount.js";
+export { getCurrentUser } from "./getCurrentUser.js";
 export { completeSetup } from "./completeSetup.js";
 export { addConnection } from "./addConnection.js";
 export { removeConnection } from "./removeConnection.js";

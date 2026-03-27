@@ -1,7 +1,7 @@
 import {
   getPublicProfile,
   listUsers,
-  getMyAccount,
+  getCurrentUser,
   completeSetup,
   addConnection,
   removeConnection,
@@ -10,7 +10,7 @@ import {
 } from "../useCases/users/index.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
 
-export async function handleGetProfile(req, res) {
+export async function handleGetPublicProfile(req, res) {
   const result = usernameSchema.safeParse(req.params.username);
   if (!result.success) throw { status: 400, message: result.error.issues[0].message };
 
@@ -23,11 +23,11 @@ export async function handleListUsers(req, res) {
   res.json(await listUsers(page, search));
 }
 
-export async function handleGetMe(req, res) {
-  res.json(await getMyAccount(req.user.uid));
+export async function handleGetCurrentUser(req, res) {
+  res.json(await getCurrentUser(req.user.uid));
 }
 
-export async function handleGetMyTraits(req, res) {
+export async function handleGetCurrentUserTraits(req, res) {
   res.json(req.user.traitIds ?? []);
 }
 
