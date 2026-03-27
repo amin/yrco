@@ -18,51 +18,51 @@ vi.mock("../services/storageService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { addConnection, removeConnection, listConnections } from "../usecases/connectionsUseCases.js";
+import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 
-describe("addConnection", () => {
+describe("addUserConnection", () => {
   it("adds a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    await addConnection("my-uid", "alex");
+    await addUserConnection("my-uid", "alex");
     expect(userRepo.addConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
   it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    await expect(addConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(addUserConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 
   it("throws 400 when trying to connect with yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    await expect(addConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
+    await expect(addUserConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.addConnection).not.toHaveBeenCalled();
   });
 });
 
-describe("removeConnection", () => {
+describe("removeUserConnection", () => {
   it("removes a connection when target user exists", async () => {
     userRepo.findUidByUsername.mockResolvedValue("target-uid");
-    await removeConnection("my-uid", "alex");
+    await removeUserConnection("my-uid", "alex");
     expect(userRepo.removeConnection).toHaveBeenCalledWith("my-uid", "target-uid");
   });
 
   it("throws 404 when target user does not exist", async () => {
     userRepo.findUidByUsername.mockResolvedValue(null);
-    await expect(removeConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(removeUserConnection("my-uid", "nobody")).rejects.toEqual({ status: 404, message: "User not found" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 
   it("throws 400 when trying to disconnect from yourself", async () => {
     userRepo.findUidByUsername.mockResolvedValue("my-uid");
-    await expect(removeConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
+    await expect(removeUserConnection("my-uid", "myusername")).rejects.toEqual({ status: 400, message: "You cannot connect with yourself" });
     expect(userRepo.removeConnection).not.toHaveBeenCalled();
   });
 });
 
-describe("listConnections", () => {
+describe("getUserConnections", () => {
   it("returns profiles with words for each connection", async () => {
     userRepo.findByIds.mockResolvedValue([
       {
@@ -82,7 +82,7 @@ describe("listConnections", () => {
       },
     ]);
 
-    const result = await listConnections(["target-uid"]);
+    const result = await getUserConnections(["target-uid"]);
 
     expect(result).toHaveLength(1);
     expect(result[0].username).toBe("alex");
@@ -94,7 +94,7 @@ describe("listConnections", () => {
 
   it("returns empty array when there are no connections", async () => {
     userRepo.findByIds.mockResolvedValue([]);
-    const result = await listConnections([]);
+    const result = await getUserConnections([]);
     expect(result).toEqual([]);
     expect(userRepo.findByIds).toHaveBeenCalledWith([]);
   });
@@ -111,6 +111,6 @@ describe("listConnections", () => {
         traitIds: [],
       },
     ]);
-    await expect(listConnections(["uid-bad"])).rejects.toThrow();
+    await expect(getUserConnections(["uid-bad"])).rejects.toThrow();
   });
 });

@@ -14,7 +14,7 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getCurrentUser, completeSetup } from "../usecases/usersUseCases.js";
+import { getCurrentUser, completeUserSetup } from "../usecases/usersUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -33,10 +33,10 @@ describe("getCurrentUser", () => {
   });
 });
 
-describe("completeSetup", () => {
+describe("completeUserSetup", () => {
   it("passes role and fields to repository with setupComplete true", async () => {
     userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
-    await completeSetup("uid-1", { role: "student", education: "Web Developer" });
+    await completeUserSetup("uid-1", { role: "student", education: "Web Developer" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "student",
       education: "Web Developer",
@@ -46,7 +46,7 @@ describe("completeSetup", () => {
 
   it("handles organization role with its fields", async () => {
     userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
-    await completeSetup("uid-1", { role: "organization", organizationName: "Acme" });
+    await completeUserSetup("uid-1", { role: "organization", organizationName: "Acme" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "organization",
       organizationName: "Acme",

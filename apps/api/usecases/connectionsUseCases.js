@@ -8,17 +8,17 @@ const resolveTargetUid = async (uid, username) => {
   return targetUid;
 };
 
-export const addConnection = async (uid, username) => {
+export const addUserConnection = async (uid, username) => {
   const targetUid = await resolveTargetUid(uid, username);
   await userRepo.addConnection(uid, targetUid);
 };
 
-export const removeConnection = async (uid, username) => {
+export const removeUserConnection = async (uid, username) => {
   const targetUid = await resolveTargetUid(uid, username);
   await userRepo.removeConnection(uid, targetUid);
 };
 
-export const listConnections = async (connectionIds) => {
+export const getUserConnections = async (connectionIds) => {
   const users = await userRepo.findByIds(connectionIds);
   return users.map((u) => publicProfileSchema.parse({ ...u, traits: u.traitIds ?? [] }));
 };

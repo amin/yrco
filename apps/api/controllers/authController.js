@@ -3,7 +3,7 @@ import { processLinkedInCallback } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
-export function handleLinkedinRedirect(req, res) {
+export function handleLinkedInRedirect(req, res) {
   const state = crypto.randomUUID();
   res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
 
@@ -18,7 +18,7 @@ export function handleLinkedinRedirect(req, res) {
   }));
 }
 
-export async function handleLinkedinCallback(req, res) {
+export async function handleLinkedInCallback(req, res) {
   try {
     const { code, state } = req.query;
     if (!state || state !== req.signedCookies.oauth_state)

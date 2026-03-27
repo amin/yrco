@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { handleGetTraits } from "../controllers/traitsController.js";
+import { handleGetAllTraits } from "../controllers/traitsController.js";
 
 const router = Router();
 
-router.get("/", handleGetTraits);
+router.get("/", handleGetAllTraits);
 
 export default router;

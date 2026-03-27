@@ -8,13 +8,13 @@ export const getCurrentUser = async (uid) => {
   return user;
 };
 
-export const getPublicProfile = async (username) => {
+export const getPublicUser = async (username) => {
   const user = await userRepo.findByUsername(username);
   if (!user) throw { status: 404, message: "User not found" };
   return publicProfileSchema.parse({ ...user, traits: user.traitIds ?? [] });
 };
 
-export const listUsers = async (page, search, pageSize = 20) => {
+export const getAllUsers = async (page, search, pageSize = 20) => {
   const candidates = search
     ? await userRepo.search(search, page, pageSize)
     : await userRepo.findAll(page, pageSize);
@@ -23,13 +23,13 @@ export const listUsers = async (page, search, pageSize = 20) => {
   return { users: slice.map((u) => publicProfileSchema.parse({ ...u, traits: u.traitIds ?? [] })), hasMore };
 };
 
-export const updateProfile = async (uid, data) => {
+export const updateUser = async (uid, data) => {
   const user = await userRepo.update(uid, data);
   if (!user) throw { status: 404, message: "User not found" };
   return user;
 };
 
-export const completeSetup = async (uid, data) => {
+export const completeUserSetup = async (uid, data) => {
   const user = await userRepo.update(uid, { ...data, setupComplete: true });
   await emailService.sendWelcomeEmail({ to: user.email, firstName: user.firstName, traits: user.traitIds ?? [] });
 };

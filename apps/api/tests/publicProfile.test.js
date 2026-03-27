@@ -13,7 +13,7 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getPublicProfile } from "../usecases/usersUseCases.js";
+import { getPublicUser } from "../usecases/usersUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -34,10 +34,10 @@ const fullUser = {
   ],
 };
 
-describe("getPublicProfile", () => {
+describe("getPublicUser", () => {
   it("returns profile with words", async () => {
     userRepo.findByUsername.mockResolvedValue(fullUser);
-    const profile = await getPublicProfile("alex");
+    const profile = await getPublicUser("alex");
 
     expect(profile.username).toBe("alex");
     expect(profile.firstName).toBe("Alex");
@@ -47,7 +47,7 @@ describe("getPublicProfile", () => {
 
   it("strips private fields from response", async () => {
     userRepo.findByUsername.mockResolvedValue(fullUser);
-    const profile = await getPublicProfile("alex");
+    const profile = await getPublicUser("alex");
 
     expect(profile.email).toBeUndefined();
     expect(profile.setupComplete).toBeUndefined();
@@ -57,12 +57,12 @@ describe("getPublicProfile", () => {
 
   it("throws 404 when user does not exist", async () => {
     userRepo.findByUsername.mockResolvedValue(null);
-    await expect(getPublicProfile("nobody")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getPublicUser("nobody")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 
   it("returns empty traits array when user has no traitIds", async () => {
     userRepo.findByUsername.mockResolvedValue({ ...fullUser, traitIds: undefined });
-    const profile = await getPublicProfile("alex");
+    const profile = await getPublicUser("alex");
     expect(profile.traits).toEqual([]);
   });
 });

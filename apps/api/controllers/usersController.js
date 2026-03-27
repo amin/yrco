@@ -1,60 +1,60 @@
-import { getPublicProfile, listUsers, getCurrentUser, completeSetup, updateProfile } from "../usecases/usersUseCases.js";
-import { addConnection, removeConnection, listConnections } from "../usecases/connectionsUseCases.js";
+import { getPublicUser, getAllUsers, getCurrentUser, completeUserSetup, updateUser } from "../usecases/usersUseCases.js";
+import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
 
-export async function handleGetPublicProfile(req, res) {
+export async function handleGetPublicUser(req, res) {
   const result = usernameSchema.safeParse(req.params.username);
   if (!result.success) throw { status: 400, message: result.error.issues[0].message };
 
-  res.json(await getPublicProfile(result.data));
+  res.json(await getPublicUser(result.data));
 }
 
-export async function handleListUsers(req, res) {
+export async function handleGetAllUsers(req, res) {
   const page = Math.max(1, parseInt(req.query.page) || 1);
   const search = req.query.search?.trim() || "";
-  res.json(await listUsers(page, search));
+  res.json(await getAllUsers(page, search));
 }
 
 export async function handleGetCurrentUser(req, res) {
   res.json(await getCurrentUser(req.user.uid));
 }
 
-export async function handleGetCurrentUserTraits(req, res) {
+export async function handleGetUserTraits(req, res) {
   res.json(req.user.traitIds ?? []);
 }
 
-export async function handleCompleteSetup(req, res) {
+export async function handleCompleteUserSetup(req, res) {
   const result = setupSchema.safeParse(req.body);
   if (!result.success)
     throw { status: 400, message: result.error.issues[0].message };
 
-  await completeSetup(req.user.uid, result.data);
+  await completeUserSetup(req.user.uid, result.data);
   res.json({ ok: true });
 }
 
-export async function handleAddConnection(req, res) {
+export async function handleAddUserConnection(req, res) {
   const parsed = usernameSchema.safeParse(req.body.username);
   if (!parsed.success) throw { status: 400, message: parsed.error.issues[0].message };
 
-  await addConnection(req.user.uid, parsed.data);
+  await addUserConnection(req.user.uid, parsed.data);
   res.json({ ok: true });
 }
 
-export async function handleRemoveConnection(req, res) {
+export async function handleRemoveUserConnection(req, res) {
   const parsed = usernameSchema.safeParse(req.params.username);
   if (!parsed.success) throw { status: 400, message: parsed.error.issues[0].message };
 
-  await removeConnection(req.user.uid, parsed.data);
+  await removeUserConnection(req.user.uid, parsed.data);
   res.json({ ok: true });
 }
 
-export async function handleListConnections(req, res) {
-  res.json(await listConnections(req.user.connectionIds ?? []));
+export async function handleGetUserConnections(req, res) {
+  res.json(await getUserConnections(req.user.connectionIds ?? []));
 }
 
-export async function handleUpdateProfile(req, res) {
+export async function handleUpdateUser(req, res) {
   const result = traitIdsSchema.safeParse(req.body.traitIds);
   if (!result.success) throw { status: 400, message: result.error.issues[0].message };
 
-  res.json(await updateProfile(req.user.uid, { traitIds: result.data }));
+  res.json(await updateUser(req.user.uid, { traitIds: result.data }));
 }

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
-  handleLinkedinRedirect,
-  handleLinkedinCallback,
+  handleLinkedInRedirect,
+  handleLinkedInCallback,
   handleLogout,
 } from "../controllers/authController.js";
 import { requireAuth } from "../middleware/requireAuth.js";
@@ -11,8 +11,8 @@ const router = Router();
 
 router.use(authLimiter);
 
-router.get("/linkedin", handleLinkedinRedirect);
-router.get("/linkedin/callback", handleLinkedinCallback);
+router.get("/linkedin", handleLinkedInRedirect);
+router.get("/linkedin/callback", handleLinkedInCallback);
 
 router.post("/logout", requireAuth, handleLogout);
 
