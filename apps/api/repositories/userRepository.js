@@ -5,7 +5,7 @@ export const findById = async (uid) => {
 };
 
 export const update = async (uid, data) => {
-  return User.findOneAndUpdate({ uid }, { $set: data }, { new: true }).lean();
+  return User.findOneAndUpdate({ uid }, { $set: data }, { returnDocument: "after" }).lean();
 };
 
 export const findByUsername = async (username) => {
