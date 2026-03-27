@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { processLinkedInCallback } from "../usecases/authUseCases.js";
+import { authenticateWithLinkedIn } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
@@ -24,7 +24,7 @@ export async function handleLinkedInCallback(req, res) {
     if (!state || state !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
-    const { uid, setupComplete, username } = await processLinkedInCallback(code);
+    const { uid, setupComplete, username } = await authenticateWithLinkedIn(code);
 
     res.clearCookie("oauth_state", { signed: true });
     res.cookie("session", uid, {

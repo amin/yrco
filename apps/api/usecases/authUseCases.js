@@ -30,7 +30,7 @@ export const upsertUser = async (uid, profileData) => {
   return { setupComplete: false, username };
 };
 
-export async function processLinkedInCallback(code) {
+export async function authenticateWithLinkedIn(code) {
   const accessToken = await linkedInService.fetchAccessToken(code);
   const profile = await linkedInService.fetchProfile(accessToken);
 
