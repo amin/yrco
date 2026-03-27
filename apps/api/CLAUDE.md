@@ -10,6 +10,7 @@ pnpm test                 # Run all tests once
 pnpm vitest run tests/auth.test.js  # Run a single test file
 pnpm db:seed              # Seed all collections
 pnpm db:seed -- words     # Seed a specific collection
+pnpm db:clear             # Clear all collections
 pnpm db:clear -- users    # Clear a specific collection
 ```
 
@@ -20,11 +21,11 @@ To add a new collection: add its name to `utils/seed/config/collections.js` (ord
 Clean architecture with strict layer separation:
 
 - **routes/**: Express wiring only
-- **controllers/**: Validate input (Zod, always here and nowhere else), call one use case, send response
+- **controllers/**: All HTTP concerns — validate input (Zod), read/set cookies, send responses and redirects. Nothing else
 - **useCases/**: Orchestrate repos and services to fulfill a business operation — no framework code
 - **repositories/**: Abstraction over the database (Mongoose). Swap the DB without touching use cases
 - **services/**: Abstraction over external APIs (LinkedIn, Cloudinary, Resend). Swap providers without touching use cases
-- **middleware/**: `requireAuth` (signed cookie), `requireSetup` (DB-backed onboarding check), rate limiting, error handler
+- **middleware/**: `requireAuth` (signed cookie session), `requireSetup` (queries DB to confirm onboarding is complete), rate limiting, error handler
 - **helpers/**: Pure functions with no side effects
 
 **Monorepo**: `apps/api` (this app), `apps/client` (React), `packages/lib` (shared Zod schemas, imported as `@colyr/lib`).
