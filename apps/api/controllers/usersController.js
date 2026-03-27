@@ -19,10 +19,6 @@ export async function handleGetCurrentUser(req, res) {
   res.json(await getCurrentUser(req.user.uid));
 }
 
-export async function handleGetUserTraits(req, res) {
-  res.json(req.user.traitIds ?? []);
-}
-
 export async function handleCompleteUserSetup(req, res) {
   const result = setupSchema.safeParse(req.body);
   if (!result.success)

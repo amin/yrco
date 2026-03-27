@@ -1,1 +1,1 @@
-export { useTraits, useMyTraits } from "./useTraits";
+export { useTraits } from "./useTraits";

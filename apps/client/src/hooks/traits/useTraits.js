@@ -11,12 +11,3 @@ export function useTraits() {
   });
 }
 
-export function useMyTraits() {
-  return useQuery({
-    queryKey: ["myTraits"],
-    queryFn: async () => {
-      const res = await api.get("/users/me/traits");
-      return res.data;
-    },
-  });
-}
