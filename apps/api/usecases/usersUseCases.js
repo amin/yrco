@@ -31,5 +31,9 @@ export const updateUser = async (uid, data) => {
 
 export const completeUserSetup = async (uid, data) => {
   const user = await userRepo.update(uid, { ...data, setupComplete: true });
-  await emailService.sendWelcomeEmail({ to: user.email, firstName: user.firstName, traits: user.traitIds ?? [] });
+  try {
+    await emailService.sendWelcomeEmail({ to: user.email, firstName: user.firstName, traits: user.traitIds ?? [] });
+  } catch (err) {
+    console.error("Failed to send welcome email:", err);
+  }
 };
