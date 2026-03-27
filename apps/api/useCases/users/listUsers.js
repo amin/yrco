@@ -1,5 +1,5 @@
 import * as userRepo from "../../repositories/userRepository.js";
-import { buildPublicProfiles } from "../../helpers/buildPublicProfile.js";
+import { publicProfileSchema } from "@colyr/lib";
 
 export const listUsers = async (page, search, pageSize = 20) => {
   const candidates = search
@@ -7,5 +7,5 @@ export const listUsers = async (page, search, pageSize = 20) => {
     : await userRepo.findAll(page, pageSize);
   const hasMore = candidates.length > pageSize;
   const slice = candidates.slice(0, pageSize);
-  return { users: buildPublicProfiles(slice), hasMore };
+  return { users: slice.map((u) => publicProfileSchema.parse({ ...u, traits: u.traitIds ?? [] })), hasMore };
 };

@@ -1,5 +1,11 @@
-import { getAllTraits } from "../useCases/traits/index.js";
+import Trait from "../models/Trait.js";
 
 export async function handleGetTraits(_req, res) {
-  res.json(await getAllTraits());
+  const docs = await Trait.find().lean();
+  res.json(docs.map((doc) => ({
+    id: doc._id.toString(),
+    trait: doc.trait,
+    color: doc.color,
+    icebreaker: doc.icebreaker,
+  })));
 }
