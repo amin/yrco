@@ -42,7 +42,7 @@ export default function Users() {
               <p className="text-base text-gray-500">@{user.username}</p>
             </div>
             <div className="flex gap-1.5">
-              {user.words.map((w) => (
+              {user.traits.map((w) => (
                 <span key={w.id} className="w-6 h-6 rounded-full" style={{ backgroundColor: w.color }} />
               ))}
             </div>

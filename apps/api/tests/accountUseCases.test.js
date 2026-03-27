@@ -5,16 +5,6 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
-vi.mock("../repositories/traitRepository.js", () => ({
-  findByIds: vi.fn().mockImplementation((ids) => {
-    const traits = {
-      "trait-1": { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-      "trait-2": { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
-    };
-    return Promise.resolve(ids.map((id) => traits[id]).filter(Boolean));
-  }),
-}));
-
 vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
@@ -67,7 +57,12 @@ describe("completeSetup", () => {
 
 describe("getMyTraits", () => {
   it("returns words for the user", async () => {
-    userRepo.findById.mockResolvedValue({ traitIds: ["trait-1", "trait-2"] });
+    userRepo.findById.mockResolvedValue({
+      traitIds: [
+        { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+        { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+      ],
+    });
     const result = await getMyTraits("uid-1");
     expect(result).toHaveLength(2);
     expect(result[0].trait).toBe("Curious");
@@ -85,8 +80,10 @@ describe("getMyTraits", () => {
     expect(result).toEqual([]);
   });
 
-  it("filters out non-existent word IDs", async () => {
-    userRepo.findById.mockResolvedValue({ traitIds: ["trait-1", "trait-999"] });
+  it("returns only the traits populate resolved", async () => {
+    userRepo.findById.mockResolvedValue({
+      traitIds: [{ id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" }],
+    });
     const result = await getMyTraits("uid-1");
     expect(result).toHaveLength(1);
     expect(result[0].trait).toBe("Curious");

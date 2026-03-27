@@ -9,15 +9,13 @@ vi.mock("../repositories/userRepository.js", () => ({
   search: vi.fn(),
 }));
 
-vi.mock("../repositories/traitRepository.js", () => ({
-  findAll: vi.fn().mockResolvedValue([
-    { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-    { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
-  ]),
-}));
-
 import * as userRepo from "../repositories/userRepository.js";
 import { listUsers } from "../useCases/users/index.js";
+
+const traitObjects = [
+  { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+  { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+];
 
 const makeUser = (username, traitIds = []) => ({
   name: `${username} Test`,
@@ -34,7 +32,7 @@ beforeEach(() => vi.clearAllMocks());
 
 describe("listUsers", () => {
   it("returns users with hydrated words", async () => {
-    userRepo.findAll.mockResolvedValue([makeUser("alex", ["trait-1", "trait-2"])]);
+    userRepo.findAll.mockResolvedValue([makeUser("alex", traitObjects)]);
     const result = await listUsers(1, "");
     expect(result.users).toHaveLength(1);
     expect(result.users[0].username).toBe("alex");

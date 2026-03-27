@@ -1,5 +1,4 @@
 import * as userRepo from "../../repositories/userRepository.js";
-import * as traitsRepo from "../../repositories/traitRepository.js";
 import { buildPublicProfiles } from "../../helpers/buildPublicProfile.js";
 
 export const listUsers = async (page, search, pageSize = 20) => {
@@ -8,9 +7,5 @@ export const listUsers = async (page, search, pageSize = 20) => {
     : await userRepo.findAll(page, pageSize);
   const hasMore = candidates.length > pageSize;
   const slice = candidates.slice(0, pageSize);
-
-  const allTraits = await traitsRepo.findAll();
-  const users = buildPublicProfiles(slice, allTraits);
-
-  return { users, hasMore };
+  return { users: buildPublicProfiles(slice), hasMore };
 };

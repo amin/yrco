@@ -1,10 +1,14 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../repositories/traitRepository.js", () => ({
-  findAll: vi.fn().mockResolvedValue([
-    { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-    { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
-  ]),
+vi.mock("../models/Trait.js", () => ({
+  default: {
+    find: vi.fn().mockReturnValue({
+      lean: vi.fn().mockResolvedValue([
+        { _id: { toString: () => "trait-1" }, trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+        { _id: { toString: () => "trait-2" }, trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+      ]),
+    }),
+  },
 }));
 
 import { getAllTraits } from "../useCases/traits/index.js";

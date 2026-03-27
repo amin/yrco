@@ -1,15 +1,18 @@
 import User from "../models/User.js";
 
 export const findById = async (uid) => {
-  return User.findOne({ uid }).lean();
+  const doc = await User.findOne({ uid }).populate("traitIds");
+  return doc?.toObject({ virtuals: true }) ?? null;
 };
 
 export const update = async (uid, data) => {
-  return User.findOneAndUpdate({ uid }, { $set: data }, { returnDocument: "after" }).lean();
+  const doc = await User.findOneAndUpdate({ uid }, { $set: data }, { returnDocument: "after" }).populate("traitIds");
+  return doc?.toObject({ virtuals: true }) ?? null;
 };
 
 export const findByUsername = async (username) => {
-  return User.findOne({ username }).lean();
+  const doc = await User.findOne({ username }).populate("traitIds");
+  return doc?.toObject({ virtuals: true }) ?? null;
 };
 
 export const claimUsername = async (username, uid) => {
@@ -33,7 +36,8 @@ export const removeConnection = async (uid, targetUid) => {
 
 export const findByIds = async (uids) => {
   if (uids.length === 0) return [];
-  return User.find({ uid: { $in: uids } }).lean();
+  const docs = await User.find({ uid: { $in: uids } }).populate("traitIds");
+  return docs.map((d) => d.toObject({ virtuals: true }));
 };
 
 export const upsert = async (uid, data) => {
@@ -45,11 +49,12 @@ export const upsert = async (uid, data) => {
 };
 
 export const findAll = async (page, limit) => {
-  return User.find()
+  const docs = await User.find()
     .sort({ createdAt: 1 })
     .skip((page - 1) * limit)
     .limit(limit + 1)
-    .lean();
+    .populate("traitIds");
+  return docs.map((d) => d.toObject({ virtuals: true }));
 };
 
 export const search = async (query, page, pageSize) => {
@@ -61,9 +66,10 @@ export const search = async (query, page, pageSize) => {
       { organizationName: { $regex: query, $options: "i" } },
     ],
   };
-  return User.find(filter)
+  const docs = await User.find(filter)
     .sort({ createdAt: 1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize + 1)
-    .lean();
+    .populate("traitIds");
+  return docs.map((d) => d.toObject({ virtuals: true }));
 };

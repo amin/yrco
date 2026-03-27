@@ -26,7 +26,7 @@ export default function Connections() {
               <p className="text-base text-gray-500">@{c.username}</p>
             </div>
             <div className="flex gap-1.5">
-              {c.words.map((w) => (
+              {c.traits.map((w) => (
                 <span key={w.id} className="w-6 h-6 rounded-full" style={{ backgroundColor: w.color }} />
               ))}
             </div>

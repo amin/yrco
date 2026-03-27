@@ -1,3 +1,11 @@
-import * as traitsRepo from "../../repositories/traitRepository.js";
+import Trait from "../../models/Trait.js";
 
-export const getAllTraits = async () => traitsRepo.findAll();
+export const getAllTraits = async () => {
+  const docs = await Trait.find().lean();
+  return docs.map((doc) => ({
+    id: doc._id.toString(),
+    trait: doc.trait,
+    color: doc.color,
+    icebreaker: doc.icebreaker,
+  }));
+};

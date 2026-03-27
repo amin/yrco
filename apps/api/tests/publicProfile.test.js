@@ -4,16 +4,6 @@ vi.mock("../repositories/userRepository.js", () => ({
   findByUsername: vi.fn(),
 }));
 
-vi.mock("../repositories/traitRepository.js", () => ({
-  findByIds: vi.fn().mockImplementation((ids) => {
-    const words = {
-      "trait-1": { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-      "trait-2": { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
-    };
-    return Promise.resolve(ids.map((id) => words[id]).filter(Boolean));
-  }),
-}));
-
 vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
@@ -34,7 +24,10 @@ const fullUser = {
   email: "alex@example.com",
   setupComplete: true,
   connectionIds: ["uid-2", "uid-3"],
-  traitIds: ["trait-1", "trait-2"],
+  traitIds: [
+    { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+    { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+  ],
 };
 
 describe("getPublicProfile", () => {

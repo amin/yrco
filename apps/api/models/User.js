@@ -1,4 +1,5 @@
 import mongoose from "../lib/mongoose.js";
+const { ObjectId } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema(
   {
@@ -15,7 +16,7 @@ const userSchema = new mongoose.Schema(
     organizationName: { type: String },
     roleAtCompany: { type: String },
     setupComplete: { type: Boolean, default: false },
-    traitIds: { type: [String], default: [] },
+    traitIds: { type: [ObjectId], ref: "Trait", default: [] },
     connectionIds: { type: [String], default: [] },
   },
   { timestamps: true },
