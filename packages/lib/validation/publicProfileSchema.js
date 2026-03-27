@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-const wordSchema = z.object({
+const traitSchema = z.object({
   id: z.string(),
-  word: z.string(),
+  trait: z.string(),
   color: z.string(),
   icebreaker: z.string(),
 });
@@ -18,5 +18,5 @@ export const publicProfileSchema = z.object({
   education: z.string().optional(),
   organizationName: z.string().optional(),
   roleAtCompany: z.string().optional(),
-  words: z.array(wordSchema),
+  traits: z.array(traitSchema),
 });

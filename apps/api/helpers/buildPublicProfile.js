@@ -1,12 +1,12 @@
 import { publicProfileSchema } from "@colyr/lib";
 
-export const buildPublicProfile = (user, words) =>
-  publicProfileSchema.parse({ ...user, words });
+export const buildPublicProfile = (user, traits) =>
+  publicProfileSchema.parse({ ...user, traits });
 
-export const buildPublicProfiles = (users, allWords) => {
-  const wordMap = Object.fromEntries(allWords.map((w) => [w.id, w]));
+export const buildPublicProfiles = (users, allTraits) => {
+  const traitMap = Object.fromEntries(allTraits.map((t) => [t.id, t]));
   return users.map((u) => {
-    const words = (u.wordIds ?? []).map((id) => wordMap[id]).filter(Boolean);
-    return buildPublicProfile(u, words);
+    const traits = (u.traitIds ?? []).map((id) => traitMap[id]).filter(Boolean);
+    return buildPublicProfile(u, traits);
   });
 };

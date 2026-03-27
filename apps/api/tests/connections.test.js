@@ -13,17 +13,17 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
-vi.mock("../repositories/wordsRepository.js", () => ({
+vi.mock("../repositories/traitsRepository.js", () => ({
   findAll: vi.fn().mockResolvedValue([
-    { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
-    { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+    { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+    { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
   ]),
   findByIds: vi.fn().mockImplementation((ids) => {
-    const words = {
-      "word-1": { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
-      "word-2": { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+    const traits = {
+      "trait-1": { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+      "trait-2": { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
     };
-    return Promise.resolve(ids.map((id) => words[id]).filter(Boolean));
+    return Promise.resolve(ids.map((id) => traits[id]).filter(Boolean));
   }),
 }));
 
@@ -90,7 +90,7 @@ describe("listConnections", () => {
         education: "Web Developer",
         email: "alex@example.com",
         setupComplete: true,
-        wordIds: ["word-1", "word-2"],
+        traitIds: ["trait-1", "trait-2"],
       },
     ]);
 
@@ -98,8 +98,8 @@ describe("listConnections", () => {
 
     expect(result).toHaveLength(1);
     expect(result[0].username).toBe("alex");
-    expect(result[0].words).toHaveLength(2);
-    expect(result[0].words[0].word).toBe("Curious");
+    expect(result[0].traits).toHaveLength(2);
+    expect(result[0].traits[0].trait).toBe("Curious");
     // publicProfileSchema strips private fields
     expect(result[0].email).toBeUndefined();
     expect(result[0].setupComplete).toBeUndefined();
@@ -135,7 +135,7 @@ describe("listConnections", () => {
         picture: "https://example.com/bad.jpg",
         username: "baduser",
         // missing required 'role' field
-        wordIds: [],
+        traitIds: [],
       },
     ]);
     await expect(listConnections("my-uid")).rejects.toThrow();

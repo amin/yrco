@@ -8,7 +8,7 @@ export function useUpdateProfile() {
     mutationFn: (data) => api.patch("/account", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["me"] });
-      queryClient.invalidateQueries({ queryKey: ["myWords"] });
+      queryClient.invalidateQueries({ queryKey: ["myTraits"] });
     },
   });
 }

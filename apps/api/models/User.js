@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
     organizationName: { type: String },
     roleAtCompany: { type: String },
     setupComplete: { type: Boolean, default: false },
-    wordIds: { type: [String], default: [] },
+    traitIds: { type: [String], default: [] },
     connectionIds: { type: [String], default: [] },
   },
   { timestamps: true },

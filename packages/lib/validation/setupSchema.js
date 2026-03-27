@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const wordIdsSchema = z.array(z.string()).length(5, "Pick exactly 5 words");
-const wordIds = wordIdsSchema;
+export const traitIdsSchema = z.array(z.string()).length(5, "Pick exactly 5 traits");
+const traitIds = traitIdsSchema;
 
 export const studentFieldsSchema = z.object({
   education: z.enum(["Web Developer", "Digital Designer"], { error: "Select your education" }),
@@ -14,6 +14,6 @@ export const organizationFieldsSchema = z.object({
 });
 
 export const setupSchema = z.discriminatedUnion("role", [
-  studentFieldsSchema.extend({ role: z.literal("student"), wordIds }),
-  organizationFieldsSchema.extend({ role: z.literal("organization"), wordIds }),
+  studentFieldsSchema.extend({ role: z.literal("student"), traitIds }),
+  organizationFieldsSchema.extend({ role: z.literal("organization"), traitIds }),
 ]);

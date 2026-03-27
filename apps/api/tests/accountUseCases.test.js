@@ -5,13 +5,13 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
-vi.mock("../repositories/wordsRepository.js", () => ({
+vi.mock("../repositories/traitsRepository.js", () => ({
   findByIds: vi.fn().mockImplementation((ids) => {
-    const words = {
-      "word-1": { id: "word-1", word: "Curious", color: "#F59E0B", icebreaker: "What?" },
-      "word-2": { id: "word-2", word: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+    const traits = {
+      "trait-1": { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
+      "trait-2": { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
     };
-    return Promise.resolve(ids.map((id) => words[id]).filter(Boolean));
+    return Promise.resolve(ids.map((id) => traits[id]).filter(Boolean));
   }),
 }));
 
@@ -24,7 +24,7 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getMyAccount, completeSetup, getMyWords } from "../useCases/account/index.js";
+import { getMyAccount, completeSetup, getMyTraits } from "../useCases/account/index.js";
 
 beforeEach(() => vi.clearAllMocks());
 
@@ -45,7 +45,7 @@ describe("getMyAccount", () => {
 
 describe("completeSetup", () => {
   it("passes role and fields to repository with setupComplete true", async () => {
-    userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", wordIds: [] });
+    userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
     await completeSetup("uid-1", { role: "student", education: "Web Developer" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "student",
@@ -55,7 +55,7 @@ describe("completeSetup", () => {
   });
 
   it("handles organization role with its fields", async () => {
-    userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", wordIds: [] });
+    userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
     await completeSetup("uid-1", { role: "organization", organizationName: "Acme" });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "organization",
@@ -65,30 +65,30 @@ describe("completeSetup", () => {
   });
 });
 
-describe("getMyWords", () => {
+describe("getMyTraits", () => {
   it("returns words for the user", async () => {
-    userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-2"] });
-    const result = await getMyWords("uid-1");
+    userRepo.findById.mockResolvedValue({ traitIds: ["trait-1", "trait-2"] });
+    const result = await getMyTraits("uid-1");
     expect(result).toHaveLength(2);
-    expect(result[0].word).toBe("Curious");
-    expect(result[1].word).toBe("Creative");
+    expect(result[0].trait).toBe("Curious");
+    expect(result[1].trait).toBe("Creative");
   });
 
   it("throws 404 when user not found", async () => {
     userRepo.findById.mockResolvedValue(null);
-    await expect(getMyWords("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
+    await expect(getMyTraits("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 
-  it("returns empty array when user has no wordIds", async () => {
-    userRepo.findById.mockResolvedValue({ wordIds: undefined });
-    const result = await getMyWords("uid-1");
+  it("returns empty array when user has no traitIds", async () => {
+    userRepo.findById.mockResolvedValue({ traitIds: undefined });
+    const result = await getMyTraits("uid-1");
     expect(result).toEqual([]);
   });
 
   it("filters out non-existent word IDs", async () => {
-    userRepo.findById.mockResolvedValue({ wordIds: ["word-1", "word-999"] });
-    const result = await getMyWords("uid-1");
+    userRepo.findById.mockResolvedValue({ traitIds: ["trait-1", "trait-999"] });
+    const result = await getMyTraits("uid-1");
     expect(result).toHaveLength(1);
-    expect(result[0].word).toBe("Curious");
+    expect(result[0].trait).toBe("Curious");
   });
 });

@@ -15,7 +15,7 @@ const sendEmail = async ({ to, subject, html }) => {
   if (error) throw { status: 500, message: "Failed to send email" };
 };
 
-export const sendWelcomeEmail = async ({ to, firstName, words }) => {
-  const html = await render(React.createElement(WelcomeEmail, { firstName, words }));
+export const sendWelcomeEmail = async ({ to, firstName, traits }) => {
+  const html = await render(React.createElement(WelcomeEmail, { firstName, traits }));
   await sendEmail({ to, subject: `Welcome to ${process.env.APP_NAME}`, html });
 };

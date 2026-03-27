@@ -6,7 +6,7 @@ import helmet from "helmet";
 import authRouter from "./routes/authRoutes.js";
 import accountRouter from "./routes/accountRoutes.js";
 import usersRouter from "./routes/usersRoutes.js";
-import wordsRouter from "./routes/wordsRoutes.js";
+import traitsRouter from "./routes/traitsRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { globalLimiter } from "./middleware/rateLimit.js";
@@ -31,7 +31,7 @@ app.use(globalLimiter);
 app.use("/auth", authRouter);
 app.use("/account", accountRouter);
 app.use("/users", usersRouter);
-app.use("/words", wordsRouter);
+app.use("/traits", traitsRouter);
 
 // Error handling
 app.use(notFound);

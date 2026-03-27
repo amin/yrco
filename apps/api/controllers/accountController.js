@@ -1,20 +1,20 @@
 import {
   getMyAccount,
-  getMyWords,
+  getMyTraits,
   completeSetup,
   addConnection,
   removeConnection,
   listConnections,
   updateProfile,
 } from "../useCases/account/index.js";
-import { setupSchema, usernameSchema, wordIdsSchema } from "@colyr/lib";
+import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
 
 export async function handleGetAccount(req, res) {
   res.json(await getMyAccount(req.user.uid));
 }
 
-export async function handleGetWords(req, res) {
-  res.json(await getMyWords(req.user.uid));
+export async function handleGetTraits(req, res) {
+  res.json(await getMyTraits(req.user.uid));
 }
 
 export async function handleCompleteSetup(req, res) {
@@ -47,8 +47,8 @@ export async function handleListConnections(req, res) {
 }
 
 export async function handleUpdateProfile(req, res) {
-  const result = wordIdsSchema.safeParse(req.body.wordIds);
+  const result = traitIdsSchema.safeParse(req.body.traitIds);
   if (!result.success) throw { status: 400, message: result.error.issues[0].message };
 
-  res.json(await updateProfile(req.user.uid, { wordIds: result.data }));
+  res.json(await updateProfile(req.user.uid, { traitIds: result.data }));
 }

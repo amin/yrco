@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   handleGetAccount,
   handleCompleteSetup,
-  handleGetWords,
+  handleGetTraits,
   handleAddConnection,
   handleRemoveConnection,
   handleListConnections,
@@ -16,7 +16,7 @@ const router = Router();
 router.use(requireAuth);
 router.get("/", handleGetAccount);
 router.post("/setup", handleCompleteSetup);
-router.get("/words", requireSetup, handleGetWords);
+router.get("/traits", requireSetup, handleGetTraits);
 router.get("/connections", requireSetup, handleListConnections);
 router.post("/connections", requireSetup, handleAddConnection);
 router.delete("/connections/:username", requireSetup, handleRemoveConnection);

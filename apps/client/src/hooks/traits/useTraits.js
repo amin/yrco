@@ -1,21 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../../lib/api";
 
-export function useWords() {
+export function useTraits() {
   return useQuery({
-    queryKey: ["words"],
+    queryKey: ["traits"],
     queryFn: async () => {
-      const res = await api.get("/words");
+      const res = await api.get("/traits");
       return res.data;
     },
   });
 }
 
-export function useMyWords() {
+export function useMyTraits() {
   return useQuery({
-    queryKey: ["myWords"],
+    queryKey: ["myTraits"],
     queryFn: async () => {
-      const res = await api.get("/account/words");
+      const res = await api.get("/account/traits");
       return res.data;
     },
   });

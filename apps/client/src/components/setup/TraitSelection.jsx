@@ -1,19 +1,19 @@
-import { useWords } from "../../hooks/words";
+import { useTraits } from "../../hooks/traits";
 
 const MAX = 5;
 
-export default function WordSelection({ selected, onChange, onBack, onSubmit, isPending }) {
-  const { data: words, isLoading } = useWords();
+export default function TraitSelection({ selected, onChange, onBack, onSubmit, isPending }) {
+  const { data: traits, isLoading } = useTraits();
 
   function toggle(id) {
     if (selected.includes(id)) {
-      onChange(selected.filter((w) => w !== id));
+      onChange(selected.filter((t) => t !== id));
     } else if (selected.length < MAX) {
       onChange([...selected, id]);
     }
   }
 
-  if (isLoading) return <p className="text-sm text-gray-400">Loading words...</p>;
+  if (isLoading) return <p className="text-sm text-gray-400">Loading traits...</p>;
 
   return (
     <div className="flex flex-col flex-1">
@@ -24,13 +24,13 @@ export default function WordSelection({ selected, onChange, onBack, onSubmit, is
         ← Back
       </button>
 
-      <h2 className="text-3xl font-bold text-gray-900 mb-2">Pick 5 words</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-2">Pick 5 traits</h2>
       <p className="text-sm text-gray-500 mb-6">
-        Choose words that represent you. {selected.length}/{MAX} selected.
+        Choose traits that represent you. {selected.length}/{MAX} selected.
       </p>
 
       <div className="grid grid-cols-2 gap-2 mb-6 flex-1 content-start">
-        {words.map(({ id, word, color }) => {
+        {traits.map(({ id, trait, color }) => {
           const isSelected = selected.includes(id);
           const isDisabled = !isSelected && selected.length >= MAX;
 
@@ -46,7 +46,7 @@ export default function WordSelection({ selected, onChange, onBack, onSubmit, is
               }`}
               style={isSelected ? { backgroundColor: color, borderColor: color } : {}}
             >
-              {word}
+              {trait}
             </button>
           );
         })}

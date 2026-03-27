@@ -3,7 +3,7 @@ import { useLogout, useCompleteSetup } from "../hooks/user";
 import RoleSelection from "../components/setup/RoleSelection";
 import StudentFields from "../components/setup/StudentFields";
 import OrganizationFields from "../components/setup/OrganizationFields";
-import WordSelection from "../components/setup/WordSelection";
+import TraitSelection from "../components/setup/TraitSelection";
 
 const TRANSLATE = ["0%", "-33.333%", "-66.666%"];
 
@@ -11,7 +11,7 @@ export default function Setup() {
   const [step, setStep] = useState(0);
   const [role, setRole] = useState(null);
   const [fields, setFields] = useState({});
-  const [wordIds, setWordIds] = useState([]);
+  const [traitIds, setTraitIds] = useState([]);
   const logout = useLogout();
   const { mutate: completeSetup, isPending } = useCompleteSetup();
 
@@ -25,7 +25,7 @@ export default function Setup() {
   }
 
   function handleSubmit() {
-    completeSetup({ role, ...fields, wordIds });
+    completeSetup({ role, ...fields, traitIds });
   }
 
   return (
@@ -57,9 +57,9 @@ export default function Setup() {
         </div>
 
         <div className="w-1/3 p-6 flex flex-col">
-          <WordSelection
-            selected={wordIds}
-            onChange={setWordIds}
+          <TraitSelection
+            selected={traitIds}
+            onChange={setTraitIds}
             onBack={() => setStep(1)}
             onSubmit={handleSubmit}
             isPending={isPending}

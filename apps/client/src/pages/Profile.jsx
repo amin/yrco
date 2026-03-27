@@ -26,7 +26,7 @@ export default function Profile() {
   if (isLoading) return <Spinner />;
   if (!profile) return <NotFound />;
 
-  const words = profile.words ?? [];
+  const traits = profile.traits ?? [];
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -84,10 +84,10 @@ export default function Profile() {
         </div>
       </div>
 
-      {words.length > 0 && (
+      {traits.length > 0 && (
         <div className="px-6">
           <div className="flex flex-col gap-3 mb-3">
-            {words.map(({ id, word, color, icebreaker }) => (
+            {traits.map(({ id, trait, color, icebreaker }) => (
               <button
                 key={id}
                 onClick={() => setActiveId(activeId === id ? null : id)}
@@ -95,7 +95,7 @@ export default function Profile() {
                 style={{ backgroundColor: color }}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-white text-xl font-bold tracking-tight">{word}</span>
+                  <span className="text-white text-xl font-bold tracking-tight">{trait}</span>
                   <span className="text-white/60 text-lg">{activeId === id ? "−" : "+"}</span>
                 </div>
                 {activeId === id && (

@@ -15,7 +15,7 @@ import {
 
 const e = React.createElement;
 
-export default function WelcomeEmail({ firstName, words = [] }) {
+export default function WelcomeEmail({ firstName, traits = [] }) {
   return e(
     Html,
     null,
@@ -39,19 +39,19 @@ export default function WelcomeEmail({ firstName, words = [] }) {
           )
         ),
         e(Hr, { style: divider }),
-        words.length > 0 &&
+        traits.length > 0 &&
           e(
             Section,
-            { style: wordsSection },
-            e(Text, { style: sectionLabel }, "Your words"),
+            { style: traitsSection },
+            e(Text, { style: sectionLabel }, "Your traits"),
             e(
               Row,
               { style: pillsRow },
-              ...words.map((w) =>
+              ...traits.map((t) =>
                 e(
                   Column,
-                  { key: w.word, style: pillColumn },
-                  e("span", { style: { ...pill, backgroundColor: w.color } }, w.word)
+                  { key: t.trait, style: pillColumn },
+                  e("span", { style: { ...pill, backgroundColor: t.color } }, t.trait)
                 )
               )
             )
@@ -121,7 +121,7 @@ const divider = {
   margin: "0",
 };
 
-const wordsSection = {
+const traitsSection = {
   padding: "24px 32px",
 };
 
