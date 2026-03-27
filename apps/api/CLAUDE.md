@@ -38,7 +38,7 @@ Clean architecture with strict layer separation:
 
 **Errors**: throw plain objects `{ status, message }` — not `Error` instances. The global error handler reads `err.status`.
 
-**Repositories**: always return plain objects, never Mongoose documents. Use `.lean()` for queries without population; use `.populate(...).toObject({ virtuals: true })` when populating refs (required to preserve virtuals).
+**Repositories**: always return plain objects, never Mongoose documents — this keeps Mongoose contained to the repository layer so use cases and controllers have no knowledge of the ORM. Use `.lean()` for queries without population; use `.populate(...).toObject({ virtuals: true })` when populating refs (required to preserve virtuals). To update a document, call the repository with the new data — never mutate a document directly outside the repository.
 
 **Pagination**: fetch `pageSize + 1`, slice to `pageSize`, use the extra record to set `hasMore` — no COUNT queries.
 
