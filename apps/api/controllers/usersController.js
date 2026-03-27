@@ -2,7 +2,6 @@ import {
   getPublicProfile,
   listUsers,
   getMyAccount,
-  getMyTraits,
   completeSetup,
   addConnection,
   removeConnection,
@@ -29,7 +28,7 @@ export async function handleGetMe(req, res) {
 }
 
 export async function handleGetMyTraits(req, res) {
-  res.json(await getMyTraits(req.user.uid));
+  res.json(req.user.traitIds ?? []);
 }
 
 export async function handleCompleteSetup(req, res) {
@@ -58,7 +57,7 @@ export async function handleRemoveConnection(req, res) {
 }
 
 export async function handleListConnections(req, res) {
-  res.json(await listConnections(req.user.uid));
+  res.json(await listConnections(req.user.connectionIds ?? []));
 }
 
 export async function handleUpdateProfile(req, res) {

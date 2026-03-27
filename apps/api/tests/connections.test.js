@@ -64,7 +64,6 @@ describe("removeConnection", () => {
 
 describe("listConnections", () => {
   it("returns profiles with words for each connection", async () => {
-    userRepo.findById.mockResolvedValue({ connectionIds: ["target-uid"] });
     userRepo.findByIds.mockResolvedValue([
       {
         name: "Alex Eriksson",
@@ -83,39 +82,24 @@ describe("listConnections", () => {
       },
     ]);
 
-    const result = await listConnections("my-uid");
+    const result = await listConnections(["target-uid"]);
 
     expect(result).toHaveLength(1);
     expect(result[0].username).toBe("alex");
     expect(result[0].traits).toHaveLength(2);
     expect(result[0].traits[0].trait).toBe("Curious");
-    // publicProfileSchema strips private fields
     expect(result[0].email).toBeUndefined();
     expect(result[0].setupComplete).toBeUndefined();
   });
 
-  it("returns empty array when user has no connections", async () => {
-    userRepo.findById.mockResolvedValue({ connectionIds: [] });
+  it("returns empty array when there are no connections", async () => {
     userRepo.findByIds.mockResolvedValue([]);
-    const result = await listConnections("my-uid");
+    const result = await listConnections([]);
     expect(result).toEqual([]);
     expect(userRepo.findByIds).toHaveBeenCalledWith([]);
   });
 
-  it("returns empty array when connectionIds is undefined", async () => {
-    userRepo.findById.mockResolvedValue({});
-    userRepo.findByIds.mockResolvedValue([]);
-    const result = await listConnections("my-uid");
-    expect(result).toEqual([]);
-  });
-
-  it("throws 404 when user not found", async () => {
-    userRepo.findById.mockResolvedValue(null);
-    await expect(listConnections("my-uid")).rejects.toEqual({ status: 404, message: "User not found" });
-  });
-
   it("throws when user data fails schema validation (e.g. missing role)", async () => {
-    userRepo.findById.mockResolvedValue({ connectionIds: ["uid-bad"] });
     userRepo.findByIds.mockResolvedValue([
       {
         name: "Bad User",
@@ -127,6 +111,6 @@ describe("listConnections", () => {
         traitIds: [],
       },
     ]);
-    await expect(listConnections("my-uid")).rejects.toThrow();
+    await expect(listConnections(["uid-bad"])).rejects.toThrow();
   });
 });
