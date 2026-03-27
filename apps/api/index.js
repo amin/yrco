@@ -9,6 +9,7 @@ import traitsRouter from "./routes/traitsRoutes.js";
 
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 import { globalLimiter } from "./middleware/rateLimit.js";
+import { connectDB } from "./lib/mongoose.js";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,6 +36,13 @@ app.use("/traits", traitsRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB:", err);
+    process.exit(1);
+  });
