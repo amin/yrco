@@ -10,7 +10,7 @@ vi.mock("../repositories/userRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { listUsers } from "../usecases/users/index.js";
+import { listUsers } from "../usecases/users.js";
 
 const traitObjects = [
   { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },

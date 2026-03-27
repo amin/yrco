@@ -1,13 +1,5 @@
-import {
-  getPublicProfile,
-  listUsers,
-  getCurrentUser,
-  completeSetup,
-  addConnection,
-  removeConnection,
-  listConnections,
-  updateProfile,
-} from "../usecases/users/index.js";
+import { getPublicProfile, listUsers, getCurrentUser, completeSetup, updateProfile } from "../usecases/users.js";
+import { addConnection, removeConnection, listConnections } from "../usecases/connections.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
 
 export async function handleGetPublicProfile(req, res) {

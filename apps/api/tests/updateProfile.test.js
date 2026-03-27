@@ -4,8 +4,12 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
+vi.mock("../services/emailService.js", () => ({
+  sendWelcomeEmail: vi.fn(),
+}));
+
 import * as userRepo from "../repositories/userRepository.js";
-import { updateProfile } from "../usecases/users/updateProfile.js";
+import { updateProfile } from "../usecases/users.js";
 
 beforeEach(() => vi.clearAllMocks());
 
