@@ -7,7 +7,7 @@ import {
   removeConnection,
   listConnections,
   updateProfile,
-} from "../useCases/users/index.js";
+} from "../usecases/users/index.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
 
 export async function handleGetPublicProfile(req, res) {

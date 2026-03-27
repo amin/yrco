@@ -5,7 +5,7 @@ vi.mock("../repositories/userRepository.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { updateProfile } from "../useCases/users/updateProfile.js";
+import { updateProfile } from "../usecases/users/updateProfile.js";
 
 beforeEach(() => vi.clearAllMocks());
 
