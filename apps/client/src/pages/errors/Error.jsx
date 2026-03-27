@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
-
 export default function Error() {
-  const [message, setMessage] = useState("Something went wrong");
-
-  useEffect(() => {
-    const stored = localStorage.getItem("errorMessage");
-    if (stored) {
-      setMessage(stored.slice(0, 200));
-      localStorage.removeItem("errorMessage");
-    }
-  }, []);
+  const params = new URLSearchParams(window.location.search);
+  const message = params.get("message")?.slice(0, 200) ?? "Something went wrong";
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-end p-6 pb-12">

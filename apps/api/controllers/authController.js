@@ -42,7 +42,8 @@ export async function handleLinkedInCallback(req, res) {
     res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
-    res.redirect(`${process.env.CLIENT_URL}/error`);
+    const message = encodeURIComponent(err.message ?? "Authentication failed");
+    res.redirect(`${process.env.CLIENT_URL}/error?message=${message}`);
   }
 }
 
