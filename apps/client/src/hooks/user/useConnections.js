@@ -6,7 +6,7 @@ export function useConnections() {
   const user = useAuth();
   return useQuery({
     queryKey: ["connections"],
-    queryFn: () => api.get("/account/connections").then((r) => r.data),
+    queryFn: () => api.get("/users/me/connections").then((r) => r.data),
     enabled: !!user,
   });
 }

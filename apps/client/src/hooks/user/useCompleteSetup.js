@@ -8,7 +8,7 @@ export function useCompleteSetup() {
   return useMutation({
     mutationFn: (data) => {
       setupSchema.parse(data);
-      return api.post("/account/setup", data);
+      return api.post("/users/me/setup", data);
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["me"] }),
   });

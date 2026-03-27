@@ -15,7 +15,7 @@ export function useMyTraits() {
   return useQuery({
     queryKey: ["myTraits"],
     queryFn: async () => {
-      const res = await api.get("/account/traits");
+      const res = await api.get("/users/me/traits");
       return res.data;
     },
   });

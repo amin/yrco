@@ -4,7 +4,7 @@ import api from "../../lib/api";
 export function useAddConnection() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ username }) => api.post("/account/connections", { username }),
+    mutationFn: ({ username }) => api.post("/users/me/connections", { username }),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["connections"] }),
   });
 }

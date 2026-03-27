@@ -15,7 +15,10 @@ export const findByUsername = async (username) => {
   return doc?.toObject({ virtuals: true }) ?? null;
 };
 
+const RESERVED_USERNAMES = new Set(["me"]);
+
 export const claimUsername = async (username, uid) => {
+  if (RESERVED_USERNAMES.has(username)) return false;
   const existing = await User.findOne({ username }, { uid: 1 }).lean();
   if (!existing) return true;
   return existing.uid === uid;

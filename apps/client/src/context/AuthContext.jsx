@@ -6,7 +6,7 @@ const AuthContext = createContext(undefined);
 
 async function fetchMe() {
   try {
-    const res = await api.get("/account", { _skipAuthRedirect: true });
+    const res = await api.get("/users/me", { _skipAuthRedirect: true });
     return res.data;
   } catch (err) {
     if (err.response?.status === 401 || err.response?.status === 404) return null;

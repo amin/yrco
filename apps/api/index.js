@@ -4,7 +4,6 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 
 import authRouter from "./routes/authRoutes.js";
-import accountRouter from "./routes/accountRoutes.js";
 import usersRouter from "./routes/usersRoutes.js";
 import traitsRouter from "./routes/traitsRoutes.js";
 
@@ -29,7 +28,6 @@ app.use(globalLimiter);
 
 // Routes
 app.use("/auth", authRouter);
-app.use("/account", accountRouter);
 app.use("/users", usersRouter);
 app.use("/traits", traitsRouter);
 

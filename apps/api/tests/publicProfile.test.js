@@ -8,6 +8,10 @@ vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 
+vi.mock("../services/emailService.js", () => ({
+  sendWelcomeEmail: vi.fn(),
+}));
+
 import * as userRepo from "../repositories/userRepository.js";
 import { getPublicProfile } from "../useCases/users/index.js";
 
