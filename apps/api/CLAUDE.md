@@ -22,10 +22,10 @@ Clean architecture with strict layer separation:
 
 - **routes/**: Express wiring only
 - **controllers/**: All HTTP concerns — validate input (Zod), read/set cookies, send responses and redirects. Nothing else
-- **useCases/**: Orchestrate repos and services to fulfill a business operation — no framework code
+- **usecases/**: Orchestrate repos and services to fulfill a business operation — no framework code
 - **repositories/**: Abstraction over the database (Mongoose). Swap the DB without touching use cases
 - **services/**: Abstraction over external APIs (LinkedIn, Cloudinary, Resend). Swap providers without touching use cases
-- **middleware/**: `requireAuth` (signed cookie session), `requireSetup` (queries DB to confirm onboarding is complete), rate limiting, error handler
+- **middleware/**: `requireAuth` (signed cookie session), `requireSetup` (queries DB to confirm onboarding is complete, attaches full user object to `req.user`), rate limiting, error handler
 - **helpers/**: Pure functions with no side effects
 
 **Monorepo**: `apps/api` (this app), `apps/client` (React), `packages/lib` (shared Zod schemas, imported as `@colyr/lib`).
@@ -38,7 +38,7 @@ Clean architecture with strict layer separation:
 
 **Errors**: throw plain objects `{ status, message }` — not `Error` instances. The global error handler reads `err.status`.
 
-**Repositories**: always use `.lean()` to return plain objects, never Mongoose documents.
+**Repositories**: always return plain objects, never Mongoose documents. Use `.lean()` for queries without population; use `.populate(...).toObject({ virtuals: true })` when populating refs (required to preserve virtuals).
 
 **Pagination**: fetch `pageSize + 1`, slice to `pageSize`, use the extra record to set `hasMore` — no COUNT queries.
 
