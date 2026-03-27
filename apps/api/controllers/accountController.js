@@ -5,8 +5,9 @@ import {
   addConnection,
   removeConnection,
   listConnections,
+  updateProfile,
 } from "../useCases/account/index.js";
-import { setupSchema, usernameSchema } from "@colyr/lib";
+import { setupSchema, usernameSchema, wordIdsSchema } from "@colyr/lib";
 
 export async function handleGetAccount(req, res) {
   res.json(await getMyAccount(req.user.uid));
@@ -43,4 +44,11 @@ export async function handleRemoveConnection(req, res) {
 
 export async function handleListConnections(req, res) {
   res.json(await listConnections(req.user.uid));
+}
+
+export async function handleUpdateProfile(req, res) {
+  const result = wordIdsSchema.safeParse(req.body.wordIds);
+  if (!result.success) throw { status: 400, message: result.error.issues[0].message };
+
+  res.json(await updateProfile(req.user.uid, { wordIds: result.data }));
 }

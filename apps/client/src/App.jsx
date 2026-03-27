@@ -12,6 +12,7 @@ import NotFound from './pages/errors/NotFound';
 import Profile from './pages/Profile';
 import Setup from './pages/Setup';
 import Connections from './pages/Connections';
+import Traits from './pages/Traits';
 import { useAuth } from './context/AuthContext';
 import { useLogout } from './hooks/user';
 
@@ -68,6 +69,12 @@ function App() {
             >
               Connections
             </Link>
+            <Link
+              to="/traits"
+              className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
+            >
+              Traits
+            </Link>
           </div>
 
           <div className="fixed top-4 right-4 z-50">
@@ -103,6 +110,7 @@ function App() {
           {/* Protected routes */}
           <Route element={<ProtectedRoute />}>
             <Route path="/connections" element={<Connections />} />
+            <Route path="/traits" element={<Traits />} />
           </Route>
 
           {/* Profile route — catch-all for usernames with @ prefix */}

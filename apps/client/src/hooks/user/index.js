@@ -6,3 +6,4 @@ export { useConnections } from "./useConnections";
 export { useAddConnection } from "./useAddConnection";
 export { useRemoveConnection } from "./useRemoveConnection";
 export { useUsers } from "./useUsers";
+export { useUpdateProfile } from "./useUpdateProfile";

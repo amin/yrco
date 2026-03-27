@@ -6,6 +6,7 @@ import {
   handleAddConnection,
   handleRemoveConnection,
   handleListConnections,
+  handleUpdateProfile,
 } from "../controllers/accountController.js";
 import { requireAuth } from "../middleware/auth.js";
 import { requireSetup } from "../middleware/requireSetup.js";
@@ -19,5 +20,6 @@ router.get("/words", requireSetup, handleGetWords);
 router.get("/connections", requireSetup, handleListConnections);
 router.post("/connections", requireSetup, handleAddConnection);
 router.delete("/connections/:username", requireSetup, handleRemoveConnection);
+router.patch("/", requireSetup, handleUpdateProfile);
 
 export default router;

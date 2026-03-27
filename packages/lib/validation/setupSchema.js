@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-const wordIds = z.array(z.string()).length(5, "Pick exactly 5 words");
+export const wordIdsSchema = z.array(z.string()).length(5, "Pick exactly 5 words");
+const wordIds = wordIdsSchema;
 
 export const studentFieldsSchema = z.object({
   education: z.enum(["Web Developer", "Digital Designer"], { error: "Select your education" }),
