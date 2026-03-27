@@ -38,8 +38,8 @@ export async function processLinkedInCallback(code) {
   try {
     const picture = await linkedInService.downloadProfilePicture(profile.picture);
     pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
-  } catch {
-    // fall back to generated avatar
+  } catch (err) {
+    console.error("Failed to upload profile picture, falling back to DiceBear:", err);
   }
 
   const { setupComplete, username } = await upsertUser(profile.sub, {
