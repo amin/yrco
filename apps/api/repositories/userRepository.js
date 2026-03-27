@@ -60,13 +60,16 @@ export const findAll = async (page, limit) => {
   return docs.map((d) => d.toObject({ virtuals: true }));
 };
 
+const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 export const search = async (query, page, pageSize) => {
+  const escaped = escapeRegex(query);
   const filter = {
     $or: [
-      { username: { $regex: query, $options: "i" } },
-      { firstName: { $regex: query, $options: "i" } },
-      { lastName: { $regex: query, $options: "i" } },
-      { organizationName: { $regex: query, $options: "i" } },
+      { username: { $regex: escaped, $options: "i" } },
+      { firstName: { $regex: escaped, $options: "i" } },
+      { lastName: { $regex: escaped, $options: "i" } },
+      { organizationName: { $regex: escaped, $options: "i" } },
     ],
   };
   const docs = await User.find(filter)
