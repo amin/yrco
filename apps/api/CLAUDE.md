@@ -14,7 +14,7 @@ pnpm db:clear             # Clear all collections
 pnpm db:clear -- users    # Clear a specific collection
 ```
 
-To add a new collection: add its name to `utils/seed/config/collections.js` (order = dependency order) and create `utils/seed/seeders/seed<Name>.js`. The scripts discover seeders dynamically.
+To add a new collection: add its name to `utils/seed/config/collections.js` (order = dependency order), create `utils/seed/seeders/<name>Seeder.js`, and register it in the `SEEDERS` map in `utils/seed/seedDatabase.js`.
 
 ## Architecture
 

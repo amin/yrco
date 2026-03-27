@@ -1,5 +1,9 @@
 import mongoose from "../../lib/mongoose.js";
 import { COLLECTIONS } from "./config/collections.js";
+import { seedTraits } from "./seeders/traitsSeeder.js";
+import { seedUsers } from "./seeders/usersSeeder.js";
+
+const SEEDERS = { traits: seedTraits, users: seedUsers };
 
 async function seed() {
   const args = process.argv.slice(2).filter((a) => a !== "--");
@@ -14,8 +18,7 @@ async function seed() {
 
   for (const name of toRun) {
     await mongoose.connection.collection(name).deleteMany({});
-    const mod = await import(`./seeders/seed${name[0].toUpperCase() + name.slice(1)}.js`);
-    await Object.values(mod)[0]();
+    await SEEDERS[name]();
   }
 
   console.log("Database seeded successfully.");
