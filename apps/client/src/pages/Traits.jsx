@@ -12,7 +12,7 @@ export default function Traits() {
 
   if (isLoading) return null;
 
-  const selected = traitIds ?? me.traitIds ?? [];
+  const selected = traitIds ?? me.traitIds?.map((t) => t.id) ?? [];
 
   function handleSubmit() {
     mutate({ traitIds: selected }, {
