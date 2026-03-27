@@ -10,9 +10,11 @@ export async function handleGetPublicUser(req, res) {
 }
 
 export async function handleGetAllUsers(req, res) {
-  const page = Math.max(1, parseInt(req.query.page) || 1);
+  const page = parseInt(req.query.page);
+  if (req.query.page !== undefined && (isNaN(page) || page < 1))
+    throw { status: 400, message: "Invalid page number" };
   const search = req.query.search?.trim() || "";
-  res.json(await getAllUsers(page, search));
+  res.json(await getAllUsers(page || 1, search));
 }
 
 export async function handleGetCurrentUser(req, res) {
