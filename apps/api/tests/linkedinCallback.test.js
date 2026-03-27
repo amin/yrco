@@ -17,6 +17,7 @@ vi.mock("../services/storageService.js", () => ({
 }));
 
 import * as linkedInService from "../services/linkedInService.js";
+import * as userRepo from "../repositories/userRepository.js";
 import { processLinkedInCallback } from "../usecases/authUseCases.js";
 
 const linkedInProfile = {
@@ -60,8 +61,11 @@ describe("processLinkedInCallback", () => {
     await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Profile fetch failed");
   });
 
-  it("propagates error when picture download fails", async () => {
+  it("falls back to UI Avatars when picture download fails", async () => {
     linkedInService.downloadProfilePicture.mockRejectedValue(new Error("Image download failed"));
-    await expect(processLinkedInCallback("auth-code")).rejects.toThrow("Image download failed");
+    await processLinkedInCallback("auth-code");
+    const savedPicture = userRepo.upsert.mock.calls[0][1].picture;
+    expect(savedPicture).toContain("dicebear.com");
+    expect(savedPicture).toContain("Alex%20Eriksson");
   });
 });

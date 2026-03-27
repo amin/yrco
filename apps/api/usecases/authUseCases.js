@@ -33,8 +33,14 @@ export const upsertUser = async (uid, profileData) => {
 export async function processLinkedInCallback(code) {
   const accessToken = await linkedInService.fetchAccessToken(code);
   const profile = await linkedInService.fetchProfile(accessToken);
-  const picture = await linkedInService.downloadProfilePicture(profile.picture);
-  const pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
+
+  let pictureUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(profile.name)}`;
+  try {
+    const picture = await linkedInService.downloadProfilePicture(profile.picture);
+    pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
+  } catch {
+    // fall back to generated avatar
+  }
 
   const { setupComplete, username } = await upsertUser(profile.sub, {
     name: profile.name,
