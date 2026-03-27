@@ -9,7 +9,7 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { updateProfile } from "../usecases/users.js";
+import { updateProfile } from "../usecases/usersUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 

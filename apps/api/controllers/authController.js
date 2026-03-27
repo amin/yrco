@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { processLinkedInCallback } from "../usecases/auth.js";
+import { processLinkedInCallback } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 

@@ -14,7 +14,7 @@ vi.mock("../services/emailService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { getCurrentUser, completeSetup } from "../usecases/users.js";
+import { getCurrentUser, completeSetup } from "../usecases/usersUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 

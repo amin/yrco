@@ -18,7 +18,7 @@ vi.mock("../services/storageService.js", () => ({
 }));
 
 import * as userRepo from "../repositories/userRepository.js";
-import { addConnection, removeConnection, listConnections } from "../usecases/connections.js";
+import { addConnection, removeConnection, listConnections } from "../usecases/connectionsUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 

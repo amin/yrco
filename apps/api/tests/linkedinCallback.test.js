@@ -17,7 +17,7 @@ vi.mock("../services/storageService.js", () => ({
 }));
 
 import * as linkedInService from "../services/linkedInService.js";
-import { processLinkedInCallback } from "../usecases/auth.js";
+import { processLinkedInCallback } from "../usecases/authUseCases.js";
 
 const linkedInProfile = {
   sub: "linkedin-uid-1",
