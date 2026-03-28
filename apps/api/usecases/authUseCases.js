@@ -1,4 +1,6 @@
+import crypto from "crypto";
 import * as userRepo from "../repositories/userRepository.js";
+import * as sessionRepo from "../repositories/sessionRepository.js";
 import * as linkedInService from "../services/linkedInService.js";
 import * as storageService from "../services/storageService.js";
 import { generateUsernameBase } from "../helpers/generateUsernameBase.js";
@@ -52,5 +54,13 @@ export async function authenticateWithLinkedIn(code) {
     picture: pictureUrl,
   });
 
-  return { uid: profile.sub, setupComplete, username };
+  const sessionToken = crypto.randomUUID();
+  const maxAge = 7 * 24 * 60 * 60 * 1000;
+  await sessionRepo.create(sessionToken, profile.sub, new Date(Date.now() + maxAge));
+
+  return { sessionToken, maxAge, setupComplete, username };
+}
+
+export async function logout(token) {
+  await sessionRepo.deleteByToken(token);
 }

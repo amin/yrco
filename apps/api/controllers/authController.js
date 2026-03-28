@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { authenticateWithLinkedIn } from "../usecases/authUseCases.js";
+import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
@@ -24,15 +24,15 @@ export async function handleLinkedInCallback(req, res) {
     if (!state || state !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
-    const { uid, setupComplete, username } = await authenticateWithLinkedIn(code);
+    const { sessionToken, maxAge, setupComplete, username } = await authenticateWithLinkedIn(code);
 
     res.clearCookie("oauth_state", { signed: true });
-    res.cookie("session", uid, {
+    res.cookie("session", sessionToken, {
       httpOnly: true,
       signed: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       secure: process.env.NODE_ENV === "production",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge,
     });
 
     const postAuthRedirect = req.signedCookies.post_auth_redirect;
@@ -47,7 +47,8 @@ export async function handleLinkedInCallback(req, res) {
   }
 }
 
-export function handleLogout(_req, res) {
+export async function handleLogout(req, res) {
+  await logout(req.signedCookies.session);
   res.clearCookie("session", { signed: true });
   res.json({ ok: true });
 }
