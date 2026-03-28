@@ -36,6 +36,8 @@ app.use("/traits", traitsRouter);
 app.use(notFound);
 app.use(errorHandler);
 
+process.on('unhandledRejection', (err) => console.error('Unhandled rejection:', err));
+
 try {
   await connectDB();
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

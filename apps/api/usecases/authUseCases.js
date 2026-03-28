@@ -7,8 +7,10 @@ const generateUsername = async (firstName, lastName, uid) => {
   const base = generateUsernameBase(firstName, lastName);
   if (await userRepo.claimUsername(base, uid)) return base;
 
+  const MAX_ATTEMPTS = 100;
   let n = 1;
-  while (!(await userRepo.claimUsername(`${base}${n}`, uid))) n++;
+  while (n <= MAX_ATTEMPTS && !(await userRepo.claimUsername(`${base}${n}`, uid))) n++;
+  if (n > MAX_ATTEMPTS) throw { status: 500, message: "Failed to generate unique username" };
   return `${base}${n}`;
 };
 
