@@ -36,7 +36,20 @@ app.use("/traits", traitsRouter);
 app.use(notFound);
 app.use(errorHandler);
 
-process.on('unhandledRejection', (err) => console.error('Unhandled rejection:', err));
+process.on('unhandledRejection', (err) => {
+  console.error('Unhandled rejection:', err);
+  process.exit(1);
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught exception:', err);
+  process.exit(1);
+});
+
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  process.exit(0);
+});
 
 try {
   await connectDB();
