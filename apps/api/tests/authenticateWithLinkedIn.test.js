@@ -16,8 +16,13 @@ vi.mock("../services/storageService.js", () => ({
   uploadImage: vi.fn().mockResolvedValue("https://storage.example.com/pic.jpg"),
 }));
 
+vi.mock("../repositories/sessionRepository.js", () => ({
+  create: vi.fn(),
+}));
+
 import * as linkedInService from "../services/linkedInService.js";
 import * as userRepo from "../repositories/userRepository.js";
+import * as sessionRepo from "../repositories/sessionRepository.js";
 import { authenticateWithLinkedIn } from "../usecases/authUseCases.js";
 
 const linkedInProfile = {
@@ -37,13 +42,21 @@ beforeEach(() => {
 });
 
 describe("authenticateWithLinkedIn", () => {
-  it("returns uid, setupComplete and username on success", async () => {
+  it("returns sessionToken, maxAge, setupComplete and username on success", async () => {
     const result = await authenticateWithLinkedIn("auth-code");
-    expect(result).toEqual({
-      uid: "linkedin-uid-1",
-      setupComplete: false,
-      username: "alexeriksson",
-    });
+    expect(result.setupComplete).toBe(false);
+    expect(result.username).toBe("alexeriksson");
+    expect(typeof result.sessionToken).toBe("string");
+    expect(typeof result.maxAge).toBe("number");
+  });
+
+  it("creates a session mapped to the linkedin uid", async () => {
+    const result = await authenticateWithLinkedIn("auth-code");
+    expect(sessionRepo.create).toHaveBeenCalledWith(
+      result.sessionToken,
+      "linkedin-uid-1",
+      expect.any(Date),
+    );
   });
 
   it("fetches access token with the auth code", async () => {
