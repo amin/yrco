@@ -25,12 +25,12 @@ Clean architecture with strict layer separation:
 - **usecases/**: Orchestrate repos and services to fulfill a business operation — no framework code
 - **repositories/**: Abstraction over the database (Mongoose). Swap the DB without touching use cases
 - **services/**: Abstraction over external APIs (LinkedIn, Cloudinary, Resend). Swap providers without touching use cases
-- **middleware/**: `requireAuth` (signed cookie session), `requireSetup` (queries DB to confirm onboarding is complete, attaches full user object to `req.user`), rate limiting, error handler
+- **middleware/**: `requireAuth` (validates signed session cookie token against the `Session` collection, sets `req.user.uid`), `requireSetup` (queries DB to confirm onboarding is complete, attaches full user object to `req.user`), rate limiting, error handler
 - **helpers/**: Pure functions with no side effects
 
 **Monorepo**: `apps/api` (this app), `apps/client` (React), `packages/lib` (shared Zod schemas, imported as `@colyr/lib`).
 
-**Auth**: LinkedIn OAuth 2.0. CSRF state in a short-lived signed cookie; session stored as signed `uid` cookie (7 days). No JWT, no server-side session store.
+**Auth**: LinkedIn OAuth 2.0. CSRF state in a short-lived signed cookie; session stored as a signed cookie containing a random opaque token (7 days), backed by a `Session` collection in MongoDB. `requireAuth` validates the token against the DB on every request. No JWT.
 
 **Environment**: Node 20+ `--env-file` — no dotenv. Uses `.env.development` / `.env.production` in `apps/api/`.
 
