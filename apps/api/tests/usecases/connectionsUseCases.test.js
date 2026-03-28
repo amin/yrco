@@ -1,10 +1,10 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../services/emailService.js", () => ({
+vi.mock("../../services/emailService.js", () => ({
   sendWelcomeEmail: vi.fn(),
 }));
 
-vi.mock("../repositories/userRepository.js", () => ({
+vi.mock("../../repositories/userRepository.js", () => ({
   findById: vi.fn(),
   findUidByUsername: vi.fn(),
   findByIds: vi.fn(),
@@ -13,12 +13,12 @@ vi.mock("../repositories/userRepository.js", () => ({
   update: vi.fn(),
 }));
 
-vi.mock("../services/storageService.js", () => ({
+vi.mock("../../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 
-import * as userRepo from "../repositories/userRepository.js";
-import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
+import * as userRepo from "../../repositories/userRepository.js";
+import { addUserConnection, removeUserConnection, getUserConnections } from "../../usecases/connectionsUseCases.js";
 
 beforeEach(() => vi.clearAllMocks());
 

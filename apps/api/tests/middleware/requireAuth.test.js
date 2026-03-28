@@ -1,11 +1,11 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../repositories/sessionRepository.js", () => ({
+vi.mock("../../repositories/sessionRepository.js", () => ({
   findByToken: vi.fn(),
 }));
 
-import * as sessionRepo from "../repositories/sessionRepository.js";
-import { requireAuth } from "../middleware/requireAuth.js";
+import * as sessionRepo from "../../repositories/sessionRepository.js";
+import { requireAuth } from "../../middleware/requireAuth.js";
 
 const mockRes = () => {
   const res = {};

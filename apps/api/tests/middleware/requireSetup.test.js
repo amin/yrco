@@ -1,11 +1,11 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
 
-vi.mock("../repositories/userRepository.js", () => ({
+vi.mock("../../repositories/userRepository.js", () => ({
   findById: vi.fn(),
 }));
 
-import * as userRepo from "../repositories/userRepository.js";
-import { requireSetup } from "../middleware/requireSetup.js";
+import * as userRepo from "../../repositories/userRepository.js";
+import { requireSetup } from "../../middleware/requireSetup.js";
 
 const mockRes = () => {
   const res = {};

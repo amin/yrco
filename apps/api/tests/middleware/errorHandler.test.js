@@ -1,5 +1,5 @@
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { notFound, errorHandler } from "../middleware/errorHandler.js";
+import { notFound, errorHandler } from "../../middleware/errorHandler.js";
 
 const mockRes = () => {
   const res = {};

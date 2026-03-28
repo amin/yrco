@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 pnpm dev                  # Start API (from apps/api)
 pnpm test                 # Run all tests once
-pnpm vitest run tests/auth.test.js  # Run a single test file
+pnpm vitest run tests/middleware/requireAuth.test.js  # Run a single test file
 pnpm db:seed              # Seed all collections
 pnpm db:seed -- words     # Seed a specific collection
 pnpm db:clear             # Clear all collections
