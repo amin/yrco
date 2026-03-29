@@ -1,9 +1,7 @@
 import React from "react";
-import { Resend } from "resend";
+import resend from "../lib/resend.js";
 import { render } from "@react-email/render";
 import WelcomeEmail from "../emails/WelcomeEmail.js";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 const sendEmail = async ({ to, subject, html }) => {
   const { error } = await resend.emails.send({
