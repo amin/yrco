@@ -5,7 +5,7 @@ import Users from './pages/Users'
 import Connections from './pages/Connections'
 import Traits from './pages/Traits'
 
-export default function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -19,3 +19,5 @@ export default function App() {
     </BrowserRouter>
   )
 }
+
+export default App

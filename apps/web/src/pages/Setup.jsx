@@ -1,3 +1,6 @@
-export default function Setup() {
-  return <div>Setup</div>
+const Setup = () => {
+  return (
+    <div>Setup</div>
+  )
 }
+export default Setup

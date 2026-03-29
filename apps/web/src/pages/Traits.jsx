@@ -1,3 +1,6 @@
-export default function Traits() {
-  return <div>Traits</div>
+const Traits = () => {
+  return (
+    <div>Traits</div>
+  )
 }
+export default Traits
