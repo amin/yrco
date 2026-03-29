@@ -1,9 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import Login from './pages/Login'
-import Setup from './pages/Setup'
-import Users from './pages/Users'
-import Connections from './pages/Connections'
-import Traits from './pages/Traits'
+import { Login, Setup, Users, Connections, Traits } from './pages'
 
 const App = () => {
   return (

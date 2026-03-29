@@ -1,7 +1,5 @@
-const AuthCallback = () => {
+export const AuthCallback = () => {
   return (
     <div>AuthCallback</div>
   )
 }
-
-export default AuthCallback

@@ -1,3 +1,5 @@
-export default function Connections() {
-  return <div>Connections</div>
+export const Connections = () => {
+  return (
+    <div>Connections</div>
+  )
 }
