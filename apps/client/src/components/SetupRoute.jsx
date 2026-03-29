@@ -8,8 +8,7 @@ export default function SetupRoute() {
   if (user === undefined) return null;
   if (!user) return <Navigate to="/login" />;
   if (user.setupComplete === true) {
-    const redirect = searchParams.get("redirect") || sessionStorage.getItem("redirectAfterLogin");
-    sessionStorage.removeItem("redirectAfterLogin");
+    const redirect = searchParams.get("redirect");
     return <Navigate to={redirect || `/@${user.username}`} />;
   }
 

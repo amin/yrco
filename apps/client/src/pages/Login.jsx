@@ -1,41 +1,12 @@
-import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useSearchParams } from "react-router-dom";
 
 export default function Login() {
-  const user = useAuth();
-  const navigate = useNavigate();
-
-  // Track if we've already redirected
-  const didRedirect = useRef(false);
-
-  useEffect(() => {
-    
-    if (!user || didRedirect.current) return;
-    
-    const stored = sessionStorage.getItem("redirectAfterLogin");
-    sessionStorage.removeItem("redirectAfterLogin");
-
-    if (!stored) return;
-
-    const redirect =
-      stored.startsWith("/") && !stored.startsWith("//")
-        ? stored
-        : `/@${user.username}`;
-
-    didRedirect.current = true; // prevent future redirects
-    navigate(redirect, { replace: true });
-  }, [user, navigate]);
-
-  if (user === undefined) return null; // still loading
-
-  const redirect = sessionStorage.getItem("redirectAfterLogin");
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const authUrl = `${import.meta.env.VITE_SERVER_URL}/auth/linkedin${
     redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""
   }`;
-
-
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-end p-6 pb-12">

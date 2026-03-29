@@ -6,6 +6,7 @@ import QROverlay from './components/QROverlay';
 import Home from './pages/Home';
 import Users from './pages/Users';
 import Login from './pages/Login';
+import AuthCallback from './pages/AuthCallback';
 import Error from './pages/errors/Error';
 import Forbidden from './pages/errors/Forbidden';
 import NotFound from './pages/errors/NotFound';
@@ -33,7 +34,7 @@ function App() {
       {me === null && location.pathname !== '/' && (
         <div className="fixed top-4 right-4 z-50">
           <button
-            onClick={() => navigate('/login')}
+            onClick={() => navigate(`/login?redirect=${encodeURIComponent(location.pathname)}`)}
             className="border border-gray-200 text-gray-700 text-base font-medium px-5 py-3 rounded-xl bg-white hover:bg-gray-100 transition-colors shadow-sm"
           >
             Sign in
@@ -80,8 +81,6 @@ function App() {
           <div className="fixed top-4 right-4 z-50">
             <button
               onClick={async () => {
-                // Clear session storage to prevent stale redirects
-                sessionStorage.removeItem("redirectAfterLogin");
                 await logout();
                 navigate('/login');
               }}
@@ -98,6 +97,7 @@ function App() {
           {/* Public routes */}
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/error" element={<Error />} />
           <Route path="/403" element={<Forbidden />} />
           <Route path="/users" element={<Users />} />

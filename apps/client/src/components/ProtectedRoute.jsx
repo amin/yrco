@@ -6,10 +6,7 @@ export default function ProtectedRoute() {
   const location = useLocation();
 
   if (user === undefined) return null;
-  if (!user) {
-    sessionStorage.setItem("redirectAfterLogin", location.pathname);
-    return <Navigate to="/login" />;
-  }
+  if (!user) return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} />;
   if (user.setupComplete === false) return <Navigate to="/setup" />;
 
   return <Outlet />;

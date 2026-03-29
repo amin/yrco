@@ -71,10 +71,7 @@ export default function Profile() {
               )
             ) : (
               <button
-                onClick={() => {
-                  sessionStorage.setItem("redirectAfterLogin", pathname);
-                  navigate("/login");
-                }}
+                onClick={() => navigate(`/login?redirect=${encodeURIComponent(pathname)}`)}
                 className="px-6 py-2.5 rounded-xl text-base font-medium bg-gray-900 text-white hover:bg-gray-700 transition-colors cursor-pointer"
               >
                 Connect
