@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Login, Setup, Users, Connections, Traits } from './pages'
+import { Login, Setup, Users, Connections, Traits } from '@/pages'
 
 const App = () => {
   return (
