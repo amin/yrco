@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
+import { validateRedirect } from "../helpers/validateRedirect.js";
 
 const allowedOrigins = () => process.env.ALLOWED_CLIENT_ORIGINS.split(",");
 
@@ -12,10 +13,7 @@ export function handleLinkedInRedirect(req, res) {
   const csrf = crypto.randomUUID();
   res.cookie("oauth_state", csrf, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
 
-  const redirect = req.query.redirect;
-  const validRedirect = redirect && redirect.startsWith("/") && !redirect.startsWith("//") && redirect.length <= 200
-    ? redirect
-    : null;
+  const validRedirect = validateRedirect(req.query.redirect);
 
   const state = `${csrf}|${origin}|${validRedirect ?? ""}`;
 
