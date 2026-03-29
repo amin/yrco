@@ -3,11 +3,11 @@ import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { validateRedirect } from "../helpers/validateRedirect.js";
 
-const allowedOrigins = () => process.env.ALLOWED_CLIENT_ORIGINS.split(",");
+const allowedOrigins = process.env.ALLOWED_CLIENT_ORIGINS.split(",");
 
 export function handleLinkedInRedirect(req, res) {
   const origin = req.query.origin;
-  if (!origin || !allowedOrigins().includes(origin))
+  if (!origin || !allowedOrigins.includes(origin))
     throw { status: 400, message: "Invalid client origin" };
 
   const csrf = crypto.randomUUID();
@@ -30,7 +30,7 @@ export async function handleLinkedInCallback(req, res) {
     if (!csrf || csrf !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
-    if (!origin || !allowedOrigins().includes(origin))
+    if (!origin || !allowedOrigins.includes(origin))
       throw { status: 400, message: "Invalid client origin" };
 
     const { code } = req.query;
@@ -52,7 +52,7 @@ export async function handleLinkedInCallback(req, res) {
   } catch (err) {
     console.error("LinkedIn auth error:", err);
     const message = encodeURIComponent(err.status ? err.message : "Authentication failed");
-    const errorOrigin = origin && allowedOrigins().includes(origin) ? origin : allowedOrigins()[0];
+    const errorOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
     res.redirect(`${errorOrigin}/error?message=${message}`);
   }
 }
