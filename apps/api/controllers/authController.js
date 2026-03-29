@@ -1,16 +1,17 @@
 import crypto from "crypto";
 import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
-import { buildPostAuthRedirect } from "../helpers/buildPostAuthRedirect.js";
 
 export function handleLinkedInRedirect(req, res) {
-  const state = crypto.randomUUID();
-  res.cookie("oauth_state", state, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
+  const csrf = crypto.randomUUID();
+  res.cookie("oauth_state", csrf, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
 
   const redirect = req.query.redirect;
-  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//") && redirect.length <= 200) {
-    res.cookie("post_auth_redirect", redirect, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
-  }
+  const validRedirect = redirect && redirect.startsWith("/") && !redirect.startsWith("//") && redirect.length <= 200
+    ? redirect
+    : null;
+
+  const state = `${csrf}:${validRedirect ?? ""}`;
 
   res.redirect(buildLinkedInAuthUrl(state, {
     clientId: process.env.LINKEDIN_CLIENT_ID,
@@ -20,11 +21,13 @@ export function handleLinkedInRedirect(req, res) {
 
 export async function handleLinkedInCallback(req, res) {
   try {
-    const { code, state } = req.query;
-    if (!state || state !== req.signedCookies.oauth_state)
+    const { code, state: rawState } = req.query;
+
+    const [csrf, redirect] = (rawState ?? "").split(/:(.*)/);
+    if (!csrf || csrf !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
-    const { sessionToken, maxAge, setupComplete, username } = await authenticateWithLinkedIn(code);
+    const { sessionToken, maxAge } = await authenticateWithLinkedIn(code);
 
     res.clearCookie("oauth_state", { signed: true });
     res.cookie("session", sessionToken, {
@@ -35,11 +38,10 @@ export async function handleLinkedInCallback(req, res) {
       maxAge,
     });
 
-    const postAuthRedirect = req.signedCookies.post_auth_redirect;
-    res.clearCookie("post_auth_redirect", { signed: true });
-
-    const redirectTo = buildPostAuthRedirect(setupComplete, username, postAuthRedirect);
-    res.redirect(`${process.env.CLIENT_URL}${redirectTo}`);
+    const loginUrl = redirect
+      ? `${process.env.CLIENT_URL}/auth/callback?redirect=${encodeURIComponent(redirect)}`
+      : `${process.env.CLIENT_URL}/auth/callback`;
+    res.redirect(loginUrl);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
     const message = encodeURIComponent(err.status ? err.message : "Authentication failed");
