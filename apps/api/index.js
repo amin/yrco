@@ -20,7 +20,8 @@ app.use(
     crossOriginResourcePolicy: { policy: "cross-origin" }, // allow cross-origin images
   }),
 );
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+const allowedOrigins = process.env.ALLOWED_CLIENT_ORIGINS.split(",");
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 

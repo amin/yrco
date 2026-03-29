@@ -2,7 +2,13 @@ import crypto from "crypto";
 import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 
+const allowedOrigins = () => process.env.ALLOWED_CLIENT_ORIGINS.split(",");
+
 export function handleLinkedInRedirect(req, res) {
+  const origin = req.query.origin;
+  if (!origin || !allowedOrigins().includes(origin))
+    throw { status: 400, message: "Invalid client origin" };
+
   const csrf = crypto.randomUUID();
   res.cookie("oauth_state", csrf, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
 
@@ -11,7 +17,7 @@ export function handleLinkedInRedirect(req, res) {
     ? redirect
     : null;
 
-  const state = `${csrf}:${validRedirect ?? ""}`;
+  const state = `${csrf}|${origin}|${validRedirect ?? ""}`;
 
   res.redirect(buildLinkedInAuthUrl(state, {
     clientId: process.env.LINKEDIN_CLIENT_ID,
@@ -20,13 +26,16 @@ export function handleLinkedInRedirect(req, res) {
 }
 
 export async function handleLinkedInCallback(req, res) {
-  try {
-    const { code, state: rawState } = req.query;
+  const [csrf, origin, redirect] = (req.query.state ?? "").split("|");
 
-    const [csrf, redirect] = (rawState ?? "").split(/:(.*)/);
+  try {
     if (!csrf || csrf !== req.signedCookies.oauth_state)
       throw { status: 400, message: "Invalid OAuth state" };
 
+    if (!origin || !allowedOrigins().includes(origin))
+      throw { status: 400, message: "Invalid client origin" };
+
+    const { code } = req.query;
     const { sessionToken, maxAge } = await authenticateWithLinkedIn(code);
 
     res.clearCookie("oauth_state", { signed: true });
@@ -38,14 +47,15 @@ export async function handleLinkedInCallback(req, res) {
       maxAge,
     });
 
-    const loginUrl = redirect
-      ? `${process.env.CLIENT_URL}/auth/callback?redirect=${encodeURIComponent(redirect)}`
-      : `${process.env.CLIENT_URL}/auth/callback`;
-    res.redirect(loginUrl);
+    const callbackUrl = redirect
+      ? `${origin}/auth/callback?redirect=${encodeURIComponent(redirect)}`
+      : `${origin}/auth/callback`;
+    res.redirect(callbackUrl);
   } catch (err) {
     console.error("LinkedIn auth error:", err);
     const message = encodeURIComponent(err.status ? err.message : "Authentication failed");
-    res.redirect(`${process.env.CLIENT_URL}/error?message=${message}`);
+    const errorOrigin = origin && allowedOrigins().includes(origin) ? origin : allowedOrigins()[0];
+    res.redirect(`${errorOrigin}/error?message=${message}`);
   }
 }
 

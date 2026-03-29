@@ -4,9 +4,11 @@ export default function Login() {
   const [searchParams] = useSearchParams();
   const redirect = searchParams.get("redirect");
 
-  const authUrl = `${import.meta.env.VITE_SERVER_URL}/auth/linkedin${
-    redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""
-  }`;
+  const params = new URLSearchParams({ origin: window.location.origin });
+  if (redirect) params.set("redirect", redirect);
+  const authUrl = `${import.meta.env.VITE_SERVER_URL}/auth/linkedin?${params}`;
+
+    
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-end p-6 pb-12">
