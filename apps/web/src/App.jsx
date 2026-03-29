@@ -1,10 +1,21 @@
-function App() {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Login from './pages/Login'
+import Setup from './pages/Setup'
+import Users from './pages/Users'
+import Connections from './pages/Connections'
+import Traits from './pages/Traits'
+
+export default function App() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-      <h1 className="text-4xl font-bold text-gray-900">Hello, world</h1>
-      <p className="mt-2 text-gray-500">Start building something great.</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/setup" element={<Setup />} />
+        <Route path="/users" element={<Users />} />
+        <Route path="/connections" element={<Connections />} />
+        <Route path="/traits" element={<Traits />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
-
-export default App
