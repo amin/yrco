@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Login, Setup, Users, Connections, Traits } from '@/pages'
+import { Login, Setup, Users, Connections, Traits, AuthCallback } from '@/pages'
 
 const App = () => {
   return (
@@ -11,6 +11,7 @@ const App = () => {
         <Route path="/users" element={<Users />} />
         <Route path="/connections" element={<Connections />} />
         <Route path="/traits" element={<Traits />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
       </Routes>
     </BrowserRouter>
   )
