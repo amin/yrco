@@ -1,4 +1,4 @@
-import mongoose from "../../lib/mongoose.js";
+import mongoose, { connectDB } from "../../lib/mongoose.js";
 import { COLLECTIONS } from "./config/collections.js";
 import { seedTraits } from "./seeders/traitsSeeder.js";
 import { seedUsers } from "./seeders/usersSeeder.js";
@@ -6,6 +6,7 @@ import { seedUsers } from "./seeders/usersSeeder.js";
 const SEEDERS = { traits: seedTraits, users: seedUsers };
 
 async function seed() {
+  await connectDB();
   const args = process.argv.slice(2).filter((a) => a !== "--");
   const target = args[0];
 

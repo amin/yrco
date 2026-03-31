@@ -1,7 +1,8 @@
-import mongoose from "../../lib/mongoose.js";
+import mongoose, { connectDB } from "../../lib/mongoose.js";
 import { COLLECTIONS } from "./config/collections.js";
 
 async function clear() {
+  await connectDB();
   const args = process.argv.slice(2).filter((a) => a !== "--");
   const target = args[0];
 
