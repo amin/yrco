@@ -20,14 +20,14 @@ export default function WelcomeEmail({ firstName, traits = [] }) {
     Html,
     null,
     e(Head, null),
-    e(Preview, null, `Welcome to Colyr, ${firstName}!`),
+    e(Preview, null, `Welcome to Yrco, ${firstName}!`),
     e(
       Body,
       { style: body },
       e(
         Container,
         { style: container },
-        e(Section, { style: header }, e(Heading, { style: logo }, "colyr")),
+        e(Section, { style: header }, e(Heading, { style: logo }, "yrco")),
         e(
           Section,
           { style: hero },
@@ -63,7 +63,7 @@ export default function WelcomeEmail({ firstName, traits = [] }) {
           e(
             Text,
             { style: footer },
-            "You're receiving this because you just joined Colyr."
+            "You're receiving this because you just joined Yrco."
           )
         )
       )

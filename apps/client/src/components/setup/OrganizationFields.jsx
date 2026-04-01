@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { organizationFieldsSchema } from "@colyr/lib";
+import { organizationFieldsSchema } from "@yrco/lib";
 
 export default function OrganizationFields({ fields, onChange, onBack, onSubmit }) {
   const [errors, setErrors] = useState({});

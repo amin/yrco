@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@colyr/lib": "workspace:*",
+    "@yrco/lib": "workspace:*",
     "@tanstack/react-query": "^5.91.0",
     "axios": "^1.13.6",
     "qrcode.react": "^4.2.0",

@@ -1,6 +1,6 @@
 import { getPublicUser, getAllUsers, getCurrentUser, completeUserSetup, updateUser } from "../usecases/usersUseCases.js";
 import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
-import { setupSchema, usernameSchema, traitIdsSchema } from "@colyr/lib";
+import { setupSchema, usernameSchema, traitIdsSchema } from "@yrco/lib";
 
 export async function handleGetPublicUser(req, res) {
   const result = usernameSchema.safeParse(req.params.username);

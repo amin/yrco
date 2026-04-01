@@ -1,4 +1,4 @@
-# Colyr
+# Yrco
 
 A mobile-first networking app for Yrgo's industry event.
 
@@ -24,7 +24,7 @@ Making it easy for students and companies to connect and build relationships.
 ## Project Structure
 
 ```
-colyr/
-├── client/
-└── server/
+yrco/
+├── web/
+└── api/
 ```

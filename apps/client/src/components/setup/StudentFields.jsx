@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { studentFieldsSchema } from "@colyr/lib";
+import { studentFieldsSchema } from "@yrco/lib";
 
 const EDUCATION_OPTIONS = ["Web Developer", "Digital Designer"];
 

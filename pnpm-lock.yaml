@@ -14,7 +14,7 @@ importers:
 
   apps/api:
     dependencies:
-      '@colyr/lib':
+      '@yrco/lib':
         specifier: workspace:*
         version: link:../../packages/lib
       '@react-email/components':
@@ -69,7 +69,7 @@ importers:
 
   apps/client:
     dependencies:
-      '@colyr/lib':
+      '@yrco/lib':
         specifier: workspace:*
         version: link:../../packages/lib
       '@tanstack/react-query':

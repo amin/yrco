@@ -1,5 +1,5 @@
 {
-  "name": "colyr",
+  "name": "yrco",
   "version": "1.0.0",
   "description": "A mobile-first networking app for Yrgo's industry event.",
   "private": true,
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amin/colyr.git"
+    "url": "git+https://github.com/amin/yrco.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/amin/colyr/issues"
+    "url": "https://github.com/amin/yrco/issues"
   },
-  "homepage": "https://github.com/amin/colyr#readme",
+  "homepage": "https://github.com/amin/yrco#readme",
   "devDependencies": {
     "turbo": "^2.5.4"
   }

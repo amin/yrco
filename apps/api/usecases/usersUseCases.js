@@ -1,6 +1,6 @@
 import * as userRepo from "../repositories/userRepository.js";
 import * as emailService from "../services/emailService.js";
-import { publicProfileSchema } from "@colyr/lib";
+import { publicProfileSchema } from "@yrco/lib";
 
 export const getCurrentUser = async (uid) => {
   const user = await userRepo.findById(uid);

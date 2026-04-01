@@ -28,7 +28,7 @@ Clean architecture with strict layer separation:
 - **middleware/**: `requireAuth` (validates signed session cookie token against the `Session` collection, sets `req.user.uid`), `requireSetup` (queries DB to confirm onboarding is complete, attaches full user object to `req.user`), rate limiting, error handler
 - **helpers/**: Pure functions with no side effects
 
-**Monorepo**: `apps/api` (this app), `apps/client` (React), `packages/lib` (shared Zod schemas, imported as `@colyr/lib`).
+**Monorepo**: `apps/api` (this app), `apps/client` (React), `packages/lib` (shared Zod schemas, imported as `@yrco/lib`).
 
 **Auth**: LinkedIn OAuth 2.0. CSRF state in a short-lived signed cookie; session stored as a signed cookie containing a random opaque token (7 days), backed by a `Session` collection in MongoDB. `requireAuth` validates the token against the DB on every request. No JWT.
 

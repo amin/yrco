@@ -1,5 +1,5 @@
 import * as userRepo from "../repositories/userRepository.js";
-import { publicProfileSchema } from "@colyr/lib";
+import { publicProfileSchema } from "@yrco/lib";
 
 const resolveTargetUid = async (uid, username) => {
   const targetUid = await userRepo.findUidByUsername(username);

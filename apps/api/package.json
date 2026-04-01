@@ -16,7 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@colyr/lib": "workspace:*",
+    "@yrco/lib": "workspace:*",
     "@react-email/components": "^1.0.10",
     "@react-email/render": "^2.0.4",
     "axios": "^1.13.6",

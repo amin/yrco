@@ -2,7 +2,7 @@
 
 **Last updated:** March 16, 2026
 
-Colyrr is a school project developed by students at Yrgo, Gothenburg, Sweden.
+Yrcor is a school project developed by students at Yrgo, Gothenburg, Sweden.
 
 ## Data We Collect
 
@@ -13,7 +13,7 @@ When you sign in with LinkedIn, we collect:
 
 ## How We Use Your Data
 
-Your data is used solely to identify you within the Colyr app during Yrgo's industry event on April 22, 2026.
+Your data is used solely to identify you within the Yrco app during Yrgo's industry event on April 22, 2026.
 
 ## Data Storage
 

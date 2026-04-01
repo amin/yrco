@@ -1,5 +1,5 @@
 {
-  "name": "@colyr/lib",
+  "name": "@yrco/lib",
   "version": "1.0.0",
   "main": "./validation/index.js",
   "type": "module",
