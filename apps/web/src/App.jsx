@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Login, Setup, Users, Connections, Traits, AuthCallback, Palette } from '@/pages'
+import { Login, Setup, Users, Connections, Traits, AuthCallback, Palette, Logout } from '@/pages'
 import { DevGallery } from '@/pages/DevGallery'
 import { ProtectedRoute, PublicRoute } from '@/shared/routes'
 
@@ -19,6 +19,7 @@ const App = () => {
           <Route path="/users" element={<Users />} />
           <Route path="/connections" element={<Connections />} />
           <Route path="/traits" element={<Traits />} />
+          <Route path="/logout" element={<Logout />} />
         </Route>
 
         <Route path="/auth/callback" element={<AuthCallback />} />
