@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Login, Setup, Users, Connections, Traits, AuthCallback } from '@/pages'
+import { Login, Setup, Users, Connections, Traits, AuthCallback, Palette } from '@/pages'
 import { DevGallery } from '@/pages/DevGallery'
 
 const App = () => {
@@ -13,6 +13,7 @@ const App = () => {
         <Route path="/connections" element={<Connections />} />
         <Route path="/traits" element={<Traits />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/palette" element={<Palette />} />
         <Route path="/dev/gallery" element={<DevGallery />} />
       </Routes>
     </BrowserRouter>
