@@ -1,3 +1,4 @@
+export { BaseIcon } from './BaseIcon'
 export { HomeIcon } from './HomeIcon'
 export { SearchIcon } from './SearchIcon'
 export { HeartIcon } from './HeartIcon'

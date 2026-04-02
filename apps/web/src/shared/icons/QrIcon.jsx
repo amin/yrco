@@ -1,11 +1,7 @@
-export const QrIcon = ({ active = false, className = '' }) => (
-  <svg
-    width="20"
-    height="20"
-    viewBox={active ? '16 52 20 20' : '16 16 20 20'}
-    fill="none"
-    className={className}
-  >
+import { BaseIcon } from './BaseIcon'
+
+export const QrIcon = ({ active = false, size, className = '' }) => (
+  <BaseIcon size={size} viewBox={active ? '16 52 20 20' : '16 16 20 20'} className={className}>
     {active ? (
       <>
         <path d="M22.6667 54.5H20.1667C19.7246 54.5 19.3007 54.6756 18.9882 54.9882C18.6756 55.3007 18.5 55.7246 18.5 56.1667V58.6667M33.5 58.6667V56.1667C33.5 55.7246 33.3244 55.3007 33.0118 54.9882C32.6993 54.6756 32.2754 54.5 31.8333 54.5H29.3333M29.3333 69.5H31.8333C32.2754 69.5 32.6993 69.3244 33.0118 69.0118C33.3244 68.6993 33.5 68.2754 33.5 67.8333V65.3333M18.5 65.3333V67.8333C18.5 68.2754 18.6756 68.6993 18.9882 69.0118C19.3007 69.3244 19.7246 69.5 20.1667 69.5H22.6667" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -17,5 +13,5 @@ export const QrIcon = ({ active = false, className = '' }) => (
         <path d="M18.5 26H33.5004" stroke="currentColor" strokeLinecap="round" />
       </>
     )}
-  </svg>
+  </BaseIcon>
 )
