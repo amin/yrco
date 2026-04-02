@@ -1,6 +1,6 @@
 import { useTraits } from "../../hooks/traits";
 
-const MAX = 5;
+const MAX = 7;
 
 export default function TraitSelection({ selected, onChange, onBack, onSubmit, isPending }) {
   const { data: traits, isLoading } = useTraits();
@@ -24,7 +24,7 @@ export default function TraitSelection({ selected, onChange, onBack, onSubmit, i
         ← Back
       </button>
 
-      <h2 className="text-3xl font-bold text-gray-900 mb-2">Pick 5 traits</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-2">Pick 7 traits</h2>
       <p className="text-sm text-gray-500 mb-6">
         Choose traits that represent you. {selected.length}/{MAX} selected.
       </p>

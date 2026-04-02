@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const traitIdsSchema = z.array(z.string()).length(5, "Pick exactly 5 traits");
+export const traitIdsSchema = z.array(z.string()).length(7, "Pick exactly 7 traits");
 const traitIds = traitIdsSchema;
 
 export const studentFieldsSchema = z.object({
