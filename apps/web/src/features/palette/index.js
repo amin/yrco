@@ -1,1 +1,0 @@
-export { TraitList } from './ui'

@@ -7,7 +7,7 @@ export const TraitList = ({ traits }) => {
   const toggle = (id) => setExpandedId(prev => prev === id ? null : id)
 
   return (
-    <div className="flex flex-col h-screen w-full overflow-hidden">
+    <div className="flex flex-col h-full w-full overflow-hidden">
       {traits.map(({ id, trait, color, icebreaker }) => (
         <Trait
           key={id}
