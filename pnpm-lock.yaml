@@ -14,15 +14,15 @@ importers:
 
   apps/api:
     dependencies:
-      '@yrco/lib':
-        specifier: workspace:*
-        version: link:../../packages/lib
       '@react-email/components':
         specifier: ^1.0.10
         version: 1.0.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@react-email/render':
         specifier: ^2.0.4
         version: 2.0.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@yrco/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
       axios:
         specifier: ^1.13.6
         version: 1.13.6
@@ -69,12 +69,12 @@ importers:
 
   apps/client:
     dependencies:
-      '@yrco/lib':
-        specifier: workspace:*
-        version: link:../../packages/lib
       '@tanstack/react-query':
         specifier: ^5.91.0
         version: 5.91.2(react@19.2.4)
+      '@yrco/lib':
+        specifier: workspace:*
+        version: link:../../packages/lib
       axios:
         specifier: ^1.13.6
         version: 1.13.6
@@ -133,6 +133,9 @@ importers:
       axios:
         specifier: ^1.13.6
         version: 1.13.6
+      qrcode.react:
+        specifier: ^4.2.0
+        version: 4.2.0(react@19.2.4)
       react:
         specifier: ^19.2.4
         version: 19.2.4
