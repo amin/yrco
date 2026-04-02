@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useIsFetching } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
-import { PROTECTED_ROUTES } from '@/shared/routes/routes.jsx'
+import { PROTECTED_ROUTES } from '@/shared/routes'
 
 export const AuthCallback = () => {
   const { user, isLoading } = useAuth()

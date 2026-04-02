@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DevGallery } from '@/pages/DevGallery'
-import { ProtectedRoute, PublicRoute } from '@/shared/routes'
-import { PROTECTED_ROUTES, PUBLIC_ROUTES, UNGUARDED_ROUTES } from '@/shared/routes/routes.jsx'
+import { ProtectedRoute, PublicRoute, PROTECTED_ROUTES, PUBLIC_ROUTES, UNGUARDED_ROUTES } from '@/shared/routes'
 
 const App = () => {
   return (
