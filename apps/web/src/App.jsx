@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Login, Setup, Users, Connections, Traits, AuthCallback, Palette, Logout } from '@/pages'
 import { DevGallery } from '@/pages/DevGallery'
 import { ProtectedRoute, PublicRoute } from '@/shared/routes'
+import { PROTECTED_ROUTES, PUBLIC_ROUTES, UNGUARDED_ROUTES } from '@/shared/routes/routes.jsx'
 
 const App = () => {
   return (
@@ -10,19 +10,21 @@ const App = () => {
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         <Route element={<PublicRoute />}>
-          <Route path="/login" element={<Login />} />
+          {PUBLIC_ROUTES.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
         </Route>
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/setup" element={<Setup />} />
-          <Route path="/palette" element={<Palette />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/connections" element={<Connections />} />
-          <Route path="/traits" element={<Traits />} />
-          <Route path="/logout" element={<Logout />} />
+          {PROTECTED_ROUTES.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
         </Route>
 
-        <Route path="/auth/callback" element={<AuthCallback />} />
+        {UNGUARDED_ROUTES.map(({ path, element }) => (
+          <Route key={path} path={path} element={element} />
+        ))}
+
         <Route path="/dev/gallery" element={<DevGallery />} />
       </Routes>
     </BrowserRouter>
