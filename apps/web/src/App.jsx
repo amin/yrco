@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DevGallery } from '@/pages/DevGallery'
 import { ProtectedRoute, PublicRoute, PROTECTED_ROUTES, PUBLIC_ROUTES, UNGUARDED_ROUTES } from '@/shared/routes'
+import { ProtectedLayout } from '@/shared/layout'
 
 const App = () => {
   return (
@@ -16,7 +17,7 @@ const App = () => {
 
         <Route element={<ProtectedRoute />}>
           {PROTECTED_ROUTES.map(({ path, element }) => (
-            <Route key={path} path={path} element={element} />
+            <Route key={path} path={path} element={<ProtectedLayout>{element}</ProtectedLayout>} />
           ))}
         </Route>
 
