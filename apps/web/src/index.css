@@ -1,1 +1,189 @@
 @import "tailwindcss";
+
+@theme {
+  /* ── Typography ── */
+  --font-sans: Inter, sans-serif;
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-semibold: 600;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-xl: 24px;
+  --text-3xl: 32px;
+
+  --leading-xs: 12px;
+  --leading-sm: 14px;
+  --leading-base: 16px;
+  --leading-xl: 24px;
+  --leading-3xl: 32px;
+
+  --tracking-tighter: -1.2px;
+  --tracking-tight: -0.8px;
+  --tracking-normal: 0px;
+
+  /* ── Spacing ── */
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 12px;
+  --spacing-base: 16px;
+  --spacing-l: 20px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 28px;
+  --spacing-3xl: 40px;
+  --spacing-4xl: 80px;
+
+  /* ── Radius ── */
+  --radius-none: 0px;
+  --radius-card: 34px;
+  --radius-full: 999px;
+
+  /* ── Brand colors ── */
+  --color-yrgo-blue: #001a52;
+  --color-yrgo-red: #e51236;
+  --color-yrgo-light-blue: #e4e9eb;
+  --color-yrgo-blue-active: #041334;
+  --color-yrgo-red-active: #cc082a;
+  --color-yrgo-light-blue-active: #c7cdd0;
+
+  /* ── Neutrals ── */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-light-grey: #d8d8d8;
+  --color-dark-grey: #7e7e7e;
+
+  /* ── Yrco palette ── */
+  --color-yrco-e1b640: #e1b640;
+  --color-yrco-cdc49b: #cdc49b;
+  --color-yrco-92ac85: #92ac85;
+  --color-yrco-e37475: #e37475;
+  --color-yrco-644e42: #644e42;
+  --color-yrco-ebcc99: #ebcc99;
+  --color-yrco-f3cbcc: #f3cbcc;
+  --color-yrco-d0b882: #d0b882;
+  --color-yrco-a884de: #a884de;
+  --color-yrco-8ec1e9: #8ec1e9;
+  --color-yrco-dacd56: #dacd56;
+  --color-yrco-cbf3ed: #cbf3ed;
+  --color-yrco-ca8ccf: #ca8ccf;
+  --color-yrco-d4d4c3: #d4d4c3;
+  --color-yrco-951f1f: #951f1f;
+  --color-yrco-405548: #405548;
+  --color-yrco-d7d3e4: #d7d3e4;
+  --color-yrco-66a4bd: #66a4bd;
+  --color-yrco-ff9f9f: #ff9f9f;
+  --color-yrco-70b98d: #70b98d;
+  --color-yrco-cdc5dc: #cdc5dc;
+  --color-yrco-41b4e3: #41b4e3;
+  --color-yrco-3e3f75: #3e3f75;
+  --color-yrco-e07f6e: #e07f6e;
+  --color-yrco-edefba: #edefba;
+  --color-yrco-7b3d65: #7b3d65;
+  --color-yrco-0e598a: #0e598a;
+  --color-yrco-d3bc6b: #d3bc6b;
+  --color-yrco-843e2d: #843e2d;
+  --color-yrco-342f59: #342f59;
+  --color-yrco-eaa750: #eaa750;
+  --color-yrco-e79f9d: #e79f9d;
+  --color-yrco-744749: #744749;
+  --color-yrco-abcc9b: #abcc9b;
+  --color-yrco-b68b99: #b68b99;
+  --color-yrco-26606a: #26606a;
+  --color-yrco-dbd56e: #dbd56e;
+  --color-yrco-523249: #523249;
+  --color-yrco-75bac4: #75bac4;
+  --color-yrco-ed7e59: #ed7e59;
+  --color-yrco-464655: #464655;
+  --color-yrco-e0acd5: #e0acd5;
+  --color-yrco-c9e4eb: #c9e4eb;
+  --color-yrco-6f1a07: #6f1a07;
+  --color-yrco-f1d56f: #f1d56f;
+  --color-yrco-ee797b: #ee797b;
+  --color-yrco-cc9751: #cc9751;
+  --color-yrco-726578: #726578;
+  --color-yrco-453c62: #453c62;
+  --color-yrco-bcbcd3: #bcbcd3;
+  --color-yrco-f4e87c: #f4e87c;
+  --color-yrco-e47a9b: #e47a9b;
+  --color-yrco-18b47d: #18b47d;
+  --color-yrco-dade9e: #dade9e;
+  --color-yrco-65532f: #65532f;
+  --color-yrco-ac94b2: #ac94b2;
+  --color-yrco-9d9c62: #9d9c62;
+  --color-yrco-005377: #005377;
+  --color-yrco-ffecd1: #ffecd1;
+  --color-yrco-f7a072: #f7a072;
+  --color-yrco-d89b6c: #d89b6c;
+  --color-yrco-412e8d: #412e8d;
+  --color-yrco-853084: #853084;
+  --color-yrco-31b4a2: #31b4a2;
+  --color-yrco-8f97d1: #8f97d1;
+  --color-yrco-f7c1bb: #f7c1bb;
+  --color-yrco-582a69: #582a69;
+  --color-yrco-ef789b: #ef789b;
+  --color-yrco-9bae13: #9bae13;
+  --color-yrco-aa114a: #aa114a;
+  --color-yrco-c4c06c: #c4c06c;
+  --color-yrco-004643: #004643;
+  --color-yrco-c9b7a8: #c9b7a8;
+  --color-yrco-d08080: #d08080;
+  --color-yrco-55552c: #55552c;
+  --color-yrco-215e45: #215e45;
+  --color-yrco-f6f0d3: #f6f0d3;
+  --color-yrco-c8e5f8: #c8e5f8;
+  --color-yrco-e5b971: #e5b971;
+  --color-yrco-772845: #772845;
+  --color-yrco-643c56: #643c56;
+  --color-yrco-6daa84: #6daa84;
+  --color-yrco-ffe5a4: #ffe5a4;
+  --color-yrco-644c6d: #644c6d;
+  --color-yrco-869bbe: #869bbe;
+  --color-yrco-455170: #455170;
+  --color-yrco-f8bdd8: #f8bdd8;
+  --color-yrco-4a5182: #4a5182;
+}
+
+:root {
+  /* Button - Primary */
+  --btn-primary-bg: #e51236;
+  --btn-primary-bg-active: #cc082a;
+  --btn-primary-bg-disabled: #e51236;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-fg-active: #ffffff;
+  --btn-primary-fg-disabled: #c7cdd0;
+
+  /* Button - Secondary */
+  --btn-secondary-bg: #e4e9eb;
+  --btn-secondary-bg-active: #c7cdd0;
+  --btn-secondary-bg-disabled: #e4e9eb;
+  --btn-secondary-fg: #000000;
+  --btn-secondary-fg-active: #000000;
+  --btn-secondary-fg-disabled: #c7cdd0;
+
+  /* Button - Toggle */
+  --btn-toggle-bg: #ffffff;
+  --btn-toggle-bg-picked: #001a52;
+  --btn-toggle-bg-unpicked: #ffffff;
+  --btn-toggle-fg: #000000;
+  --btn-toggle-fg-picked: #ffffff;
+  --btn-toggle-fg-unpicked: #c7cdd0;
+  --btn-toggle-stroke: #000000;
+  --btn-toggle-stroke-unpicked: #000000;
+
+  /* Button - Symbol */
+  --btn-symbol-bg: #e4e9eb;
+  --btn-symbol-bg-active: #e4e9eb;
+  --btn-symbol-fg-active: #e51236;
+
+  /* Icon */
+  --icon-on-red: #ffffff;
+  --icon-on-light-blue: #000000;
+
+  /* Card & Section */
+  --card-bg-red: #e51236;
+  --card-fg-red: #ffffff;
+  --card-bg-white: #ffffff;
+  --card-fg-white: #000000;
+}
