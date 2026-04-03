@@ -1,4 +1,4 @@
-import { Login, Setup, Users, Connections, Traits, AuthCallback, Palette, Logout, Profile } from '@/pages'
+import { Login, Setup, Users, Connections, AuthCallback, Palette, Logout, Profile } from '@/pages'
 
 export const PROTECTED_ROUTES = [
   { path: '/palette',          element: <Palette /> },
@@ -6,7 +6,6 @@ export const PROTECTED_ROUTES = [
   { path: '/users',            element: <Users /> },
   { path: '/:username',        element: <Profile /> },
   { path: '/connections',      element: <Connections /> },
-  { path: '/traits',           element: <Traits /> },
   { path: '/logout',           element: <Logout /> },
 ]
 
