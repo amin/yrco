@@ -5,7 +5,7 @@ export const UserSwatch = ({ user }) => {
   const [first, ...rest] = user.traits
 
   return (
-    <button onClick={() => navigate(`/${user.username}`)} className="flex w-full h-36 overflow-hidden shrink-0">
+    <button onClick={() => navigate(`/${user.username}`)} className="flex w-full h-36 overflow-hidden shrink-0 cursor-pointer">
       <div className="flex items-end p-base shrink-0" style={{ backgroundColor: first?.color }}>
         <div className="flex flex-col items-start">
           <span className="font-sans text-sm leading-base tracking-tight">{user.name}</span>

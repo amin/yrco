@@ -2,7 +2,7 @@ export const Trait = ({ trait, color, icebreaker, expanded, collapsed, onClick }
   <button
     onClick={onClick}
     style={{ backgroundColor: color }}
-    className={`w-full flex flex-col overflow-hidden transition-all duration-300 ${
+    className={`w-full flex flex-col overflow-hidden transition-all duration-300 cursor-pointer ${
       collapsed
         ? 'h-0 flex-none'
         : expanded
