@@ -6,17 +6,17 @@ export const NavBar = ({ onQrToggle, qrActive }) => {
   const { pathname } = useLocation()
   return (
     <div className="absolute bottom-0 right-0 pb-m pr-m flex flex-col gap-m items-center z-20">
-      <button onClick={onQrToggle} className="w-17 aspect-square rounded-full bg-yrgo-red flex items-center justify-center">
+      <button onClick={onQrToggle} className="w-17 aspect-square rounded-full bg-yrgo-red flex items-center justify-center cursor-pointer">
         <QrIcon active={qrActive} size={20} className="text-white" />
       </button>
       <div className="w-17 flex flex-col">
-        <button className="w-full h-17 bg-yrgo-red rounded-t-full flex items-center justify-center">
+        <button className="w-full h-17 bg-yrgo-red rounded-t-full flex items-center justify-center cursor-pointer">
           <HeartIcon size={20} className="text-white" />
         </button>
-        <button onClick={() => navigate('/users')} className="w-full aspect-square bg-yrgo-red flex items-center justify-center">
+        <button onClick={() => navigate('/users')} className="w-full aspect-square bg-yrgo-red flex items-center justify-center cursor-pointer">
           <SearchIcon active={pathname === '/users'} size={20} className="text-white" />
         </button>
-        <button onClick={() => navigate('/palette')} className="w-full aspect-square bg-yrgo-red rounded-b-full flex items-center justify-center">
+        <button onClick={() => navigate('/palette')} className="w-full aspect-square bg-yrgo-red rounded-b-full flex items-center justify-center cursor-pointer">
           <HomeIcon active={pathname === '/palette'} size={20} className="text-white" />
         </button>
       </div>
