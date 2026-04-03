@@ -11,7 +11,7 @@ export const ProtectedLayout = ({ children }) => {
     <div className="relative h-screen">
       <QrOverlay username={user?.username} open={qrOpen} />
       {children}
-      <NavBar onQrToggle={() => setQrOpen(prev => !prev)} />
+      <NavBar onQrToggle={() => setQrOpen(prev => !prev)} qrActive={qrOpen} />
     </div>
   )
 }
