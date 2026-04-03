@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 
 export const UserSwatch = ({ user }) => {
   const navigate = useNavigate()
-  const [first, ...rest] = user.traits
+  const [first, ...rest] = user.traits ?? []
 
   return (
     <button onClick={() => navigate(`/${user.username}`)} className="flex w-full h-36 overflow-hidden shrink-0 cursor-pointer">
