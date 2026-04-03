@@ -11,7 +11,7 @@ export const ProfileCard = ({ user }) => (
       </div>
       <div className="flex items-center justify-end gap-m pr-base pt-m">
         {user.website && (
-          <a href={user.website} className="text-white underline font-sans text-xl leading-xl tracking-tighter font-light">
+          <a href={user.website} target="_blank" rel="noreferrer" className="text-white underline font-sans text-xl leading-xl tracking-tighter font-light cursor-pointer">
             Website
           </a>
         )}
