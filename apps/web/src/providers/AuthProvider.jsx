@@ -1,5 +1,5 @@
-import { createContext, useContext } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { createContext, useContext, useCallback } from 'react'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import api from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
 
@@ -22,6 +22,15 @@ export const AuthProvider = ({ children }) => {
     queryFn: fetchMeOrNull,
     staleTime: 5 * 60 * 1000,
   })
+  const queryClient = useQueryClient()
+
+  const logout = useCallback(async () => {
+    try {
+      await api.post('/auth/logout')
+    } finally {
+      queryClient.setQueryData(queryKeys.me, null)
+    }
+  }, [queryClient])
 
   return (
     <AuthContext.Provider
@@ -29,6 +38,7 @@ export const AuthProvider = ({ children }) => {
         user: query.data,
         isLoading: query.isLoading,
         error: query.error,
+        logout,
       }}
     >
       {children}

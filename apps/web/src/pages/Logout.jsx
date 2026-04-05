@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
-import { useLogout } from '@/shared/hooks/useLogout'
+import { useAuth } from '@/providers/AuthProvider'
 
 export const Logout = () => {
-  const logout = useLogout()
+  const { logout } = useAuth()
   useEffect(() => { logout() }, [logout])
   return null
 }
