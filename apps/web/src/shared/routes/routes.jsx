@@ -1,12 +1,15 @@
 import { Login, Setup, Users, Connections, AuthCallback, Palette, Logout, Profile } from '@/pages'
 
-export const PROTECTED_ROUTES = [
-  { path: '/palette',          element: <Palette /> },
-  { path: '/setup',            element: <Setup /> },
-  { path: '/users',            element: <Users /> },
-  { path: '/:username',        element: <Profile /> },
-  { path: '/connections',      element: <Connections /> },
-  { path: '/logout',           element: <Logout /> },
+export const APP_ROUTES = [
+  { path: '/palette',     element: <Palette /> },
+  { path: '/users',       element: <Users /> },
+  { path: '/:username',   element: <Profile /> },
+  { path: '/connections', element: <Connections /> },
+]
+
+export const AUTH_ROUTES = [
+  { path: '/setup',  element: <Setup /> },
+  { path: '/logout', element: <Logout /> },
 ]
 
 export const PUBLIC_ROUTES = [
