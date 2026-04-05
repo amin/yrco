@@ -1,5 +1,0 @@
-[build]
-installCommand = "cd ../.. && pnpm install"
-
-[deploy]
-startCommand = "node index.js"
