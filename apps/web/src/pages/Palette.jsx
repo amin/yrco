@@ -1,5 +1,5 @@
 import { useAuth } from '@/providers/AuthProvider'
-import { TraitList } from '@/shared/ui/traits'
+import { TraitList } from '@/features/traits'
 
 export const Palette = () => {
   const { user } = useAuth()

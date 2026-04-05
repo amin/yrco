@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/lib/api'
+import { queryKeys } from '@/lib/queryKeys'
 
 export function useUserSearch() {
   const [search, setSearch] = useState('')
@@ -12,7 +13,7 @@ export function useUserSearch() {
   }, [search])
 
   const { data } = useQuery({
-    queryKey: ['users', debouncedSearch],
+    queryKey: queryKeys.users(debouncedSearch),
     queryFn: () => api.get('/users', { params: { search: debouncedSearch } }).then(r => r.data),
   })
 

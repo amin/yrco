@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import api from '@/lib/api'
+import { queryKeys } from '@/lib/queryKeys'
 
 const AuthContext = createContext(null)
 
@@ -17,7 +18,7 @@ const fetchMeOrNull = async () => {
 
 export const AuthProvider = ({ children }) => {
   const query = useQuery({
-    queryKey: ['me'],
+    queryKey: queryKeys.me,
     queryFn: fetchMeOrNull,
     staleTime: 5 * 60 * 1000,
   })

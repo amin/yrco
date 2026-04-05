@@ -3,10 +3,11 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useIsFetching } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { PROTECTED_ROUTES } from '@/shared/routes'
+import { queryKeys } from '@/lib/queryKeys'
 
 export const AuthCallback = () => {
   const { user, isLoading } = useAuth()
-  const isFetching = useIsFetching({ queryKey: ['me'] }) > 0
+  const isFetching = useIsFetching({ queryKey: queryKeys.me }) > 0
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const raw = searchParams.get('redirect')

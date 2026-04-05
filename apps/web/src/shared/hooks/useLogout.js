@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import api from '@/lib/api'
+import { queryKeys } from '@/lib/queryKeys'
 
 export function useLogout() {
   const queryClient = useQueryClient()
@@ -8,7 +9,7 @@ export function useLogout() {
     try {
       await api.post('/auth/logout')
     } finally {
-      queryClient.setQueryData(['me'], null)
+      queryClient.setQueryData(queryKeys.me, null)
     }
   }, [queryClient])
 }
