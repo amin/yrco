@@ -3,4 +3,5 @@ export const queryKeys = {
   user: (username) => ['users', username],
   users: (search) => ['users', search],
   traits: ['traits'],
+  connections: ['connections'],
 }
