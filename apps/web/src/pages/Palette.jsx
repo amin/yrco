@@ -1,7 +1,6 @@
-import { useAuth } from '@/providers/AuthProvider'
-import { TraitList } from '@/features/traits'
+import { useTraits, TraitList } from '@/features/traits'
 
 export const Palette = () => {
-  const { user } = useAuth()
-  return <TraitList traits={user?.traitIds ?? []} />
+  const { traits } = useTraits()
+  return <TraitList traits={traits} />
 }

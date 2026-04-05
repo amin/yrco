@@ -1,8 +1,8 @@
-import { useProfilePage, ProfileCard } from '@/features/profile'
+import { useProfile, ProfileCard } from '@/features/profile'
 import { TraitList } from '@/features/traits'
 
 export const Profile = () => {
-  const { user, isLoading, isOwnProfile, isConnected, isPending, onToggle } = useProfilePage()
+  const { user, isLoading, isOwnProfile, isConnected, isPending, onToggle } = useProfile()
 
   if (isLoading || !user) return null
 

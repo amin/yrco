@@ -1,2 +1,2 @@
 export { UserSwatch, SearchHeader } from './ui'
-export { useUserSearch } from './hooks/useUserSearch'
+export { useSearch } from './hooks/useSearch'

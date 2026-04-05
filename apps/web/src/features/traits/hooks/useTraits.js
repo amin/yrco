@@ -1,10 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-import api from '@/lib/api'
-import { queryKeys } from '@/lib/queryKeys'
+import { useAuth } from '@/providers/AuthProvider'
 
 export function useTraits() {
-  return useQuery({
-    queryKey: queryKeys.traits,
-    queryFn: () => api.get('/traits').then(r => r.data),
-  })
+  const { user } = useAuth()
+  return { traits: user?.traitIds ?? [] }
 }

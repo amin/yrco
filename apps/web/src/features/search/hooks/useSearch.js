@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import api from '@/lib/api'
 import { queryKeys } from '@/lib/queryKeys'
 
-export function useUserSearch() {
+export function useSearch() {
   const [search, setSearch] = useState('')
   const [debouncedSearch, setDebouncedSearch] = useState('')
 

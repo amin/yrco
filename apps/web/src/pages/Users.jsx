@@ -1,7 +1,7 @@
-import { useUserSearch, SearchHeader, UserSwatch } from '@/features/search'
+import { useSearch, SearchHeader, UserSwatch } from '@/features/search'
 
 export const Users = () => {
-  const { users, search, setSearch } = useUserSearch()
+  const { users, search, setSearch } = useSearch()
 
   return (
     <div className="h-full flex flex-col">
