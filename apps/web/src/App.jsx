@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DevGallery } from '@/pages/DevGallery'
-import { PublicRoute, AuthRoute, AppRoute, PUBLIC_ROUTES, AUTH_ROUTES, APP_ROUTES, UNGUARDED_ROUTES } from '@/shared/routes'
+import { PublicRoute, AuthRoute, AppRoute, PUBLIC_ROUTES, AUTH_ROUTES, APP_ROUTES, OPEN_ROUTES } from '@/shared/routes'
 import { ProtectedLayout } from '@/shared/layout'
 
 const App = () => {
@@ -27,7 +27,7 @@ const App = () => {
           ))}
         </Route>
 
-        {UNGUARDED_ROUTES.map(({ path, element }) => (
+        {OPEN_ROUTES.map(({ path, element }) => (
           <Route key={path} path={path} element={element} />
         ))}
 

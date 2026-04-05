@@ -16,6 +16,6 @@ export const PUBLIC_ROUTES = [
   { path: '/login', element: <Login /> },
 ]
 
-export const UNGUARDED_ROUTES = [
+export const OPEN_ROUTES = [
   { path: '/auth/callback', element: <AuthCallback /> },
 ]
