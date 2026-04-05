@@ -13,5 +13,10 @@ export default defineConfig({
   },
   preview: {
     allowedHosts: true,
+    proxy: {
+      '/auth': { target: process.env.API_URL, changeOrigin: true },
+      '/users': { target: process.env.API_URL, changeOrigin: true },
+      '/traits': { target: process.env.API_URL, changeOrigin: true },
+    },
   },
 })
