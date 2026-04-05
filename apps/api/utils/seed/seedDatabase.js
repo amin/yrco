@@ -1,4 +1,4 @@
-import mongoose, { connectDB } from "../../lib/mongoose.js";
+import { connectDB } from "../../lib/mongoose.js";
 import { COLLECTIONS } from "./config/collections.js";
 import { seedTraits } from "./seeders/traitsSeeder.js";
 import { seedUsers } from "./seeders/usersSeeder.js";
@@ -18,7 +18,6 @@ async function seed() {
   const toRun = target ? [target] : COLLECTIONS;
 
   for (const name of toRun) {
-    await mongoose.connection.collection(name).deleteMany({});
     await SEEDERS[name]();
   }
 

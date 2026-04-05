@@ -24,6 +24,13 @@ const traits = [
 ];
 
 export async function seedTraits() {
-  const inserted = await Trait.insertMany(traits);
-  console.log(`Seeded ${inserted.length} traits.`);
+  const ops = traits.map((t) => ({
+    updateOne: {
+      filter: { trait: t.trait },
+      update: { $set: t },
+      upsert: true,
+    },
+  }));
+  const result = await Trait.bulkWrite(ops);
+  console.log(`Traits seeded: ${result.upsertedCount} inserted, ${result.modifiedCount} updated.`);
 }

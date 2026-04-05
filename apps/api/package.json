@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "NODE_ENV=development nodemon --env-file=.env.development index.js",
-    "start": "node index.js",
+    "start": "node utils/seed/seedDatabase.js -- traits && node index.js",
     "db:seed": "NODE_ENV=development node --env-file=.env.development utils/seed/seedDatabase.js",
     "db:clear": "NODE_ENV=development node --env-file=.env.development utils/seed/clearDatabase.js",
     "test": "vitest run",
