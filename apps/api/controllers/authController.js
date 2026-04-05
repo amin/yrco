@@ -3,7 +3,7 @@ import { authenticateWithLinkedIn, logout } from "../usecases/authUseCases.js";
 import { buildLinkedInAuthUrl } from "../helpers/buildLinkedInAuthUrl.js";
 import { validateRedirect } from "../helpers/validateRedirect.js";
 
-const allowedOrigins = process.env.ALLOWED_CLIENT_ORIGINS.split(",");
+const allowedOrigins = (process.env.ALLOWED_CLIENT_ORIGINS ?? '').split(',').filter(Boolean);
 
 export function handleLinkedInRedirect(req, res) {
   const origin = req.query.origin;
