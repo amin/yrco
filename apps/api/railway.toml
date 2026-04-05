@@ -1,5 +1,5 @@
 [build]
-buildCommand = "npm i -g pnpm && pnpm install --filter=api"
+installCommand = "npm i -g pnpm && pnpm install --filter=api"
 
 [deploy]
 startCommand = "node index.js"
