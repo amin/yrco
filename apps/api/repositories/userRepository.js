@@ -52,7 +52,7 @@ export const upsert = async (uid, data) => {
 };
 
 export const findAll = async (page, limit) => {
-  const docs = await User.find()
+  const docs = await User.find({ setupComplete: true })
     .sort({ createdAt: 1 })
     .skip((page - 1) * limit)
     .limit(limit + 1)
@@ -65,6 +65,7 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 export const search = async (query, page, pageSize) => {
   const escaped = escapeRegex(query);
   const filter = {
+    setupComplete: true,
     $or: [
       { username: { $regex: escaped, $options: "i" } },
       { firstName: { $regex: escaped, $options: "i" } },
