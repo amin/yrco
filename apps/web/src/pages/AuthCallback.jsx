@@ -14,7 +14,7 @@ export const AuthCallback = () => {
   const redirect = PROTECTED_ROUTES.some(r => r.path === raw) ? raw : null
 
   useEffect(() => {
-    if (isLoading || isFetching) return
+    if (isLoading || isFetching || user === undefined) return
 
     if (!user) {
       navigate('/login', { replace: true })
