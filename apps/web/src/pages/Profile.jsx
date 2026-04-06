@@ -1,6 +1,6 @@
 import { useProfile, ProfileCard } from '@/features/profile'
 import { useConnections } from '@/features/connections'
-import { TraitList } from '@/features/traits'
+import { TraitList } from '@/shared/ui'
 
 export const Profile = () => {
   const { user, isLoading } = useProfile()

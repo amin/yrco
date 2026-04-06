@@ -1,4 +1,5 @@
-import { useTraits, TraitList } from '@/features/traits'
+import { useTraits } from '@/features/traits'
+import { TraitList } from '@/shared/ui'
 
 export const Palette = () => {
   const { traits } = useTraits()
