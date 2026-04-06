@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
-import { RoleStep, DetailsStep } from '@/features/setup'
+import { RoleStep, DetailsStep, OnboardingCardsStep } from '@/features/setup'
 
 export const Setup = () => {
   const { user } = useAuth()
@@ -52,6 +52,13 @@ export const Setup = () => {
           onChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
           onBack={() => setStep(1)}
           onNext={() => setStep(3)}
+        />
+      )}
+
+      {step === 3 && (
+        <OnboardingCardsStep
+          onBack={() => setStep(2)}
+          onComplete={() => setStep(4)}
         />
       )}
 
