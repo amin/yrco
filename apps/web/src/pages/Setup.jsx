@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
-import { RoleStep, DetailsStep, OnboardingCardsStep } from '@/features/setup'
+import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep } from '@/features/setup'
 
 export const Setup = () => {
   const { user } = useAuth()
@@ -17,22 +17,19 @@ export const Setup = () => {
     queryFn: () => api.get('/traits').then(r => r.data),
   })
 
-  const { mutate, isPending } = useMutation({
+  const { mutate } = useMutation({
     mutationFn: (data) => api.post('/users/me/setup', data),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.me }),
   })
 
   if (user?.setupComplete) return <Navigate to="/palette" replace />
 
-  const handleQuickSetup = () => {
-    if (traits.length < 7) return
-    const shuffled = [...traits].sort(() => Math.random() - 0.5)
-    const traitIds = shuffled.slice(0, 7).map(t => t.id)
-    const role = Math.random() > 0.5 ? 'student' : 'organization'
-    mutate(role === 'student'
-      ? { role, traitIds, education: 'Web Developer', website: 'https://example.com' }
-      : { role, traitIds, organizationName: 'Acme Corp', roleAtCompany: 'Engineer' }
-    )
+  const handleSetupComplete = (traitIds) => {
+    const base = { role: formData.role, traitIds }
+    const data = formData.role === 'student'
+      ? { ...base, education: formData.education, website: formData.website ?? '' }
+      : { ...base, organizationName: formData.organizationName, roleAtCompany: formData.roleAtCompany, targetEducation: formData.targetEducation }
+    mutate(data)
   }
 
   return (
@@ -62,17 +59,13 @@ export const Setup = () => {
         />
       )}
 
-      {import.meta.env.DEV && (
-        <div className="fixed bottom-4 left-4">
-          <button
-            onClick={handleQuickSetup}
-            disabled={isPending || traits.length < 7}
-            className="text-xs text-gray-400 underline"
-          >
-            {isPending ? 'Setting up...' : 'Quick Setup'}
-          </button>
-        </div>
+      {step === 4 && (
+        <TraitsStep
+          traits={traits}
+          onComplete={handleSetupComplete}
+        />
       )}
+
     </div>
   )
 }
