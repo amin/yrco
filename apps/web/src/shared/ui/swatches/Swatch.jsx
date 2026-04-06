@@ -1,4 +1,4 @@
-export const Trait = ({ trait, color, icebreaker, expanded, collapsed, onClick }) => (
+export const Swatch = ({ trait, color, icebreaker, expanded, collapsed, onClick }) => (
   <button
     onClick={onClick}
     style={{ backgroundColor: color }}

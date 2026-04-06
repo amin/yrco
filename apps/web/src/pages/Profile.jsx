@@ -1,6 +1,6 @@
 import { useProfile, ProfileCard } from '@/features/profile'
 import { useConnections } from '@/features/connections'
-import { TraitList } from '@/shared/ui'
+import { SwatchList } from '@/shared/ui'
 
 export const Profile = () => {
   const { user, isLoading } = useProfile()
@@ -18,7 +18,7 @@ export const Profile = () => {
         isPending={isPending}
       />
       <div className="flex-1 overflow-hidden">
-        <TraitList traits={user.traits ?? []} />
+        <SwatchList traits={user.traits ?? []} />
       </div>
     </div>
   )

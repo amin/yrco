@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Trait } from './Trait'
+import { Swatch } from './Swatch'
 
-export const TraitList = ({ traits }) => {
+export const SwatchList = ({ traits }) => {
   const [expandedId, setExpandedId] = useState(null)
 
   const toggle = (id) => setExpandedId(prev => prev === id ? null : id)
@@ -9,7 +9,7 @@ export const TraitList = ({ traits }) => {
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
       {traits.map(({ id, trait, color, icebreaker }) => (
-        <Trait
+        <Swatch
           key={id}
           trait={trait}
           color={color}
