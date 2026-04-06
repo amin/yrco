@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Button } from '@/shared/ui/buttons/Button'
 import { TraitButton } from './TraitButton'
+import { shuffle } from '@/utils/shuffle'
 
 const MAX = 7
 
 export const TraitsStep = ({ traits, onComplete }) => {
   const [selectedIds, setSelectedIds] = useState([])
+  const shuffledTraits = useMemo(() => shuffle(traits), [traits])
 
   const toggle = (id) => {
     setSelectedIds(prev =>
@@ -21,7 +23,7 @@ export const TraitsStep = ({ traits, onComplete }) => {
         <div className="flex flex-col items-center gap-m">
         <span className="text-2xl font-light">Pick your traits</span>
         <div className="flex flex-wrap gap-s justify-center">
-          {traits.map(({ id, trait, color }) => (
+          {shuffledTraits.map(({ id, trait, color }) => (
             <TraitButton
               key={id}
               trait={trait}
