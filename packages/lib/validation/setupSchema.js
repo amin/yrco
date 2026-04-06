@@ -11,6 +11,7 @@ export const studentFieldsSchema = z.object({
 export const organizationFieldsSchema = z.object({
   organizationName: z.string().min(1, "Organization name is required"),
   roleAtCompany: z.string().min(1, "Role is required"),
+  targetEducation: z.array(z.enum(["Web Developer", "Digital Designer"])).min(1, "Select at least one programme"),
 });
 
 export const setupSchema = z.discriminatedUnion("role", [

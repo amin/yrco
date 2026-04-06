@@ -15,6 +15,7 @@ const userSchema = new mongoose.Schema(
     education: { type: String },
     organizationName: { type: String },
     roleAtCompany: { type: String },
+    targetEducation: { type: [String], default: [] },
     setupComplete: { type: Boolean, default: false },
     traitIds: { type: [ObjectId], ref: "Trait", default: [] },
     connectionIds: { type: [String], default: [] },
