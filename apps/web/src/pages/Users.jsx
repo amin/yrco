@@ -1,5 +1,6 @@
-import { useSearch, SearchHeader } from '@/features/search'
+import { useSearch } from '@/features/search'
 import { UserSwatch } from '@/shared/ui'
+import { SearchHeader } from '@/shared/layout'
 
 export const Users = () => {
   const { users, search, setSearch } = useSearch()

@@ -1,8 +1,7 @@
 import { useState } from 'react'
 import { useConnections } from '@/features/connections/hooks/useConnections'
 import { UserSwatch } from '@/shared/ui'
-import { InputText } from '@/shared/ui/inputs/InputText'
-import { CloseIcon } from '@/shared/icons'
+import { SearchHeader } from '@/shared/layout'
 
 export const Connections = () => {
   const { connections = [] } = useConnections()
@@ -17,22 +16,7 @@ export const Connections = () => {
 
   return (
     <div className="h-full flex flex-col overflow-hidden">
-      <div className="bg-yrgo-red flex flex-col justify-end h-[140px] pb-base px-s shrink-0">
-        <div className="flex items-center gap-s">
-          <InputText
-            placeholder="Search"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            showSearch={!query}
-            className="flex-1"
-          />
-          {query && (
-            <button onClick={() => setQuery('')} className="text-white shrink-0">
-              <CloseIcon />
-            </button>
-          )}
-        </div>
-      </div>
+      <SearchHeader value={query} onChange={e => setQuery(e.target.value)} onClear={() => setQuery('')} />
 
       <div className="flex-1 overflow-y-auto">
         {filtered.length > 0 ? (
