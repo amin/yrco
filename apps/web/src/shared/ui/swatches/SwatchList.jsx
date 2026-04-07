@@ -7,7 +7,7 @@ export const SwatchList = ({ traits }) => {
   const toggle = (id) => setExpandedId(prev => prev === id ? null : id)
 
   return (
-    <div className="flex flex-col h-full w-full overflow-hidden">
+    <div className="flex flex-col h-full w-full overflow-hidden [&>*:first-child]:pt-[env(safe-area-inset-top)]">
       {traits.map(({ id, trait, color, icebreaker }) => (
         <Swatch
           key={id}

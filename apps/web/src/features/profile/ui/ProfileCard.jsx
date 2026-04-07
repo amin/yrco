@@ -1,7 +1,7 @@
 import { HeartButton } from '@/shared/ui/buttons'
 
 export const ProfileCard = ({ user, isConnected = false, isOwnProfile = false, onToggle, isPending = false }) => (
-  <div className="bg-yrgo-red flex flex-col justify-end shrink-0 h-[252px]">
+  <div className="bg-yrgo-red flex flex-col justify-end shrink-0 h-[252px] pt-[env(safe-area-inset-top)]">
     <div className="flex flex-col justify-between pb-m">
       <div className="flex flex-col gap-s px-base">
         <p className="font-sans text-xl leading-xl tracking-tighter text-white font-light">{user.name}</p>
