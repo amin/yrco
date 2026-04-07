@@ -28,7 +28,7 @@ export const Setup = () => {
     },
   })
 
-  if (user?.setupComplete) return <Navigate to="/palette" replace />
+  if (user?.setupComplete) return <Navigate to={redirect || '/palette'} replace />
 
   const handleSetupComplete = (traitIds) => {
     const base = { role: formData.role, traitIds }
