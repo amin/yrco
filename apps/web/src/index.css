@@ -146,7 +146,7 @@
 }
 
 body {
-  background-color: #e51236;
+  background-color: var(--color-yrgo-red);
 }
 
 :root {
