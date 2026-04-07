@@ -8,6 +8,7 @@ export function useProfile() {
   const { data: user, isLoading } = useQuery({
     queryKey: queryKeys.user(username),
     queryFn: () => api.get(`/users/${username}`).then(r => r.data),
+    enabled: !!username,
   })
   return { user, isLoading }
 }

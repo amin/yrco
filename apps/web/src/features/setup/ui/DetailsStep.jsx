@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { studentFieldsSchema } from '@yrco/lib'
 import { useAuth } from '@/providers/AuthProvider'
 import { InputText } from '@/shared/ui/inputs/InputText'
 import { ControllerTwoInput } from '@/shared/ui/inputs/ControllerTwoInput'
@@ -6,6 +8,7 @@ import { Button } from '@/shared/ui/buttons/Button'
 export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
   const { user } = useAuth()
   const isStudent = role === 'student'
+  const [websiteError, setWebsiteError] = useState('')
 
   const targetEducation = formData.targetEducation ?? []
   const toggleTargetEducation = (value) => {
@@ -15,8 +18,18 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     onChange('targetEducation', next)
   }
 
+  const validateWebsite = () => {
+    let value = formData.website ?? ''
+    if (value && !/^https?:\/\//i.test(value)) {
+      value = `https://${value}`
+      onChange('website', value)
+    }
+    const result = studentFieldsSchema.shape.website.safeParse(value)
+    setWebsiteError(result.success ? '' : result.error.issues[0].message)
+  }
+
   const canProceed = isStudent
-    ? !!formData.education
+    ? !!formData.education && !websiteError
     : !!(formData.organizationName && formData.roleAtCompany && targetEducation.length > 0)
 
   return (
@@ -34,8 +47,12 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
               showSearch={false}
               placeholder="Personal link"
               value={formData.website ?? ''}
-              onChange={e => onChange('website', e.target.value)}
+              onChange={e => { onChange('website', e.target.value); setWebsiteError('') }}
+              onBlur={validateWebsite}
             />
+            {websiteError && (
+              <span className="font-sans text-xs text-yrgo-red px-base">{websiteError}</span>
+            )}
             <ControllerTwoInput
               label="Programme"
               leftLabel="Digital Design"
