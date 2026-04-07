@@ -5,7 +5,7 @@ export const NavBar = ({ onQrToggle, qrActive }) => {
   const navigate = useNavigate()
   const { pathname } = useLocation()
   return (
-    <div className="absolute bottom-0 right-0 pb-[max(theme(spacing.xl),env(safe-area-inset-bottom))] pr-m flex flex-col gap-m items-center z-20">
+    <div className="absolute bottom-0 right-0 pb-3xl pr-base flex flex-col gap-m items-center z-20">
       <button onClick={onQrToggle} className="w-17 aspect-square rounded-full bg-yrgo-red flex items-center justify-center cursor-pointer">
         <QrIcon active={qrActive} size={20} className="text-white" />
       </button>

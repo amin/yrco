@@ -6,7 +6,7 @@ export const Swatch = ({ trait, color, icebreaker, expanded, collapsed, onClick 
       collapsed
         ? 'h-0 flex-none'
         : expanded
-        ? 'flex-1 pt-2xl px-m pb-m'
+        ? 'flex-1 pt-2xl px-base pb-base'
         : 'flex-1 justify-end px-base pb-l'
     }`}
   >

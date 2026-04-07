@@ -19,7 +19,7 @@ export const TraitsStep = ({ traits, onComplete }) => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-m flex items-center justify-center">
+      <div className="flex-1 overflow-y-auto p-base flex items-center justify-center">
         <div className="flex flex-col items-center gap-m">
         <span className="text-2xl font-light">Pick your traits</span>
         <div className="flex flex-wrap gap-s justify-center">
@@ -36,7 +36,7 @@ export const TraitsStep = ({ traits, onComplete }) => {
         </div>
       </div>
 
-      <div className="flex justify-end p-m">
+      <div className="flex justify-end p-base">
         <Button disabled={selectedIds.length !== MAX} onClick={() => onComplete(selectedIds)}>
           Next
         </Button>

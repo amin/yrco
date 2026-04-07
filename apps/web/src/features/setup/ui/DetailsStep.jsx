@@ -33,7 +33,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     : !!(formData.organizationName && formData.roleAtCompany && targetEducation.length > 0)
 
   return (
-    <div className="flex flex-col h-full p-m">
+    <div className="flex flex-col h-full p-base">
       <div className="flex-1 flex flex-col justify-center gap-xl">
         <div className="flex flex-col">
           <span className="text-2xl font-light">{user?.name}</span>

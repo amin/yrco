@@ -24,12 +24,12 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
     <div className="flex flex-col h-full">
       <div className="bg-yrgo-light-blue flex-1" />
 
-      <div className="flex flex-col p-m gap-m">
+      <div className="flex flex-col p-base gap-base">
         <span className="text-2xl font-bold">{card.title}</span>
         <p className="text-2xl font-light">{card.body}</p>
       </div>
 
-      <div className="flex flex-col p-m gap-s">
+      <div className="flex flex-col p-base gap-base">
         <div className="flex justify-end">
           <Button onClick={handleNext}>Next</Button>
         </div>

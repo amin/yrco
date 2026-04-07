@@ -13,7 +13,7 @@ export const RoleStep = ({ role, onSelect, onNext }) => (
         </ToggleButton>
       </div>
     </div>
-    <div className="flex justify-end p-m">
+    <div className="flex justify-end p-base">
       <Button disabled={!role} onClick={onNext}>Next</Button>
     </div>
   </div>
