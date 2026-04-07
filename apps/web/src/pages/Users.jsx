@@ -8,7 +8,7 @@ export const Users = () => {
   return (
     <div className="h-full flex flex-col">
       <SearchHeader value={search} onChange={e => setSearch(e.target.value)} />
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto bg-white">
         {users.map(user => <UserSwatch key={user.username} user={user} />)}
       </div>
     </div>

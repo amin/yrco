@@ -18,7 +18,7 @@ export const Connections = () => {
     <div className="h-full flex flex-col overflow-hidden">
       <SearchHeader value={query} onChange={e => setQuery(e.target.value)} onClear={() => setQuery('')} />
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto bg-white">
         {filtered.length > 0 ? (
           filtered.map(user => <UserSwatch key={user.username} user={user} />)
         ) : (
