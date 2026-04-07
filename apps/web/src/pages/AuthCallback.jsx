@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams, matchPath } from 'react-router-dom'
 import { useIsFetching } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { APP_ROUTES } from '@/shared/routes'
@@ -11,7 +11,7 @@ export const AuthCallback = () => {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const raw = searchParams.get('redirect')
-  const redirect = APP_ROUTES.some(r => r.path === raw) ? raw : null
+  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
 
   useEffect(() => {
     if (isLoading || isFetching || user === undefined) return

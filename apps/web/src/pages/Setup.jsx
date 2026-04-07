@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
@@ -9,6 +9,9 @@ import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep } from '@/featur
 export const Setup = () => {
   const { user } = useAuth()
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const redirect = searchParams.get('redirect')
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({ role: null })
 
@@ -19,7 +22,10 @@ export const Setup = () => {
 
   const { mutate } = useMutation({
     mutationFn: (data) => api.post('/users/me/setup', data),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: queryKeys.me }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.me })
+      navigate(redirect || '/palette', { replace: true })
+    },
   })
 
   if (user?.setupComplete) return <Navigate to="/palette" replace />
