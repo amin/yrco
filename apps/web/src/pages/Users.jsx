@@ -1,15 +1,28 @@
+import { useEffect, useRef } from 'react'
 import { useSearch } from '@/features/search'
 import { UserSwatch } from '@/shared/ui'
 import { SearchHeader } from '@/shared/layout'
 
 export const Users = () => {
-  const { users, search, setSearch } = useSearch()
+  const { users, hasMore, fetchMore, isFetchingMore, search, setSearch } = useSearch()
+  const sentinelRef = useRef(null)
+
+  useEffect(() => {
+    const el = sentinelRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting && hasMore && !isFetchingMore) fetchMore()
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [hasMore, isFetchingMore, fetchMore])
 
   return (
     <div className="h-full flex flex-col">
       <SearchHeader value={search} onChange={e => setSearch(e.target.value)} />
       <div className="flex-1 overflow-y-auto bg-white">
         {users.map(user => <UserSwatch key={user.username} user={user} />)}
+        <div ref={sentinelRef} />
       </div>
     </div>
   )
