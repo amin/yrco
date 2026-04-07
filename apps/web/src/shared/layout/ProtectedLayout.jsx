@@ -9,7 +9,7 @@ export const ProtectedLayout = ({ children }) => {
   const { user } = useAuth()
 
   return (
-    <div className="relative h-screen">
+    <div className="relative h-svh">
       <QrOverlay username={user?.username} open={qrOpen} />
       <PageTransition>
         {children}

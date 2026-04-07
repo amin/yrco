@@ -39,7 +39,7 @@ export const Setup = () => {
   }
 
   return (
-    <div className="flex flex-col h-dvh">
+    <div className="flex flex-col h-svh">
       {step === 1 && (
         <RoleStep
           role={formData.role}
