@@ -145,6 +145,10 @@
   --color-yrco-4a5182: #4a5182;
 }
 
+body {
+  background-color: #e51236;
+}
+
 :root {
   /* Button - Primary */
   --btn-primary-bg: #e51236;
