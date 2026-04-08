@@ -23,11 +23,12 @@ export const TraitsStep = ({ traits, onComplete }) => {
         <div className="flex flex-col items-center gap-m">
         <span className="text-2xl font-light">Pick your traits</span>
         <div className="flex flex-wrap gap-s justify-center">
-          {shuffledTraits.map(({ id, trait, color }) => (
+          {shuffledTraits.map(({ id, trait, color, colorText }) => (
             <TraitButton
               key={id}
               trait={trait}
               color={color}
+              colorText={colorText}
               picked={selectedIds.includes(id)}
               onClick={() => toggle(id)}
             />

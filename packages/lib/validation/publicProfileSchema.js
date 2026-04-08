@@ -4,6 +4,7 @@ const traitSchema = z.object({
   id: z.string(),
   trait: z.string(),
   color: z.string(),
+  colorText: z.string(),
   icebreaker: z.string(),
 });
 

@@ -84,21 +84,21 @@ export default function Profile() {
       {traits.length > 0 && (
         <div className="px-6">
           <div className="flex flex-col gap-3 mb-3">
-            {traits.map(({ id, trait, color, icebreaker }) => (
+            {traits.map(({ id, trait, color, colorText, icebreaker }) => (
               <button
                 key={id}
                 onClick={() => setActiveId(activeId === id ? null : id)}
                 className="w-full rounded-2xl px-6 py-5 flex flex-col text-left transition-all active:scale-[0.98] cursor-pointer"
-                style={{ backgroundColor: color }}
+                style={{ backgroundColor: color, color: colorText }}
               >
                 <div className="flex items-center justify-between w-full">
-                  <span className="text-white text-xl font-bold tracking-tight">{trait}</span>
-                  <span className="text-white/60 text-lg">{activeId === id ? "−" : "+"}</span>
+                  <span className="text-xl font-bold tracking-tight">{trait}</span>
+                  <span className="text-lg" style={{ opacity: 0.6 }}>{activeId === id ? "−" : "+"}</span>
                 </div>
                 {activeId === id && (
                   <>
-                    <div className="w-full border-t border-white/20 mt-4 mb-3" />
-                    <p className="text-white text-lg font-medium leading-relaxed">"{icebreaker}"</p>
+                    <div className="w-full border-t mt-4 mb-3" style={{ borderColor: `${colorText}33` }} />
+                    <p className="text-lg font-medium leading-relaxed">"{icebreaker}"</p>
                   </>
                 )}
               </button>

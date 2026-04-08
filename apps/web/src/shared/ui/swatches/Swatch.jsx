@@ -1,7 +1,7 @@
-export const Swatch = ({ trait, color, icebreaker, expanded, collapsed, onClick }) => (
+export const Swatch = ({ trait, color, colorText, icebreaker, expanded, collapsed, onClick }) => (
   <button
     onClick={onClick}
-    style={{ backgroundColor: color }}
+    style={{ backgroundColor: color, color: colorText }}
     className={`w-full flex flex-col overflow-hidden transition-all duration-300 cursor-pointer ${
       collapsed
         ? 'h-0 flex-none'
@@ -10,12 +10,12 @@ export const Swatch = ({ trait, color, icebreaker, expanded, collapsed, onClick 
         : 'flex-1 justify-end px-base pb-l'
     }`}
   >
-    <span className="font-sans text-xl leading-xl tracking-tighter text-white text-left">
+    <span className="font-sans text-xl leading-xl tracking-tighter text-left">
       {trait}
     </span>
     {expanded && (
       <div className="flex flex-1 items-center">
-        <p className="font-sans text-xl leading-xl tracking-tighter text-white font-light text-left">
+        <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left">
           {icebreaker}
         </p>
       </div>

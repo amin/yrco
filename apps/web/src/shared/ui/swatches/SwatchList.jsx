@@ -8,11 +8,12 @@ export const SwatchList = ({ traits }) => {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden">
-      {traits.map(({ id, trait, color, icebreaker }) => (
+      {traits.map(({ id, trait, color, colorText, icebreaker }) => (
         <Swatch
           key={id}
           trait={trait}
           color={color}
+          colorText={colorText}
           icebreaker={icebreaker}
           expanded={expandedId === id}
           collapsed={expandedId !== null && expandedId !== id}

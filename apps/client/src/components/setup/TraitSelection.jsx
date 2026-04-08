@@ -30,7 +30,7 @@ export default function TraitSelection({ selected, onChange, onBack, onSubmit, i
       </p>
 
       <div className="grid grid-cols-2 gap-2 mb-6 flex-1 content-start">
-        {traits.map(({ id, trait, color }) => {
+        {traits.map(({ id, trait, color, colorText }) => {
           const isSelected = selected.includes(id);
           const isDisabled = !isSelected && selected.length >= MAX;
 
@@ -41,10 +41,10 @@ export default function TraitSelection({ selected, onChange, onBack, onSubmit, i
               disabled={isDisabled}
               className={`py-4 px-3 rounded-xl text-sm font-medium transition-all border-2 ${
                 isSelected
-                  ? "text-white border-transparent"
+                  ? "border-transparent"
                   : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed"
               }`}
-              style={isSelected ? { backgroundColor: color, borderColor: color } : {}}
+              style={isSelected ? { backgroundColor: color, borderColor: color, color: colorText } : {}}
             >
               {trait}
             </button>
