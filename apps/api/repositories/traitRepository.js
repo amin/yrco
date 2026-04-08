@@ -6,6 +6,7 @@ export const findAll = async () => {
     id: doc._id.toString(),
     trait: doc.trait,
     color: doc.color,
+    colorText: doc.colorText,
     icebreaker: doc.icebreaker,
   }));
 };
