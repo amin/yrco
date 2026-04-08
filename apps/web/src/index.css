@@ -145,10 +145,6 @@
   --color-yrco-4a5182: #4a5182;
 }
 
-body {
-  background-color: var(--color-yrgo-red);
-}
-
 :root {
   /* Button - Primary */
   --btn-primary-bg: #e51236;
