@@ -35,10 +35,16 @@ export const setEmailOptIn = async (uid, optIn) => {
 };
 
 export const completeUserSetup = async (uid, data) => {
+  const existing = await userRepo.findById(uid);
+  const isFirstSetup = !existing?.setupComplete;
+
   const user = await userRepo.update(uid, { ...data, setupComplete: true });
-  try {
-    await emailService.sendWelcomeEmail({ to: user.email, firstName: user.firstName, traits: user.traitIds ?? [] });
-  } catch (err) {
-    console.error("Failed to send welcome email:", err);
+
+  if (isFirstSetup) {
+    try {
+      await emailService.sendWelcomeEmail({ to: user.email, firstName: user.firstName, traits: user.traitIds ?? [] });
+    } catch (err) {
+      console.error("Failed to send welcome email:", err);
+    }
   }
 };
