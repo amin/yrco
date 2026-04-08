@@ -29,6 +29,11 @@ export const updateUser = async (uid, data) => {
   return user;
 };
 
+export const setEmailOptIn = async (uid, optIn) => {
+  const user = await userRepo.update(uid, { emailOptIn: optIn });
+  if (!user) throw { status: 404, message: "User not found" };
+};
+
 export const completeUserSetup = async (uid, data) => {
   const user = await userRepo.update(uid, { ...data, setupComplete: true });
   try {

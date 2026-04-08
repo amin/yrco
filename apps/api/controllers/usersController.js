@@ -1,4 +1,4 @@
-import { getPublicUser, getAllUsers, getCurrentUser, completeUserSetup, updateUser } from "../usecases/usersUseCases.js";
+import { getPublicUser, getAllUsers, getCurrentUser, completeUserSetup, updateUser, setEmailOptIn } from "../usecases/usersUseCases.js";
 import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@yrco/lib";
 
@@ -48,6 +48,13 @@ export async function handleRemoveUserConnection(req, res) {
 
 export async function handleGetUserConnections(req, res) {
   res.json(await getUserConnections(req.user.connectionIds ?? []));
+}
+
+export async function handleSetEmailOptIn(req, res) {
+  const { optIn } = req.body;
+  if (typeof optIn !== "boolean") throw { status: 400, message: "optIn must be a boolean" };
+  await setEmailOptIn(req.user.uid, optIn);
+  res.json({ ok: true });
 }
 
 export async function handleUpdateUser(req, res) {

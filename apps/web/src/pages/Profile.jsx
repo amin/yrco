@@ -1,10 +1,11 @@
 import { useProfile, ProfileCard } from '@/features/profile'
 import { useConnections } from '@/features/connections'
+import { EmailOptInPopup } from '@/features/connections/ui/EmailOptInPopup'
 import { SwatchList } from '@/shared/ui'
 
 export const Profile = () => {
   const { user, isLoading } = useProfile()
-  const { isOwnProfile, isConnected, isPending, onToggle } = useConnections(user?.username)
+  const { isOwnProfile, isConnected, isPending, onToggle, showEmailOptIn, onEmailOptIn } = useConnections(user?.username)
 
   if (isLoading || !user) return null
 
@@ -20,6 +21,12 @@ export const Profile = () => {
       <div className="flex-1 overflow-hidden">
         <SwatchList traits={user.traits ?? []} />
       </div>
+      {showEmailOptIn && (
+        <EmailOptInPopup
+          onAccept={() => onEmailOptIn(true)}
+          onDecline={() => onEmailOptIn(false)}
+        />
+      )}
     </div>
   )
 }

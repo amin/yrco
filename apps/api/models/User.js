@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
     setupComplete: { type: Boolean, default: false },
     traitIds: { type: [ObjectId], ref: "Trait", default: [] },
     connectionIds: { type: [String], default: [] },
+    emailOptIn: { type: Boolean, default: null },
   },
   { timestamps: true },
 );
