@@ -101,4 +101,5 @@ export async function seedTraits() {
   }));
   const result = await Trait.bulkWrite(ops);
   console.log(`Traits seeded: ${result.upsertedCount} inserted, ${result.modifiedCount} updated.`);
+  
 }
