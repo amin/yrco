@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '@/providers/AuthProvider'
 import { NavBar } from './components/NavBar'
 import { QrOverlay } from './components/QrOverlay'
@@ -8,8 +8,13 @@ export const ProtectedLayout = ({ children }) => {
   const [qrOpen, setQrOpen] = useState(false)
   const { user } = useAuth()
 
+  useEffect(() => {
+    document.body.style.backgroundColor = '#e51236'
+    return () => { document.body.style.backgroundColor = '' }
+  }, [])
+
   return (
-    <div className="relative h-svh">
+    <div className="relative h-svh bg-yrgo-red">
       <QrOverlay username={user?.username} open={qrOpen} />
       {qrOpen && (
         <div className="absolute inset-0 z-[9]" onClick={() => setQrOpen(false)} />
