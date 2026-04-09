@@ -51,9 +51,9 @@
   --color-yrgo-red: #e51236;
   --color-yrgo-light-blue: #e4e9eb;
   --color-yrgo-blue-active: #041334;
-  --color-yrgo-red-active: #cc082a;
+  --color-yrgo-red-active: #cd092a;
   --color-yrgo-red-disabled: #edc7ce;
-  --color-yrgo-light-blue-active: #c7cdd0;
+  --color-yrgo-light-blue-active: #c8ced0;
 
   /* ── Neutrals ── */
   --color-white: #ffffff;
@@ -155,7 +155,7 @@
 :root {
   /* Button - Primary */
   --btn-primary-bg: #e51236;
-  --btn-primary-bg-active: #cc082a;
+  --btn-primary-bg-active: #cd092a;
   --btn-primary-bg-disabled: #e51236;
   --btn-primary-fg: #ffffff;
   --btn-primary-fg-active: #ffffff;
@@ -163,11 +163,11 @@
 
   /* Button - Secondary */
   --btn-secondary-bg: #e4e9eb;
-  --btn-secondary-bg-active: #c7cdd0;
+  --btn-secondary-bg-active: #c8ced0;
   --btn-secondary-bg-disabled: #e4e9eb;
   --btn-secondary-fg: #000000;
   --btn-secondary-fg-active: #000000;
-  --btn-secondary-fg-disabled: #c7cdd0;
+  --btn-secondary-fg-disabled: #c8ced0;
 
   /* Button - Toggle */
   --btn-toggle-bg: #ffffff;
@@ -175,7 +175,7 @@
   --btn-toggle-bg-unpicked: #ffffff;
   --btn-toggle-fg: #000000;
   --btn-toggle-fg-picked: #ffffff;
-  --btn-toggle-fg-unpicked: #c7cdd0;
+  --btn-toggle-fg-unpicked: #c8ced0;
   --btn-toggle-stroke: #000000;
   --btn-toggle-stroke-unpicked: #000000;
 
