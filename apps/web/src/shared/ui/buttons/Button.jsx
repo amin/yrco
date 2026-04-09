@@ -1,7 +1,7 @@
 import { BaseButton } from './BaseButton'
 
 const variants = {
-  primary: 'bg-yrgo-red text-white active:bg-yrgo-red-active disabled:text-yrgo-light-blue-active',
+  primary: 'bg-yrgo-red text-white active:bg-yrgo-red-active disabled:bg-yrgo-red-disabled disabled:text-dark-grey',
   secondary: 'bg-yrgo-light-blue text-black active:bg-yrgo-light-blue-active disabled:text-yrgo-light-blue-active',
 }
 

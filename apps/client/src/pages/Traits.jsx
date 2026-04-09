@@ -21,7 +21,7 @@ export default function Traits() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col px-6 py-10 max-w-md mx-auto">
+    <div className="h-screen flex flex-col max-w-md mx-auto overflow-hidden min-h-0">
       <TraitSelection
         selected={selected}
         onChange={setTraitIds}

@@ -13,52 +13,57 @@ export default function TraitSelection({ selected, onChange, onBack, onSubmit, i
     }
   }
 
-  if (isLoading) return <p className="text-sm text-gray-400">Loading traits...</p>;
+  if (isLoading) return <p className="text-sm text-gray-400 p-6">Loading traits...</p>;
 
   return (
-    <div className="flex flex-col flex-1">
-      <button
-        onClick={onBack}
-        className="flex items-center gap-1 text-sm text-gray-400 hover:text-gray-700 transition-colors mb-8 self-start"
-      >
-        ← Back
-      </button>
-
-      <h2 className="text-3xl font-bold text-gray-900 mb-2">Pick 7 traits</h2>
-      <p className="text-sm text-gray-500 mb-6">
-        Choose traits that represent you. {selected.length}/{MAX} selected.
-      </p>
-
-      <div className="grid grid-cols-2 gap-2 mb-6 flex-1 content-start">
-        {traits.map(({ id, trait, color, colorText }) => {
-          const isSelected = selected.includes(id);
-          const isDisabled = !isSelected && selected.length >= MAX;
-
-          return (
-            <button
-              key={id}
-              onClick={() => toggle(id)}
-              disabled={isDisabled}
-              className={`py-4 px-3 rounded-xl text-sm font-medium transition-all border-2 ${
-                isSelected
-                  ? "border-transparent"
-                  : "bg-white text-gray-700 border-gray-200 hover:border-gray-400 disabled:opacity-40 disabled:cursor-not-allowed"
-              }`}
-              style={isSelected ? { backgroundColor: color, borderColor: color, color: colorText } : {}}
-            >
-              {trait}
-            </button>
-          );
-        })}
+    <div className="flex-1 min-h-0 flex flex-col">
+      {/* Title — outside scroll, always visible */}
+      <div className="shrink-0 flex flex-col items-center justify-end px-8 pt-16 pb-10 text-center">
+        <p className="text-2xl leading-tight tracking-tight text-black">
+          What seven labels resonates with you?
+        </p>
       </div>
 
-      <button
-        onClick={onSubmit}
-        disabled={selected.length !== MAX || isPending}
-        className="w-full bg-gray-900 text-white text-sm font-medium py-4 rounded-xl hover:bg-gray-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-      >
-        {isPending ? "Saving..." : "Confirm"}
-      </button>
+      {/* Scrollable traits — flex-1 + min-h-0 gives it a bounded height to scroll within */}
+      <div className="flex-1 min-h-0 overflow-y-auto">
+        <div className="flex flex-wrap justify-center gap-2 px-4 pb-4">
+          {traits.map(({ id, trait, color, colorText }) => {
+            const isSelected = selected.includes(id);
+            const isDisabled = !isSelected && selected.length >= MAX;
+
+            return (
+              <button
+                key={id}
+                onClick={() => toggle(id)}
+                disabled={isDisabled}
+                className={`h-11 px-5 rounded-full text-sm border transition-all whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed ${
+                  isSelected
+                    ? "border-transparent"
+                    : "bg-white text-black border-black hover:bg-gray-50"
+                }`}
+                style={
+                  isSelected
+                    ? { backgroundColor: color, borderColor: color, color: colorText }
+                    : {}
+                }
+              >
+                {trait}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Sticky bottom CTA */}
+      <div className="shrink-0 flex justify-end p-4">
+        <button
+          onClick={onSubmit}
+          disabled={selected.length !== MAX || isPending}
+          className="h-11 px-5 rounded-full text-sm bg-gray-900 text-white transition-colors hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+        >
+          {isPending ? "Saving..." : "Next"}
+        </button>
+      </div>
     </div>
   );
 }

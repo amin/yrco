@@ -29,9 +29,9 @@ export default function Setup() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 overflow-hidden">
+    <div className="h-screen bg-gray-50 overflow-hidden">
       <div
-        className="flex transition-transform duration-300 ease-in-out min-h-screen"
+        className="flex transition-transform duration-300 ease-in-out h-screen"
         style={{ transform: `translateX(${TRANSLATE[step]})`, width: "300%" }}
       >
         <div className="w-1/3 p-6 flex flex-col">
@@ -56,7 +56,7 @@ export default function Setup() {
           )}
         </div>
 
-        <div className="w-1/3 p-6 flex flex-col">
+        <div className="w-1/3 h-screen overflow-hidden flex flex-col">
           <TraitSelection
             selected={traitIds}
             onChange={setTraitIds}

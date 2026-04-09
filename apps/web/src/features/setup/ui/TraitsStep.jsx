@@ -18,10 +18,16 @@ export const TraitsStep = ({ traits, onComplete }) => {
   }
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-base flex items-center justify-center">
-        <div className="flex flex-col items-center gap-m">
-        <span className="text-2xl font-light">Pick your traits</span>
+    <div className="flex-1 min-h-0 flex flex-col relative">
+      {/* Title — top half, text pinned to bottom */}
+      <div className="shrink-0 h-1/2 flex items-end justify-center px-8 pb-10 text-center">
+        <span className="text-2xl font-normal tracking-[-1.2px]">
+          What seven skills and strengths best describe you?
+        </span>
+      </div>
+
+      {/* Scrollable traits */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-base pb-16">
         <div className="flex flex-wrap gap-s justify-center">
           {shuffledTraits.map(({ id, trait, color, colorText }) => (
             <TraitButton
@@ -34,10 +40,10 @@ export const TraitsStep = ({ traits, onComplete }) => {
             />
           ))}
         </div>
-        </div>
       </div>
 
-      <div className="flex justify-end p-base">
+      {/* Floating button — no background, sits over content */}
+      <div className="absolute bottom-0 right-0 p-base">
         <Button disabled={selectedIds.length !== MAX} onClick={() => onComplete(selectedIds)}>
           Next
         </Button>
