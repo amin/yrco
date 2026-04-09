@@ -21,7 +21,7 @@ export const Swatch = ({ trait, color, colorText, icebreaker, expanded, collapse
     </motion.span>
     {expanded && (
       <div className="flex flex-1 items-center">
-        <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left">
+        <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left w-[270px]">
           {icebreaker}
         </p>
       </div>
