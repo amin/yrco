@@ -19,15 +19,14 @@ export const TraitsStep = ({ traits, onComplete }) => {
 
   return (
     <div className="flex-1 min-h-0 flex flex-col relative">
-      {/* Title — top half, text pinned to bottom */}
-      <div className="shrink-0 h-1/2 flex items-end justify-center px-8 pb-10 text-center">
-        <span className="text-2xl font-normal tracking-[-1.2px]">
-          What seven skills and strengths best describe you?
-        </span>
-      </div>
-
       {/* Scrollable traits */}
       <div className="flex-1 min-h-0 overflow-y-auto px-base pb-16">
+        {/* Title scrolls with content */}
+        <div className="h-1/2 flex items-end justify-center pb-10 text-center">
+          <span className="text-2xl font-normal tracking-[-1.2px]">
+            What seven skills and strengths best describe you?
+          </span>
+        </div>
         <div className="flex flex-wrap gap-s justify-center">
           {shuffledTraits.map(({ id, trait, color, colorText }) => (
             <TraitButton
