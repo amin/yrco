@@ -11,10 +11,13 @@ export const ProtectedLayout = ({ children }) => {
   return (
     <div className="relative h-svh">
       <QrOverlay username={user?.username} open={qrOpen} />
+      {qrOpen && (
+        <div className="absolute inset-0 z-[9]" onClick={() => setQrOpen(false)} />
+      )}
       <PageTransition>
         {children}
       </PageTransition>
-      <NavBar onQrToggle={() => setQrOpen(prev => !prev)} qrActive={qrOpen} />
+      <NavBar onQrToggle={() => setQrOpen(prev => !prev)} qrActive={qrOpen} onClose={() => setQrOpen(false)} />
     </div>
   )
 }
