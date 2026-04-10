@@ -51,7 +51,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
     clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
       videoRef.current?.play().catch(() => {})
-    }, 1000)
+    }, 500)
   }
 
   const handleEnded = () => {
@@ -61,7 +61,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
         videoRef.current.currentTime = 0
         videoRef.current.play().catch(() => {})
       }
-    }, 1000)
+    }, 500)
   }
 
   const handleNext = () => isLast ? onComplete() : setCardIndex(i => i + 1)
