@@ -10,10 +10,19 @@ export const ProfileCard = ({ user, isConnected = false, isOwnProfile = false, o
         </p>
       </div>
       <div className="flex items-center justify-end gap-m pr-base pt-base">
-        {user.website && (
-          <a href={user.website} target="_blank" rel="noreferrer" className="text-white underline font-sans text-xl leading-xl tracking-tighter font-light cursor-pointer">
-            Website
-          </a>
+        {(user.website || user.website2) && (
+          <div className="flex flex-col gap-s items-end">
+            {user.website && (
+              <a href={user.website} target="_blank" rel="noreferrer" className="text-white underline font-sans text-xl leading-xl tracking-tighter font-light cursor-pointer">
+                Link
+              </a>
+            )}
+            {user.website2 && (
+              <a href={user.website2} target="_blank" rel="noreferrer" className="text-white underline font-sans text-xl leading-xl tracking-tighter font-light cursor-pointer">
+                Link
+              </a>
+            )}
+          </div>
         )}
         {!isOwnProfile && (
           <HeartButton active={isConnected} disabled={isPending} onClick={onToggle} />

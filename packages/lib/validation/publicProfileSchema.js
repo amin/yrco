@@ -15,6 +15,7 @@ export const publicProfileSchema = z.object({
   picture: z.string(),
   username: z.string(),
   website: z.union([z.url(), z.literal("")]).optional(),
+  website2: z.union([z.url(), z.literal("")]).optional(),
   role: z.enum(["student", "organization"]),
   education: z.string().optional(),
   organizationName: z.string().optional(),
