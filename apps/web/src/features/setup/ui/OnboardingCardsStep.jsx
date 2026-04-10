@@ -35,13 +35,34 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
   const isLast = cardIndex === ONBOARDING_CARDS.length - 1
 
   const videoRef = useRef(null)
+  const timerRef = useRef(null)
 
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load()
-      videoRef.current.play().catch(() => {})
-    }
+    const video = videoRef.current
+    if (!video) return
+    clearTimeout(timerRef.current)
+    video.pause()
+    video.load()
   }, [card.video])
+
+  useEffect(() => () => clearTimeout(timerRef.current), [])
+
+  const handleLoadedData = () => {
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      videoRef.current?.play().catch(() => {})
+    }, 1000)
+  }
+
+  const handleEnded = () => {
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0
+        videoRef.current.play().catch(() => {})
+      }
+    }, 1000)
+  }
 
   const handleNext = () => isLast ? onComplete() : setCardIndex(i => i + 1)
   const handleBack = () => cardIndex > 0 ? setCardIndex(i => i - 1) : onBack()
@@ -52,10 +73,10 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
         ref={videoRef}
         src={card.video}
         className="rounded-[34px] h-[482px] shrink-0 object-cover w-full bg-yrgo-light-blue"
-        autoPlay
-        loop
         muted
         playsInline
+        onLoadedData={handleLoadedData}
+        onEnded={handleEnded}
       />
 
       <div className="flex flex-col flex-1 justify-between">
