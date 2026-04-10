@@ -23,7 +23,7 @@ export const Setup = () => {
   const { mutate } = useMutation({
     mutationFn: (data) => api.post('/users/me/setup', data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: queryKeys.me })
+      queryClient.setQueryData(queryKeys.me, (old) => old ? { ...old, setupComplete: true } : old)
       navigate(redirect || '/palette', { replace: true })
     },
   })
