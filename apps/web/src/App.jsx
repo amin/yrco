@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { DevGallery } from '@/pages/DevGallery'
 import { PublicRoute, AuthRoute, AppRoute, PUBLIC_ROUTES, AUTH_ROUTES, APP_ROUTES, OPEN_ROUTES } from '@/shared/routes'
 import { ProtectedLayout } from '@/shared/layout'
 import { ErrorBoundary } from '@/shared/ui'
@@ -33,7 +32,6 @@ const App = () => {
           <Route key={path} path={path} element={element} />
         ))}
 
-        <Route path="/dev/gallery" element={<DevGallery />} />
         <Route path="*" element={<Navigate to="/error?message=Page not found" replace />} />
       </Routes>
     </BrowserRouter>
