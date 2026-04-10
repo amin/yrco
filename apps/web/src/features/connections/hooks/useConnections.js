@@ -30,7 +30,7 @@ export function useConnections(username) {
   const isOwnProfile = me?.username === username
   const isConnected = connections?.some(c => c.username === username) ?? false
   const isPending = addConnection.isPending || removeConnection.isPending
-  const shouldPromptEmailOptIn = connections?.length === 0 && me?.emailOptIn === null
+  const shouldPromptEmailOptIn = connections?.length === 1 && me?.emailOptIn === null
 
   const onToggle = () => {
     if (!username) return
