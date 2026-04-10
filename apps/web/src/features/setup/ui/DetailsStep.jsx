@@ -5,6 +5,8 @@ import { InputText } from '@/shared/ui/inputs/InputText'
 import { ControllerTwoInput } from '@/shared/ui/inputs/ControllerTwoInput'
 import { Button } from '@/shared/ui/buttons/Button'
 
+const toTitleCase = (str) => str.replace(/\b\w/g, c => c.toUpperCase())
+
 export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
   const { user } = useAuth()
   const isStudent = role === 'student'
@@ -92,12 +94,14 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
               placeholder="What company do you work for? (optional)"
               value={formData.organizationName ?? ''}
               onChange={e => onChange('organizationName', e.target.value)}
+              onBlur={e => onChange('organizationName', toTitleCase(e.target.value))}
             />
             <InputText
               showSearch={false}
               placeholder="What's your title? (optional)"
               value={formData.roleAtCompany ?? ''}
               onChange={e => onChange('roleAtCompany', e.target.value)}
+              onBlur={e => onChange('roleAtCompany', toTitleCase(e.target.value))}
             />
             <ControllerTwoInput
               label="Looking to connect with students studying:"
