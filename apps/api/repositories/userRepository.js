@@ -68,6 +68,7 @@ export const search = async (query, page, pageSize) => {
     setupComplete: true,
     $or: [
       { username: { $regex: escaped, $options: "i" } },
+      { name: { $regex: escaped, $options: "i" } },
       { firstName: { $regex: escaped, $options: "i" } },
       { lastName: { $regex: escaped, $options: "i" } },
       { organizationName: { $regex: escaped, $options: "i" } },
