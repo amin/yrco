@@ -9,7 +9,7 @@ export function useConnections(username) {
   const queryClient = useQueryClient()
   const [showEmailOptIn, setShowEmailOptIn] = useState(false)
 
-  const { data: connections } = useQuery({
+  const { data: connections, error } = useQuery({
     queryKey: queryKeys.connections,
     queryFn: () => api.get('/users/me/connections').then(r => r.data),
   })
@@ -48,5 +48,5 @@ export function useConnections(username) {
     setShowEmailOptIn(false)
   }
 
-  return { connections, isOwnProfile, isConnected, isPending, onToggle, showEmailOptIn, onEmailOptIn }
+  return { connections, error, isOwnProfile, isConnected, isPending, onToggle, showEmailOptIn, onEmailOptIn }
 }

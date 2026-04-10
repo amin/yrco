@@ -25,6 +25,7 @@ export function useSearch() {
 
   return {
     users,
+    error: query.error,
     hasMore: query.hasNextPage,
     fetchMore: query.fetchNextPage,
     isFetchingMore: query.isFetchingNextPage,
