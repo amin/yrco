@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
-import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep } from '@/features/setup'
+import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep, LoadingStep } from '@/features/setup'
 
 export const Setup = () => {
   const { user } = useAuth()
@@ -20,22 +20,27 @@ export const Setup = () => {
     queryFn: () => api.get('/traits').then(r => r.data),
   })
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: (data) => api.post('/users/me/setup', data),
-    onSuccess: () => {
-      queryClient.setQueryData(queryKeys.me, (old) => old ? { ...old, setupComplete: true } : old)
-      navigate(redirect || '/palette', { replace: true })
-    },
   })
 
   if (user?.setupComplete) return <Navigate to={redirect || '/palette'} replace />
 
-  const handleSetupComplete = (traitIds) => {
+  const handleSetupComplete = async (traitIds) => {
     const base = { role: formData.role, traitIds }
     const data = formData.role === 'student'
       ? { ...base, education: formData.education, website: formData.website ?? '', website2: formData.website2 ?? '' }
       : { ...base, organizationName: formData.organizationName, roleAtCompany: formData.roleAtCompany, targetEducation: formData.targetEducation }
-    mutate(data)
+
+    setStep(5)
+
+    await Promise.all([
+      new Promise(resolve => setTimeout(resolve, 5000)),
+      mutateAsync(data),
+    ])
+
+    queryClient.invalidateQueries({ queryKey: queryKeys.me })
+    navigate(redirect || '/palette', { replace: true })
   }
 
   return (
@@ -71,6 +76,8 @@ export const Setup = () => {
           onComplete={handleSetupComplete}
         />
       )}
+
+      {step === 5 && <LoadingStep />}
 
     </div>
   )
