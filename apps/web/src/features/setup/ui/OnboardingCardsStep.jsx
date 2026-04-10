@@ -42,25 +42,27 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
       <video
         key={card.video}
         src={card.video}
-        className="rounded-[34px] flex-1 object-cover w-full"
+        className="rounded-[34px] h-[482px] shrink-0 object-cover w-full"
         autoPlay
         loop
         muted
         playsInline
       />
 
-      <div className="flex flex-col gap-s">
-        <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
-        <p className="font-sans text-xl leading-xl tracking-tighter font-light">{card.body}</p>
-      </div>
-
-      <div className="flex flex-col gap-s">
-        <div className="flex justify-end">
-          <Button onClick={handleNext}>Next</Button>
+      <div className="flex flex-col flex-1 justify-between">
+        <div className="flex flex-col gap-s">
+          <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
+          <p className="font-sans text-xl leading-xl tracking-tighter font-light">{card.body}</p>
         </div>
-        <div className="flex justify-between">
-          <Button variant="secondary" onClick={handleBack}>Back</Button>
-          <Button variant="secondary" onClick={onComplete}>Skip</Button>
+
+        <div className="flex flex-col gap-s">
+          <div className="flex justify-end">
+            <Button onClick={handleNext}>Next</Button>
+          </div>
+          <div className="flex justify-between">
+            <Button variant="secondary" onClick={handleBack}>Back</Button>
+            <Button variant="secondary" onClick={onComplete}>Skip</Button>
+          </div>
         </div>
       </div>
     </div>
