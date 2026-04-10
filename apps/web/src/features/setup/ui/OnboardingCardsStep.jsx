@@ -49,9 +49,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
 
   const handleLoadedData = () => {
     clearTimeout(timerRef.current)
-    timerRef.current = setTimeout(() => {
-      videoRef.current?.play().catch(() => {})
-    }, 500)
+    videoRef.current?.play().catch(() => {})
   }
 
   const handleEnded = () => {
