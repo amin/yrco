@@ -36,6 +36,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     <div className="flex flex-col h-full p-base">
       <div className="flex-1 flex flex-col justify-center gap-xl">
         <div className="flex flex-col">
+          <span className="text-2xl">Hi there,</span>
           <span className="text-xl font-light">{user?.name}</span>
           <span className="text-xl font-light">{user?.email}</span>
         </div>
@@ -67,20 +68,20 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
           <>
             <InputText
               showSearch={false}
-              placeholder="Company"
+              placeholder="What company do you work for? (optional)"
               value={formData.organizationName ?? ''}
               onChange={e => onChange('organizationName', e.target.value)}
             />
             <InputText
               showSearch={false}
-              placeholder="Role"
+              placeholder="What's your title? (optional)"
               value={formData.roleAtCompany ?? ''}
               onChange={e => onChange('roleAtCompany', e.target.value)}
             />
             <ControllerTwoInput
-              label="Works with"
-              leftLabel="Digital Design"
-              rightLabel="Webbutveckling"
+              label="Looking to connect with students studying:"
+              leftLabel="Digital Designer"
+              rightLabel="Web Developer"
               leftPicked={targetEducation.includes('Digital Designer')}
               rightPicked={targetEducation.includes('Web Developer')}
               onLeftClick={() => toggleTargetEducation('Digital Designer')}
