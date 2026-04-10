@@ -4,7 +4,7 @@ import { UserSwatch } from '@/shared/ui'
 import { SearchHeader } from '@/shared/layout'
 
 export const Users = () => {
-  const { users, hasMore, fetchMore, isFetchingMore, search, setSearch } = useSearch()
+  const { users, isLoading, hasMore, fetchMore, isFetchingMore, search, setSearch } = useSearch()
   const sentinelRef = useRef(null)
 
   useEffect(() => {
@@ -21,8 +21,16 @@ export const Users = () => {
     <div className="h-full flex flex-col">
       <SearchHeader value={search} onChange={e => setSearch(e.target.value)} />
       <div className="flex-1 overflow-y-auto bg-white">
-        {users.map(user => <UserSwatch key={user.username} user={user} />)}
-        <div ref={sentinelRef} />
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <span className="font-sans text-sm text-gray-400">Loading...</span>
+          </div>
+        ) : (
+          <>
+            {users.map(user => <UserSwatch key={user.username} user={user} />)}
+            <div ref={sentinelRef} />
+          </>
+        )}
       </div>
     </div>
   )

@@ -7,6 +7,16 @@ import { Button } from '@/shared/ui/buttons/Button'
 
 const toTitleCase = (str) => str.replace(/\b\w/g, c => c.toUpperCase())
 
+const validateUrl = (field, formData, onChange) => {
+  let value = formData[field] ?? ''
+  if (value && !/^https?:\/\//i.test(value)) {
+    value = `https://${value}`
+    onChange(field, value)
+  }
+  const result = studentFieldsSchema.shape[field].safeParse(value)
+  return result.success ? '' : result.error.issues[0].message
+}
+
 export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
   const { user } = useAuth()
   const isStudent = role === 'student'
@@ -19,26 +29,6 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
       ? targetEducation.filter(v => v !== value)
       : [...targetEducation, value]
     onChange('targetEducation', next)
-  }
-
-  const validateWebsite = () => {
-    let value = formData.website ?? ''
-    if (value && !/^https?:\/\//i.test(value)) {
-      value = `https://${value}`
-      onChange('website', value)
-    }
-    const result = studentFieldsSchema.shape.website.safeParse(value)
-    setWebsiteError(result.success ? '' : result.error.issues[0].message)
-  }
-
-  const validateWebsite2 = () => {
-    let value = formData.website2 ?? ''
-    if (value && !/^https?:\/\//i.test(value)) {
-      value = `https://${value}`
-      onChange('website2', value)
-    }
-    const result = studentFieldsSchema.shape.website2.safeParse(value)
-    setWebsiteError2(result.success ? '' : result.error.issues[0].message)
   }
 
   const canProceed = isStudent
@@ -62,7 +52,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
               placeholder="Add a link to your personal site (optional)"
               value={formData.website ?? ''}
               onChange={e => { onChange('website', e.target.value); setWebsiteError('') }}
-              onBlur={validateWebsite}
+              onBlur={() => setWebsiteError(validateUrl('website', formData, onChange))}
             />
             {websiteError && (
               <span className="font-sans text-xs text-yrgo-red px-base">{websiteError}</span>
@@ -72,7 +62,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
               placeholder="Add a link to your personal site (optional)"
               value={formData.website2 ?? ''}
               onChange={e => { onChange('website2', e.target.value); setWebsiteError2('') }}
-              onBlur={validateWebsite2}
+              onBlur={() => setWebsiteError2(validateUrl('website2', formData, onChange))}
             />
             {websiteError2 && (
               <span className="font-sans text-xs text-yrgo-red px-base">{websiteError2}</span>

@@ -4,7 +4,7 @@ import { UserSwatch } from '@/shared/ui'
 import { SearchHeader } from '@/shared/layout'
 
 export const Connections = () => {
-  const { connections = [] } = useConnections()
+  const { connections = [], isLoading } = useConnections()
   const [query, setQuery] = useState('')
 
   const filtered = query.trim()
@@ -19,7 +19,11 @@ export const Connections = () => {
       <SearchHeader value={query} onChange={e => setQuery(e.target.value)} onClear={() => setQuery('')} />
 
       <div className="flex-1 overflow-y-auto bg-white">
-        {filtered.length > 0 ? (
+        {isLoading ? (
+          <div className="flex items-center justify-center h-full">
+            <span className="font-sans text-sm text-gray-400">Loading...</span>
+          </div>
+        ) : filtered.length > 0 ? (
           filtered.map(user => <UserSwatch key={user.username} user={user} />)
         ) : (
           <div className="flex items-center justify-center h-full">
