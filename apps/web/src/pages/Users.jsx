@@ -4,7 +4,7 @@ import { UserSwatch } from '@/shared/ui'
 import { SearchHeader } from '@/shared/layout'
 
 export const Users = () => {
-  const { users, isLoading, hasMore, fetchMore, isFetchingMore, search, setSearch } = useSearch()
+  const { users, isLoading, error, hasMore, fetchMore, isFetchingMore, search, setSearch } = useSearch()
   const sentinelRef = useRef(null)
 
   useEffect(() => {
@@ -24,6 +24,10 @@ export const Users = () => {
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <span className="font-sans text-sm text-gray-400">Loading...</span>
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center h-full">
+            <span className="font-sans text-sm text-gray-400">Something went wrong</span>
           </div>
         ) : (
           <>

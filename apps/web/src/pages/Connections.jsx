@@ -4,7 +4,7 @@ import { UserSwatch } from '@/shared/ui'
 import { SearchHeader } from '@/shared/layout'
 
 export const Connections = () => {
-  const { connections = [], isLoading } = useConnections()
+  const { connections = [], isLoading, error } = useConnections()
   const [query, setQuery] = useState('')
 
   const filtered = query.trim()
@@ -22,6 +22,10 @@ export const Connections = () => {
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
             <span className="font-sans text-sm text-gray-400">Loading...</span>
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center h-full">
+            <span className="font-sans text-sm text-gray-400">Something went wrong</span>
           </div>
         ) : filtered.length > 0 ? (
           filtered.map(user => <UserSwatch key={user.username} user={user} />)

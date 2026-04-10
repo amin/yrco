@@ -4,8 +4,7 @@ import { useAuth } from '@/providers/AuthProvider'
 import { InputText } from '@/shared/ui/inputs/InputText'
 import { ControllerTwoInput } from '@/shared/ui/inputs/ControllerTwoInput'
 import { Button } from '@/shared/ui/buttons/Button'
-
-const toTitleCase = (str) => str.replace(/\b\w/g, c => c.toUpperCase())
+import { toTitleCase } from '@/utils/toTitleCase'
 
 const validateUrl = (field, formData, onChange) => {
   let value = formData[field] ?? ''
