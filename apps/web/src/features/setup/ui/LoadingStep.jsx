@@ -3,6 +3,7 @@ export const LoadingStep = () => (
     <video
       src="https://res.cloudinary.com/dmvfsm0ls/video/upload/yrco/yrco-loading.mp4"
       className="size-[60px] object-contain"
+      preload="auto"
       autoPlay
       loop
       muted
