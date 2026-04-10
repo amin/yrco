@@ -34,11 +34,17 @@ export const setEmailOptIn = async (uid, optIn) => {
   if (!user) throw { status: 404, message: "User not found" };
 };
 
+const toTitleCase = (str) => str.replace(/\b\w/g, (c) => c.toUpperCase());
+
 export const completeUserSetup = async (uid, data) => {
   const existing = await userRepo.findById(uid);
   const isFirstSetup = !existing?.setupComplete;
 
-  const user = await userRepo.update(uid, { ...data, setupComplete: true });
+  const normalized = { ...data };
+  if (normalized.organizationName) normalized.organizationName = toTitleCase(normalized.organizationName);
+  if (normalized.roleAtCompany) normalized.roleAtCompany = toTitleCase(normalized.roleAtCompany);
+
+  const user = await userRepo.update(uid, { ...normalized, setupComplete: true });
 
   // if (isFirstSetup) {
   //   try {
