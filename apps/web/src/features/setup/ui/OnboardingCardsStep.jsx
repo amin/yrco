@@ -42,7 +42,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
       <video
         key={card.video}
         src={card.video}
-        className="rounded-[34px] h-[482px] shrink-0 object-cover w-full"
+        className="rounded-[34px] flex-1 max-h-[482px] object-cover w-full"
         autoPlay
         loop
         muted
