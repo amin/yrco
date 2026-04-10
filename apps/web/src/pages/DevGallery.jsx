@@ -126,7 +126,7 @@ export const DevGallery = () => {
       <h2 className="text-sm font-semibold text-gray-500">Loader</h2>
       <video
         src="https://res.cloudinary.com/dmvfsm0ls/video/upload/yrco/yrco-loading.mp4"
-        className="size-[60px]"
+        className="size-[60px] object-contain"
         autoPlay
         loop
         muted

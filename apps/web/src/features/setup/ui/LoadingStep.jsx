@@ -2,7 +2,7 @@ export const LoadingStep = () => (
   <div className="flex flex-col h-full items-center justify-center gap-l">
     <video
       src="https://res.cloudinary.com/dmvfsm0ls/video/upload/yrco/yrco-loading.mp4"
-      className="size-[60px]"
+      className="size-[60px] object-contain"
       autoPlay
       loop
       muted
