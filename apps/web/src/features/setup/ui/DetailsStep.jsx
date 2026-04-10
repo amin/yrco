@@ -9,6 +9,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
   const { user } = useAuth()
   const isStudent = role === 'student'
   const [websiteError, setWebsiteError] = useState('')
+  const [websiteError2, setWebsiteError2] = useState('')
 
   const targetEducation = formData.targetEducation ?? []
   const toggleTargetEducation = (value) => {
@@ -28,8 +29,18 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     setWebsiteError(result.success ? '' : result.error.issues[0].message)
   }
 
+  const validateWebsite2 = () => {
+    let value = formData.website2 ?? ''
+    if (value && !/^https?:\/\//i.test(value)) {
+      value = `https://${value}`
+      onChange('website2', value)
+    }
+    const result = studentFieldsSchema.shape.website2.safeParse(value)
+    setWebsiteError2(result.success ? '' : result.error.issues[0].message)
+  }
+
   const canProceed = isStudent
-    ? !!formData.education && !websiteError
+    ? !!formData.education && !websiteError && !websiteError2
     : !!(formData.organizationName && formData.roleAtCompany && targetEducation.length > 0)
 
   return (
@@ -46,7 +57,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
           <>
             <InputText
               showSearch={false}
-              placeholder="Personal link"
+              placeholder="Add a link to your personal site (optional)"
               value={formData.website ?? ''}
               onChange={e => { onChange('website', e.target.value); setWebsiteError('') }}
               onBlur={validateWebsite}
@@ -54,10 +65,20 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
             {websiteError && (
               <span className="font-sans text-xs text-yrgo-red px-base">{websiteError}</span>
             )}
+            <InputText
+              showSearch={false}
+              placeholder="Add a link to your personal site (optional)"
+              value={formData.website2 ?? ''}
+              onChange={e => { onChange('website2', e.target.value); setWebsiteError2('') }}
+              onBlur={validateWebsite2}
+            />
+            {websiteError2 && (
+              <span className="font-sans text-xs text-yrgo-red px-base">{websiteError2}</span>
+            )}
             <ControllerTwoInput
-              label="Programme"
-              leftLabel="Digital Design"
-              rightLabel="Webbutveckling"
+              label="Program"
+              leftLabel="Digital Designer"
+              rightLabel="Web Developer"
               leftPicked={formData.education === 'Digital Designer'}
               rightPicked={formData.education === 'Web Developer'}
               onLeftClick={() => onChange('education', 'Digital Designer')}

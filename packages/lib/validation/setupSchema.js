@@ -6,6 +6,7 @@ const traitIds = traitIdsSchema;
 export const studentFieldsSchema = z.object({
   education: z.enum(["Web Developer", "Digital Designer"], { error: "Select your education" }),
   website: z.union([z.url("Must be a valid URL (include https://)"), z.literal("")]).optional(),
+  website2: z.union([z.url("Must be a valid URL (include https://)"), z.literal("")]).optional(),
 });
 
 export const organizationFieldsSchema = z.object({

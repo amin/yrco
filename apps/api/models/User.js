@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     email: { type: String, required: true },
     picture: { type: String },
     website: { type: String },
+    website2: { type: String },
     role: { type: String, enum: ["student", "organization"] },
     education: { type: String },
     organizationName: { type: String },

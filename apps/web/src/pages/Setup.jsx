@@ -33,7 +33,7 @@ export const Setup = () => {
   const handleSetupComplete = (traitIds) => {
     const base = { role: formData.role, traitIds }
     const data = formData.role === 'student'
-      ? { ...base, education: formData.education, website: formData.website ?? '' }
+      ? { ...base, education: formData.education, website: formData.website ?? '', website2: formData.website2 ?? '' }
       : { ...base, organizationName: formData.organizationName, roleAtCompany: formData.roleAtCompany, targetEducation: formData.targetEducation }
     mutate(data)
   }
