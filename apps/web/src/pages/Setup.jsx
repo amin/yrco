@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useNavigate, useSearchParams, matchPath } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
+import { APP_ROUTES } from '@/shared/routes'
 import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep, LoadingStep } from '@/features/setup'
 
 export const Setup = () => {
@@ -11,7 +12,8 @@ export const Setup = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const redirect = searchParams.get('redirect')
+  const raw = searchParams.get('redirect')
+  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({ role: null })
 

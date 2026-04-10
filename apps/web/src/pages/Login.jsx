@@ -1,8 +1,10 @@
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, matchPath } from 'react-router-dom'
+import { APP_ROUTES } from '@/shared/routes'
 
 export const Login = () => {
   const [searchParams] = useSearchParams()
-  const redirect = searchParams.get('redirect')
+  const raw = searchParams.get('redirect')
+  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
 
   const params = new URLSearchParams({ origin: window.location.origin })
   if (redirect) params.set('redirect', redirect)
