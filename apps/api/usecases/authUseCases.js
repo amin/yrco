@@ -39,11 +39,13 @@ export async function authenticateWithLinkedIn(code) {
   const profile = await linkedInService.fetchProfile(accessToken);
 
   let pictureUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(profile.name)}`;
-  try {
-    const picture = await linkedInService.downloadProfilePicture(profile.picture);
-    pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
-  } catch (err) {
-    console.error("Failed to upload profile picture, falling back to DiceBear:", err);
+  if (profile.picture) {
+    try {
+      const picture = await linkedInService.downloadProfilePicture(profile.picture);
+      pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
+    } catch (err) {
+      console.error("Failed to upload profile picture, falling back to DiceBear:", err);
+    }
   }
 
   const { setupComplete, username } = await upsertUser(profile.sub, {
