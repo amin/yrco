@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Button } from '@/shared/ui/buttons/Button'
 
 const ONBOARDING_CARDS = [
@@ -34,13 +34,22 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
   const card = ONBOARDING_CARDS[cardIndex]
   const isLast = cardIndex === ONBOARDING_CARDS.length - 1
 
+  const videoRef = useRef(null)
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load()
+      videoRef.current.play().catch(() => {})
+    }
+  }, [card.video])
+
   const handleNext = () => isLast ? onComplete() : setCardIndex(i => i + 1)
   const handleBack = () => cardIndex > 0 ? setCardIndex(i => i - 1) : onBack()
 
   return (
     <div className="flex flex-col h-full p-base gap-l">
       <video
-        key={card.video}
+        ref={videoRef}
         src={card.video}
         className="rounded-[34px] h-[482px] shrink-0 object-cover w-full bg-yrgo-light-blue"
         autoPlay
