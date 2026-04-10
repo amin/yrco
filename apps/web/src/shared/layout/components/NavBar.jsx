@@ -11,7 +11,7 @@ export const NavBar = ({ onQrToggle, qrActive, onClose }) => {
   }
 
   return (
-    <div className="absolute bottom-0 right-0 pb-3xl pr-base flex flex-col gap-m items-center z-20">
+    <nav aria-label="Main navigation" className="absolute bottom-0 right-0 pb-3xl pr-base flex flex-col gap-m items-center z-20">
       <button onClick={onQrToggle} aria-label="QR code" className="w-17 aspect-square rounded-full bg-yrgo-red flex items-center justify-center cursor-pointer">
         <QrIcon active={qrActive} size={20} className="text-white" />
       </button>
@@ -26,6 +26,6 @@ export const NavBar = ({ onQrToggle, qrActive, onClose }) => {
           <HomeIcon active={pathname === '/palette'} size={20} className="text-white" />
         </button>
       </div>
-    </div>
+    </nav>
   )
 }

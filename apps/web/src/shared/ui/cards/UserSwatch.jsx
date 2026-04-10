@@ -5,7 +5,7 @@ export const UserSwatch = ({ user }) => {
   const [first, ...rest] = user.traits ?? []
 
   return (
-    <button onClick={() => navigate(`/${user.username}`)} className="flex w-full h-36 overflow-hidden shrink-0 cursor-pointer">
+    <button onClick={() => navigate(`/${user.username}`)} aria-label={`View ${user.name}'s profile`} className="flex w-full h-36 overflow-hidden shrink-0 cursor-pointer">
       <div className="flex items-end p-base shrink-0 h-full" style={{ backgroundColor: first?.color, color: first?.colorText }}>
         <div className="flex flex-col items-start">
           <span className="font-sans text-sm leading-base tracking-tight">{user.name}</span>
