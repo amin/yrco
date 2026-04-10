@@ -39,7 +39,7 @@ export const Setup = () => {
       mutateAsync(data),
     ])
 
-    queryClient.invalidateQueries({ queryKey: queryKeys.me })
+    await queryClient.invalidateQueries({ queryKey: queryKeys.me })
     navigate(redirect || '/palette', { replace: true })
   }
 
