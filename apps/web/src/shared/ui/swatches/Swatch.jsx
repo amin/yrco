@@ -20,11 +20,16 @@ export const Swatch = ({ trait, color, colorText, icebreaker, expanded, collapse
       {trait}
     </motion.span>
     {expanded && (
-      <div className="flex flex-1 items-center">
+      <motion.div
+        className="flex flex-1 items-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.2, delay: 0.2 }}
+      >
         <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left w-[270px]">
           {icebreaker}
         </p>
-      </div>
+      </motion.div>
     )}
   </button>
 )
