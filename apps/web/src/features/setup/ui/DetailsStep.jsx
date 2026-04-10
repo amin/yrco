@@ -36,8 +36,8 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     <div className="flex flex-col h-full p-base">
       <div className="flex-1 flex flex-col justify-center gap-xl">
         <div className="flex flex-col">
-          <span className="text-2xl font-light">{user?.name}</span>
-          <span className="text-2xl font-light">{user?.email}</span>
+          <span className="text-xl font-light">{user?.name}</span>
+          <span className="text-xl font-light">{user?.email}</span>
         </div>
 
         <div className="flex flex-col gap-s">

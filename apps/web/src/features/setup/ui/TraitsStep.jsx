@@ -23,7 +23,7 @@ export const TraitsStep = ({ traits, onComplete }) => {
       <div className="flex-1 min-h-0 overflow-y-auto px-base pb-16">
         {/* Title scrolls with content */}
         <div className="h-1/2 flex items-end justify-center pb-10 text-center">
-          <span className="text-2xl font-normal tracking-[-1.2px]">
+          <span className="font-sans text-xl leading-xl tracking-tighter font-normal">
             What seven skills and strengths best describe you?
           </span>
         </div>
