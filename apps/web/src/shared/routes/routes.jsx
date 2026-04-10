@@ -1,4 +1,4 @@
-import { Login, Setup, Users, Connections, AuthCallback, Palette, Logout, Profile } from '@/pages'
+import { Login, Setup, Users, Connections, AuthCallback, Palette, Logout, Profile, Error } from '@/pages'
 
 export const APP_ROUTES = [
   { path: '/palette',     element: <Palette /> },
@@ -18,4 +18,5 @@ export const PUBLIC_ROUTES = [
 
 export const OPEN_ROUTES = [
   { path: '/auth/callback', element: <AuthCallback /> },
+  { path: '/error', element: <Error /> },
 ]

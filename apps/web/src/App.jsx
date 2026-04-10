@@ -32,6 +32,7 @@ const App = () => {
         ))}
 
         <Route path="/dev/gallery" element={<DevGallery />} />
+        <Route path="*" element={<Navigate to="/error?message=Page not found" replace />} />
       </Routes>
     </BrowserRouter>
   )

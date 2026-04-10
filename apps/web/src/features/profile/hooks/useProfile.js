@@ -5,10 +5,14 @@ import { queryKeys } from '@/lib/queryKeys'
 
 export function useProfile() {
   const { username } = useParams()
-  const { data: user, isLoading } = useQuery({
+  const { data: user, isLoading, error } = useQuery({
     queryKey: queryKeys.user(username),
     queryFn: () => api.get(`/users/${username}`).then(r => r.data),
     enabled: !!username,
+    retry: false,
   })
-  return { user, isLoading }
+
+  const notFound = error?.response?.status === 404
+
+  return { user, isLoading, notFound }
 }
