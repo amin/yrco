@@ -26,7 +26,7 @@ export const Swatch = ({ trait, color, colorText, icebreaker, expanded, collapse
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2, delay: 0.2 }}
       >
-        <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left w-[270px]">
+        <p className="font-sans text-xl leading-xl tracking-tighter font-light text-left w-[70%]">
           {icebreaker}
         </p>
       </motion.div>
