@@ -56,6 +56,8 @@ export async function authenticateWithLinkedIn(code) {
     picture: pictureUrl,
   });
 
+  await sessionRepo.deleteByUid(profile.sub);
+
   const sessionToken = crypto.randomUUID();
   const maxAge = 7 * 24 * 60 * 60 * 1000;
   await sessionRepo.create(sessionToken, profile.sub, new Date(Date.now() + maxAge));

@@ -11,3 +11,7 @@ export const findByToken = async (token) => {
 export const deleteByToken = async (token) => {
   await Session.deleteOne({ token });
 };
+
+export const deleteByUid = async (uid) => {
+  await Session.deleteMany({ uid });
+};

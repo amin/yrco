@@ -25,6 +25,11 @@ export const getAllUsers = async (page, search, pageSize = 20) => {
 };
 
 export const updateUser = async (uid, data) => {
+  if (data.traitIds) {
+    const validCount = await traitRepo.countByIds(data.traitIds);
+    if (validCount !== data.traitIds.length) throw { status: 400, message: "Invalid trait selection" };
+  }
+
   const user = await userRepo.update(uid, data);
   if (!user) throw { status: 404, message: "User not found" };
   return user;
