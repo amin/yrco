@@ -17,9 +17,14 @@ Each app has its own `CLAUDE.md` with app-specific commands, architecture, and c
 ## Commands
 
 ```bash
-pnpm dev        # Start all apps via Turborepo
-pnpm test       # Run all tests via Turborepo
+pnpm dev                              # Start all apps via Turborepo
+pnpm test                             # Run all tests via Turborepo
+pnpm --filter=api db:seed             # Seed all collections
+pnpm --filter=api db:seed -- <name>   # Seed a specific collection
+pnpm --filter=api db:clear            # Clear all collections
 ```
+
+Run app-specific scripts from root using `pnpm --filter=<app> <script>`.
 
 ## Tooling
 

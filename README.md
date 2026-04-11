@@ -55,13 +55,18 @@ yrco/
    cp apps/web/.env.example apps/web/.env.development
    ```
 
-   Fill in the values in each `.env.development` file.
+   Fill in the values in each `.env.development` file:
+
+   - **`MONGO_URL`** — local MongoDB or [MongoDB Atlas](https://www.mongodb.com/atlas)
+   - **`LINKEDIN_CLIENT_ID` / `LINKEDIN_CLIENT_SECRET`** — create an app at [LinkedIn Developers](https://www.linkedin.com/developers)
+   - **`CLOUDINARY_*`** — create an account at [Cloudinary](https://cloudinary.com)
+   - **`RESEND_API_KEY`** — create an account at [Resend](https://resend.com)
+   - **`COOKIE_SECRET`** — generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
 
 4. Seed the database
 
    ```bash
-   cd apps/api
-   pnpm db:seed
+   pnpm --filter=api db:seed
    ```
 
 5. Start the dev servers
@@ -79,6 +84,6 @@ yrco/
 | --- | --- | --- |
 | `pnpm dev` | Root | Start all apps |
 | `pnpm test` | Root | Run all tests |
-| `pnpm db:seed` | `apps/api` | Seed all collections |
-| `pnpm db:seed -- <name>` | `apps/api` | Seed a specific collection |
-| `pnpm db:clear` | `apps/api` | Clear all collections |
+| `pnpm --filter=api db:seed` | Root | Seed all collections |
+| `pnpm --filter=api db:seed -- <name>` | Root | Seed a specific collection |
+| `pnpm --filter=api db:clear` | Root | Clear all collections |
