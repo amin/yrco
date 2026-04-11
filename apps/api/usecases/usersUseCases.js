@@ -1,4 +1,5 @@
 import * as userRepo from "../repositories/userRepository.js";
+import * as traitRepo from "../repositories/traitRepository.js";
 import * as emailService from "../services/emailService.js";
 import { publicProfileSchema } from "@yrco/lib";
 
@@ -37,6 +38,9 @@ export const setEmailOptIn = async (uid, optIn) => {
 const toTitleCase = (str) => str.replace(/\b\w/g, (c) => c.toUpperCase());
 
 export const completeUserSetup = async (uid, data) => {
+  const validCount = await traitRepo.countByIds(data.traitIds);
+  if (validCount !== 7) throw { status: 400, message: "Invalid trait selection" };
+
   const existing = await userRepo.findById(uid);
   const isFirstSetup = !existing?.setupComplete;
 

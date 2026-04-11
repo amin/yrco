@@ -10,3 +10,7 @@ export const findAll = async () => {
     icebreaker: doc.icebreaker,
   }));
 };
+
+export const countByIds = async (ids) => {
+  return Trait.countDocuments({ _id: { $in: ids } });
+};
