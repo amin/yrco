@@ -17,7 +17,7 @@ export const ONBOARDING_CARDS = [
   {
     title: 'Connect',
     body: 'Search for participants or scan someone\'s QR code to open their profile.',
-    video: 'https://res.cloudinary.com/dmvfsm0ls/video/upload/yrco/onboarding/Onboarding_4.mp4',
+    video: 'https://res.cloudinary.com/dmvfsm0ls/video/upload/v1775910478/yrco/onboarding/Onboarding_4.mp4',
   },
   {
     title: 'Save your bright spots',
