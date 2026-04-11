@@ -51,20 +51,18 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
         onEnded={handleEnded}
       />
 
-      <div className="flex flex-col flex-1 justify-between">
-        <div className="flex flex-col gap-s">
-          <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
-          <p className="font-sans text-xl leading-xl tracking-tighter font-light">{card.body}</p>
-        </div>
+      <div className="flex flex-col gap-s">
+        <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
+        <p className="font-sans text-xl leading-xl tracking-tighter font-light">{card.body}</p>
+      </div>
 
-        <div className="flex flex-col gap-s">
-          <div className="flex justify-end">
-            <Button onClick={handleNext}>Next</Button>
-          </div>
-          <div className="flex justify-between">
-            <Button variant="secondary" onClick={handleBack}>Back</Button>
-            <Button variant="secondary" onClick={onComplete}>Skip</Button>
-          </div>
+      <div className="mt-auto flex flex-col gap-s shrink-0">
+        <div className="flex justify-end">
+          <Button onClick={handleNext}>Next</Button>
+        </div>
+        <div className="flex justify-between">
+          <Button variant="secondary" onClick={handleBack}>Back</Button>
+          <Button variant="secondary" onClick={onComplete}>Skip</Button>
         </div>
       </div>
     </div>
