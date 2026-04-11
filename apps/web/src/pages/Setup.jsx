@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useNavigate, useSearchParams, matchPath } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { setupSchema } from '@yrco/lib'
 import { useAuth } from '@/providers/AuthProvider'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
@@ -32,7 +33,10 @@ export const Setup = () => {
     const base = { role: formData.role, traitIds }
     const data = formData.role === 'student'
       ? { ...base, education: formData.education, website: formData.website ?? '', website2: formData.website2 ?? '' }
-      : { ...base, organizationName: formData.organizationName, roleAtCompany: formData.roleAtCompany, targetEducation: formData.targetEducation }
+      : { ...base, organizationName: formData.organizationName ?? '', roleAtCompany: formData.roleAtCompany ?? '', targetEducation: formData.targetEducation }
+
+    const result = setupSchema.safeParse(data)
+    if (!result.success) return
 
     setStep(5)
 
