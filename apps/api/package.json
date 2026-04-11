@@ -14,7 +14,7 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@yrco/lib": "workspace:*",
     "@react-email/components": "^1.0.10",
