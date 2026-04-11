@@ -82,5 +82,3 @@ yrco/
 | `pnpm db:seed` | `apps/api` | Seed all collections |
 | `pnpm db:seed -- <name>` | `apps/api` | Seed a specific collection |
 | `pnpm db:clear` | `apps/api` | Clear all collections |
-| `pnpm build` | `apps/web` | Production build |
-| `pnpm lint` | `apps/web` | Run ESLint |
