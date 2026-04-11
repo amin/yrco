@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { studentFieldsSchema } from '@yrco/lib'
+import { studentFieldsSchema, organizationFieldsSchema } from '@yrco/lib'
 import { useAuth } from '@/providers/AuthProvider'
 import { InputText } from '@/shared/ui/inputs/InputText'
 import { ControllerTwoInput } from '@/shared/ui/inputs/ControllerTwoInput'
@@ -16,11 +16,18 @@ const validateUrl = (field, formData, onChange) => {
   return result.success ? '' : result.error.issues[0].message
 }
 
+const validateOrgField = (field, value) => {
+  const result = organizationFieldsSchema.shape[field].safeParse(value)
+  return result.success ? '' : result.error.issues[0].message
+}
+
 export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
   const { user } = useAuth()
   const isStudent = role === 'student'
   const [websiteError, setWebsiteError] = useState('')
   const [websiteError2, setWebsiteError2] = useState('')
+  const [orgNameError, setOrgNameError] = useState('')
+  const [roleError, setRoleError] = useState('')
 
   const targetEducation = formData.targetEducation ?? []
   const toggleTargetEducation = (value) => {
@@ -32,7 +39,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
 
   const canProceed = isStudent
     ? !!formData.education && !websiteError && !websiteError2
-    : !!(formData.organizationName && formData.roleAtCompany && targetEducation.length > 0)
+    : !!(targetEducation.length > 0 && !orgNameError && !roleError)
 
   return (
     <div className="flex flex-col h-full p-base">
@@ -82,16 +89,22 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
               showSearch={false}
               placeholder="What company do you work for? (optional)"
               value={formData.organizationName ?? ''}
-              onChange={e => onChange('organizationName', e.target.value)}
-              onBlur={e => onChange('organizationName', toTitleCase(e.target.value))}
+              onChange={e => { onChange('organizationName', e.target.value); setOrgNameError('') }}
+              onBlur={e => { onChange('organizationName', toTitleCase(e.target.value)); setOrgNameError(validateOrgField('organizationName', toTitleCase(e.target.value))) }}
             />
+            {orgNameError && (
+              <span className="font-sans text-xs text-yrgo-red px-base">{orgNameError}</span>
+            )}
             <InputText
               showSearch={false}
               placeholder="What's your title? (optional)"
               value={formData.roleAtCompany ?? ''}
-              onChange={e => onChange('roleAtCompany', e.target.value)}
-              onBlur={e => onChange('roleAtCompany', toTitleCase(e.target.value))}
+              onChange={e => { onChange('roleAtCompany', e.target.value); setRoleError('') }}
+              onBlur={e => { onChange('roleAtCompany', toTitleCase(e.target.value)); setRoleError(validateOrgField('roleAtCompany', toTitleCase(e.target.value))) }}
             />
+            {roleError && (
+              <span className="font-sans text-xs text-yrgo-red px-base">{roleError}</span>
+            )}
             <ControllerTwoInput
               label="Looking to connect with students studying:"
               leftLabel="Digital Designer"

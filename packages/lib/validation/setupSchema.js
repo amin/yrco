@@ -10,8 +10,8 @@ export const studentFieldsSchema = z.object({
 });
 
 export const organizationFieldsSchema = z.object({
-  organizationName: z.string().min(1, "Organization name is required").max(50, "Organization name is too long"),
-  roleAtCompany: z.string().min(1, "Role is required").max(50, "Role is too long"),
+  organizationName: z.string().max(50, "Organization name is too long").optional().default(""),
+  roleAtCompany: z.string().max(50, "Role is too long").optional().default(""),
   targetEducation: z.array(z.enum(["Web Developer", "Digital Designer"])).min(1, "Select at least one programme"),
 });
 
