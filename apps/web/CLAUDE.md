@@ -15,7 +15,7 @@ pnpm preview      # Preview production build (proxies /api to API_URL)
 
 Mobile-first React SPA (Vite + React 19) styled with Tailwind CSS v4.
 
-**Monorepo**: `apps/web` (this app), `apps/api` (Express API), `apps/client` (second React client), `packages/lib` (shared Zod schemas, imported as `@yrco/lib`).
+**Monorepo**: `apps/web` (this app), `apps/api` (Express API), `packages/lib` (shared Zod schemas, imported as `@yrco/lib`).
 
 ### Directory structure
 
