@@ -29,20 +29,16 @@ export const Users = () => {
           <div className="flex items-center justify-center h-full">
             <span className="font-sans text-sm text-gray-400">Something went wrong</span>
           </div>
+        ) : users.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+            <span className="font-sans text-sm text-gray-400">
+              {search ? 'No results found' : 'No users yet'}
+            </span>
+          </div>
         ) : (
           <>
-            {users.length === 0 ? (
-              <div className="flex items-center justify-center h-full">
-                <span className="font-sans text-sm text-gray-400">
-                  {search ? 'No results found' : 'No users yet'}
-                </span>
-              </div>
-            ) : (
-              <>
-                {users.map(user => <UserSwatch key={user.username} user={user} />)}
-                <div ref={sentinelRef} />
-              </>
-            )}
+            {users.map(user => <UserSwatch key={user.username} user={user} />)}
+            <div ref={sentinelRef} />
           </>
         )}
       </div>
