@@ -1,60 +1,19 @@
-import { useState } from 'react'
-import { Navigate, useNavigate, useSearchParams, matchPath } from 'react-router-dom'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { setupSchema } from '@yrco/lib'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '@/providers/AuthProvider'
-import { queryKeys } from '@/lib/queryKeys'
-import api from '@/lib/api'
-import { APP_ROUTES } from '@/shared/routes'
-import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep, LoadingStep } from '@/features/setup'
+import { RoleStep, DetailsStep, OnboardingCardsStep, TraitsStep, LoadingStep, useSetup } from '@/features/setup'
 
 export const Setup = () => {
   const { user } = useAuth()
-  const queryClient = useQueryClient()
-  const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const raw = searchParams.get('redirect')
-  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
-  const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({ role: null })
-
-  const { data: traits = [] } = useQuery({
-    queryKey: queryKeys.traits,
-    queryFn: () => api.get('/traits').then(r => r.data),
-  })
-
-  const { mutateAsync } = useMutation({
-    mutationFn: (data) => api.post('/users/me/setup', data),
-  })
+  const { step, setStep, formData, onChange, traits, redirect, handleSetupComplete } = useSetup()
 
   if (user?.setupComplete) return <Navigate to={redirect || '/palette'} replace />
-
-  const handleSetupComplete = async (traitIds) => {
-    const base = { role: formData.role, traitIds }
-    const data = formData.role === 'student'
-      ? { ...base, education: formData.education, website: formData.website ?? '', website2: formData.website2 ?? '' }
-      : { ...base, organizationName: formData.organizationName ?? '', roleAtCompany: formData.roleAtCompany ?? '', targetEducation: formData.targetEducation }
-
-    const result = setupSchema.safeParse(data)
-    if (!result.success) return
-
-    setStep(5)
-
-    await Promise.all([
-      new Promise(resolve => setTimeout(resolve, 5000)),
-      mutateAsync(data),
-    ])
-
-    await queryClient.invalidateQueries({ queryKey: queryKeys.me })
-    navigate(redirect || '/palette', { replace: true })
-  }
 
   return (
     <div className="flex flex-col h-svh">
       {step === 1 && (
         <RoleStep
           role={formData.role}
-          onSelect={(role) => setFormData(prev => ({ ...prev, role }))}
+          onSelect={(role) => onChange('role', role)}
           onNext={() => setStep(2)}
         />
       )}
@@ -63,7 +22,7 @@ export const Setup = () => {
         <DetailsStep
           role={formData.role}
           formData={formData}
-          onChange={(field, value) => setFormData(prev => ({ ...prev, [field]: value }))}
+          onChange={onChange}
           onBack={() => setStep(1)}
           onNext={() => setStep(3)}
         />

@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useProfile, ProfileCard } from '@/features/profile'
-import { useConnections } from '@/features/connections'
-import { EmailOptInPopup } from '@/features/connections/ui/EmailOptInPopup'
+import { useConnections, EmailOptInPopup } from '@/features/connections'
 import { SwatchList } from '@/shared/ui'
 
 export const Profile = () => {
