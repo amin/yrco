@@ -1,7 +1,7 @@
-import { useTraits } from '@/features/traits'
+import { useAuth } from '@/providers/AuthProvider'
 import { SwatchList } from '@/shared/ui'
 
 export const Palette = () => {
-  const { traits } = useTraits()
-  return <SwatchList traits={traits} />
+  const { user } = useAuth()
+  return <SwatchList traits={user?.traitIds ?? []} />
 }
