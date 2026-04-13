@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -17,14 +17,12 @@ export default defineConfig(({ mode }) => ({
   },
   preview: {
     allowedHosts: true,
-    ...(mode !== 'production' && {
-      proxy: {
-        '/api': {
-          target: process.env.API_URL,
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ''),
-        },
+    proxy: {
+      '/api': {
+        target: process.env.API_URL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
       },
-    }),
+    },
   },
-}))
+})
