@@ -43,7 +43,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
       <video
         ref={videoRef}
         src={card.video}
-        className="rounded-[34px] aspect-[3/4] shrink-0 object-cover w-full bg-yrgo-light-blue"
+        className="rounded-[34px] aspect-[3/4] min-h-0 object-cover w-full bg-yrgo-light-blue"
         preload="auto"
         muted
         playsInline
