@@ -2,7 +2,7 @@ export const ONBOARDING_CARDS = [
   {
     title: 'Create your palette',
     body: 'Pick your skills and strengths, watch as they turn into your unique color palette.',
-    video: 'https://res.cloudinary.com/dmvfsm0ls/video/upload/yrco/onboarding/Onboarding_1.mp4',
+    video: 'https://res.cloudinary.com/dmvfsm0ls/video/upload/v1776093976/yrco/onboarding/Onboarding_1.mp4',
   },
   {
     title: 'Find your contrasts & matches',
