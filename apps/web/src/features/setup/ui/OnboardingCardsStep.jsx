@@ -40,18 +40,16 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
 
   return (
     <div className="flex flex-col h-full p-base gap-l">
-      <div className="flex-1 min-h-0">
-        <video
-          ref={videoRef}
-          src={card.video}
-          className="rounded-[34px] w-full h-full object-cover bg-yrgo-light-blue"
-          preload="auto"
-          muted
-          playsInline
-          onLoadedData={handleLoadedData}
-          onEnded={handleEnded}
-        />
-      </div>
+      <video
+        ref={videoRef}
+        src={card.video}
+        className="rounded-card w-full aspect-9/10 bg-yrgo-light-blue"
+        preload="auto"
+        muted
+        playsInline
+        onLoadedData={handleLoadedData}
+        onEnded={handleEnded}
+      />
 
       <div className="flex flex-col gap-s h-30 shrink-0">
         <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
