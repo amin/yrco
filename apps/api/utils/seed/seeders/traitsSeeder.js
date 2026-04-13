@@ -48,7 +48,7 @@ const traits = [
   { key: "dotnet", trait: ".NET", color: "#F1D56F", colorText: "#000000", icebreaker: "What kind of setup do you enjoy working in?" },
   { key: "sql", trait: "SQL", color: "#EE797B", colorText: "#000000", icebreaker: "Queries or data, what do you enjoy more?" },
   { key: "aws", trait: "AWS", color: "#CC9751", colorText: "#000000", icebreaker: "What have you actually used in AWS?" },
-  { key: "docker", trait: "Docker", color: "#736579", colorText: "#FFFFFF", icebreaker: "Do you prefer predictable setups or flexible environments?" },
+  { key: "docker", trait: "Docker", color: "#753E8C", colorText: "#FFFFFF", icebreaker: "Do you prefer predictable setups or flexible environments?" },
   { key: "ci-cd", trait: "CI/CD", color: "#453C62", colorText: "#FFFFFF", icebreaker: "What's something you've automated that saved you time?" },
   { key: "git", trait: "Git", color: "#BCBCD3", colorText: "#000000", icebreaker: "One Git habit you always stick to?" },
   { key: "after-effects", trait: "After Effects", color: "#F4E87C", colorText: "#000000", icebreaker: "What kind of motion do you enjoy creating the most?" },
