@@ -17,7 +17,7 @@ api.interceptors.response.use(
       return Promise.reject(error)
     }
     if (status === 401 && !error.config?._skipAuthRedirect) {
-      if (pathname !== '/login') window.location.href = '/login'
+      if (pathname !== '/login') window.location.href = `/login?redirect=${encodeURIComponent(pathname)}`
       return Promise.reject(error)
     }
     if (status === 403) {
