@@ -51,7 +51,7 @@ export const OnboardingCardsStep = ({ onBack, onComplete }) => {
         onEnded={handleEnded}
       />
 
-      <div className="flex flex-col gap-s">
+      <div className="flex flex-col gap-s min-h-30">
         <p className="font-sans text-xl leading-xl tracking-tighter font-normal">{card.title}</p>
         <p className="font-sans text-xl leading-xl tracking-tighter font-light">{card.body}</p>
       </div>
