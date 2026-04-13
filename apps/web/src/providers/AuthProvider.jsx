@@ -5,7 +5,7 @@ import { queryKeys } from '@/lib/queryKeys'
 
 const AuthContext = createContext(null)
 
-const fetchMe = () => api.get('/users/me').then(r => r.data)
+const fetchMe = () => api.get('/users/me', { _skipAuthRedirect: true }).then(r => r.data)
 
 const fetchMeOrNull = async () => {
   try {
