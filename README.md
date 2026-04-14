@@ -1,19 +1,32 @@
+<div align="center">
+
 # Yrco
 
-A mobile-first networking app for Yrgo's industry event. Students and companies authenticate via LinkedIn, pick 7 traits that become a unique color palette, then discover and connect with other attendees through that palette.
+A networking app where Yrgo's design and web development students meet the industry — built for the connections that kick-start careers.
+
+Every attendee picks 7 traits that define them — and those traits become a unique color palette. Browse the room by color, find the people who complement you, and make connections that matter.
+
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=white)](https://pnpm.io/)
+
+</div>
+
+---
 
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
-| Frontend | React 19, Vite, Tailwind CSS v4, React Router v7, TanStack React Query v5, Framer Motion |
-| Backend | Express 5, Node.js 20+ |
-| Database | MongoDB (Mongoose) |
-| Auth | LinkedIn OAuth 2.0, signed HTTP-only session cookies |
-| Emails | Resend + React Email |
-| Media | Cloudinary |
-| Validation | Zod (shared schemas via `@yrco/lib`) |
-| Monorepo | pnpm workspaces + Turborepo |
+| --- | --- |
+| **Frontend** | React 19, Vite, Tailwind CSS v4, React Router v7, TanStack React Query v5, Framer Motion |
+| **Backend** | Express 5, Node.js 20+ |
+| **Database** | MongoDB (Mongoose) |
+| **Auth** | LinkedIn OAuth 2.0, signed HTTP-only session cookies |
+| **Emails** | Resend + React Email |
+| **Media** | Cloudinary |
+| **Validation** | Zod (shared schemas via `@yrco/lib`) |
+| **Monorepo** | pnpm workspaces + Turborepo |
 
 ## Project Structure
 
@@ -40,26 +53,43 @@ yrco/
 
 ## Auth Flow
 
-1. User clicks "Login with LinkedIn" → redirected to LinkedIn OAuth
-2. LinkedIn redirects to `/auth/linkedin/callback` with an authorization code
-3. API exchanges the code for an access token, fetches the user's LinkedIn profile
-4. A signed session cookie (7-day opaque token) is set; the token is stored in a `Session` collection
-5. Every subsequent API request validates the cookie token against the database — no JWT
+```
+User clicks "Login with LinkedIn"
+        │
+        v
+LinkedIn OAuth consent screen
+        │
+        v
+Redirect to /auth/linkedin/callback with authorization code
+        │
+        v
+API exchanges code for access token, fetches LinkedIn profile
+        │
+        v
+Signed session cookie set (7-day opaque token, stored in Session collection)
+        │
+        v
+Every subsequent request validates the cookie token against the DB (no JWT)
+```
 
 ## User Roles
 
 Two roles with different setup fields, enforced by a Zod discriminated union in `@yrco/lib`:
 
-- **Student** — education program, optional portfolio links
-- **Organization** — company name, role, target education programs
+| Role | Setup Fields |
+| --- | --- |
+| **Student** | Education program, optional portfolio links |
+| **Organization** | Company name, role, target education programs |
 
-## Prerequisites
+---
+
+## Getting Started
+
+### Prerequisites
 
 - Node.js 20+
 - pnpm
 - MongoDB (local or [Atlas](https://www.mongodb.com/atlas))
-
-## Getting Started
 
 ### 1. Clone and install
 
@@ -76,15 +106,16 @@ cp apps/api/.env.example apps/api/.env.development
 cp apps/web/.env.example apps/web/.env.development
 ```
 
-**`apps/api/.env.development`**
+<details>
+<summary><strong>API environment variables</strong> (<code>apps/api/.env.development</code>)</summary>
 
 | Variable | Description |
-|---|---|
+| --- | --- |
 | `MONGO_URL` | MongoDB connection string |
 | `LINKEDIN_CLIENT_ID` | LinkedIn app client ID |
 | `LINKEDIN_CLIENT_SECRET` | LinkedIn app client secret |
 | `LINKEDIN_REDIRECT_URI` | Must match the callback URL registered in your LinkedIn app |
-| `COOKIE_SECRET` | Random secret for signing session cookies — generate with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` |
+| `COOKIE_SECRET` | Random secret for signing session cookies |
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret |
@@ -93,11 +124,18 @@ cp apps/web/.env.example apps/web/.env.development
 | `ALLOWED_CLIENT_ORIGINS` | Comma-separated allowed CORS origins (e.g. `http://localhost:5173`) |
 | `PORT` | API port (default `3000`) |
 
-**`apps/web/.env.development`**
+> Generate a cookie secret: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+
+</details>
+
+<details>
+<summary><strong>Web environment variables</strong> (<code>apps/web/.env.development</code>)</summary>
 
 | Variable | Description |
-|---|---|
+| --- | --- |
 | `VITE_API_URL` | API base URL (e.g. `http://localhost:3000`) |
+
+</details>
 
 ### 3. Seed the database
 
@@ -113,12 +151,14 @@ pnpm dev
 
 Starts both the API (port `3000`) and the web app (port `5173`) via Turborepo.
 
+---
+
 ## Scripts
 
 ### Root
 
 | Command | Description |
-|---|---|
+| --- | --- |
 | `pnpm dev` | Start all apps |
 | `pnpm test` | Run all tests |
 | `pnpm --filter=api db:seed` | Seed all collections |
@@ -129,14 +169,14 @@ Starts both the API (port `3000`) and the web app (port `5173`) via Turborepo.
 ### API (`apps/api`)
 
 | Command | Description |
-|---|---|
+| --- | --- |
 | `pnpm dev` | Start API server with watch mode |
 | `pnpm test` | Run all tests once (Vitest) |
 
 ### Web (`apps/web`)
 
 | Command | Description |
-|---|---|
+| --- | --- |
 | `pnpm dev` | Start Vite dev server on port 5173 |
 | `pnpm build` | Production build |
 | `pnpm preview` | Preview production build (proxies `/api` to `API_URL`) |
