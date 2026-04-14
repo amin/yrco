@@ -33,10 +33,16 @@ export async function handleLinkedInCallback(req, res) {
     if (!origin || !allowedOrigins.includes(origin))
       throw { status: 400, message: "Invalid client origin" };
 
+    if (req.query.error)
+      throw { status: 400, message: req.query.error_description || "LinkedIn authorization failed" };
+
     const { code } = req.query;
+    if (!code)
+      throw { status: 400, message: "Missing authorization code" };
+
     const { sessionToken, maxAge } = await authenticateWithLinkedIn(code);
 
-    res.clearCookie("oauth_state", { signed: true });
+    res.clearCookie("oauth_state", { httpOnly: true, signed: true, sameSite: "lax" });
     res.cookie("session", sessionToken, {
       httpOnly: true,
       signed: true,

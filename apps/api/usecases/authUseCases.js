@@ -34,26 +34,32 @@ export const upsertUser = async (uid, profileData) => {
   return { setupComplete: false, username };
 };
 
+async function uploadProfilePicture(sub, name, linkedInPictureUrl) {
+  const fallback = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
+  if (!linkedInPictureUrl) return;
+
+  try {
+    const picture = await linkedInService.downloadProfilePicture(linkedInPictureUrl);
+    const pictureUrl = await storageService.uploadImage(`profile-pictures/${sub}`, picture);
+    await userRepo.upsert(sub, { picture: pictureUrl });
+  } catch (err) {
+    console.error("Failed to upload profile picture, falling back to DiceBear:", err);
+    await userRepo.upsert(sub, { picture: fallback });
+  }
+}
+
 export async function authenticateWithLinkedIn(code) {
   const accessToken = await linkedInService.fetchAccessToken(code);
   const profile = await linkedInService.fetchProfile(accessToken);
 
-  let pictureUrl = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(profile.name)}`;
-  if (profile.picture) {
-    try {
-      const picture = await linkedInService.downloadProfilePicture(profile.picture);
-      pictureUrl = await storageService.uploadImage(`profile-pictures/${profile.sub}`, picture);
-    } catch (err) {
-      console.error("Failed to upload profile picture, falling back to DiceBear:", err);
-    }
-  }
+  const fallbackPicture = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(profile.name)}`;
 
   const { setupComplete, username } = await upsertUser(profile.sub, {
     name: profile.name,
     firstName: profile.given_name,
     lastName: profile.family_name,
     email: profile.email,
-    picture: pictureUrl,
+    picture: fallbackPicture,
   });
 
   await sessionRepo.deleteByUid(profile.sub);
@@ -61,6 +67,9 @@ export async function authenticateWithLinkedIn(code) {
   const sessionToken = crypto.randomUUID();
   const maxAge = 7 * 24 * 60 * 60 * 1000;
   await sessionRepo.create(sessionToken, profile.sub, new Date(Date.now() + maxAge));
+
+  // Upload profile picture in the background — don't block login
+  uploadProfilePicture(profile.sub, profile.name, profile.picture);
 
   return { sessionToken, maxAge, setupComplete, username };
 }
