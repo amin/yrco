@@ -17,7 +17,8 @@ export const fetchAccessToken = async (code) => {
       { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
     );
     return data.access_token;
-  } catch {
+  } catch (err) {
+    console.error("LinkedIn token exchange failed:", err.response?.data ?? err.message);
     throw { status: 401, message: "Login expired, please try again" };
   }
 };
