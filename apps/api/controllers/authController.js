@@ -53,7 +53,7 @@ export async function handleLinkedInCallback(req, res) {
     console.error("LinkedIn auth error:", err);
     const message = encodeURIComponent(err.status ? err.message : "Authentication failed");
     const errorOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-    res.redirect(`${errorOrigin}/error?message=${message}`);
+    res.redirect(`${errorOrigin}/error?type=auth&message=${message}`);
   }
 }
 
