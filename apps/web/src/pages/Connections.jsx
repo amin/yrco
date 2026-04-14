@@ -32,7 +32,7 @@ export const Connections = () => {
         ) : (
           <div className="flex items-center justify-center h-full">
             <span className="font-sans text-sm text-gray-400">
-              {connections.length === 0 ? 'No connections yet' : 'No results'}
+              {connections.length === 0 ? 'No saved palettes yet' : 'No results'}
             </span>
           </div>
         )}
