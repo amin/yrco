@@ -33,8 +33,10 @@ export async function handleLinkedInCallback(req, res) {
     if (!origin || !allowedOrigins.includes(origin))
       throw { status: 400, message: "Invalid client origin" };
 
-    if (req.query.error)
-      throw { status: 400, message: req.query.error_description || "LinkedIn authorization failed" };
+    if (req.query.error) {
+      console.error("LinkedIn OAuth error:", req.query.error, req.query.error_description);
+      throw { status: 400, message: "Authentication failed" };
+    }
 
     const { code } = req.query;
     if (!code)
