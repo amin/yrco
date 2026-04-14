@@ -40,13 +40,19 @@ yrco/
 │   │   ├── repositories/ Database abstraction (Mongoose)
 │   │   ├── services/     External API abstraction (LinkedIn, Cloudinary, Resend)
 │   │   ├── middleware/   requireAuth, requireSetup, rate limiting, error handler
+│   │   ├── models/       Mongoose schemas and models
+│   │   ├── emails/       React Email templates
+│   │   ├── helpers/      Pure functions with no side effects
+│   │   ├── lib/          Shared library utilities
+│   │   ├── tests/        Vitest test files
 │   │   └── utils/        Seed scripts, helpers
 │   └── web/              React SPA
 │       ├── src/pages/    Route-level components
 │       ├── src/features/ Feature modules (profile, connections, setup, search, traits)
 │       ├── src/shared/   UI primitives, icons, layout, route guards
 │       ├── src/providers/ AuthProvider, QueryProvider
-│       └── src/lib/      Axios instance, query keys, error redirect
+│       ├── src/lib/      Axios instance, query keys, error redirect
+│       └── src/utils/    Pure helper functions
 └── packages/
     └── lib/              Shared Zod schemas, imported as @yrco/lib
 ```
