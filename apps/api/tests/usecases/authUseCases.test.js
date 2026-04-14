@@ -18,6 +18,8 @@ vi.mock("../../services/storageService.js", () => ({
 
 vi.mock("../../repositories/sessionRepository.js", () => ({
   create: vi.fn(),
+  deleteByUid: vi.fn(),
+  deleteByToken: vi.fn(),
 }));
 
 import * as linkedInService from "../../services/linkedInService.js";

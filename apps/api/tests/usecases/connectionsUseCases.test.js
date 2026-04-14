@@ -76,8 +76,8 @@ describe("getUserConnections", () => {
         email: "alex@example.com",
         setupComplete: true,
         traitIds: [
-          { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-          { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+          { id: "trait-1", trait: "Curious", color: "#F59E0B", colorText: "#000000", icebreaker: "What?" },
+          { id: "trait-2", trait: "Creative", color: "#8B5CF6", colorText: "#FFFFFF", icebreaker: "How?" },
         ],
       },
     ]);

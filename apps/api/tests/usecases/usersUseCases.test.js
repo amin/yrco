@@ -12,11 +12,16 @@ vi.mock("../../services/storageService.js", () => ({
   uploadImage: vi.fn(),
 }));
 
+vi.mock("../../repositories/traitRepository.js", () => ({
+  countByIds: vi.fn(),
+}));
+
 vi.mock("../../services/emailService.js", () => ({
   sendWelcomeEmail: vi.fn(),
 }));
 
 import * as userRepo from "../../repositories/userRepository.js";
+import * as traitRepo from "../../repositories/traitRepository.js";
 import {
   getPublicUser,
   getAllUsers,
@@ -28,8 +33,8 @@ import {
 beforeEach(() => vi.clearAllMocks());
 
 const traitObjects = [
-  { id: "trait-1", trait: "Curious", color: "#F59E0B", icebreaker: "What?" },
-  { id: "trait-2", trait: "Creative", color: "#8B5CF6", icebreaker: "How?" },
+  { id: "trait-1", trait: "Curious", color: "#F59E0B", colorText: "#000000", icebreaker: "What?" },
+  { id: "trait-2", trait: "Creative", color: "#8B5CF6", colorText: "#FFFFFF", icebreaker: "How?" },
 ];
 
 const fullUser = {
@@ -154,29 +159,42 @@ describe("getCurrentUser", () => {
 });
 
 describe("completeUserSetup", () => {
+  const traitIds = ["t1", "t2", "t3", "t4", "t5", "t6", "t7"];
+
+  beforeEach(() => {
+    traitRepo.countByIds.mockResolvedValue(7);
+    userRepo.findById.mockResolvedValue({ setupComplete: false });
+  });
+
   it("passes role and fields to repository with setupComplete true", async () => {
     userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
-    await completeUserSetup("uid-1", { role: "student", education: "Web Developer" });
+    await completeUserSetup("uid-1", { role: "student", education: "Web Developer", traitIds });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "student",
       education: "Web Developer",
+      traitIds,
       setupComplete: true,
     });
   });
 
   it("handles organization role with its fields", async () => {
     userRepo.update.mockResolvedValue({ firstName: "Alex", email: "alex@example.com", traitIds: [] });
-    await completeUserSetup("uid-1", { role: "organization", organizationName: "Acme" });
+    await completeUserSetup("uid-1", { role: "organization", organizationName: "Acme", traitIds });
     expect(userRepo.update).toHaveBeenCalledWith("uid-1", {
       role: "organization",
       organizationName: "Acme",
+      traitIds,
       setupComplete: true,
     });
   });
 });
 
 describe("updateUser", () => {
-  const traitIds = ["w1", "w2", "w3", "w4", "w5"];
+  const traitIds = ["t1", "t2", "t3", "t4", "t5"];
+
+  beforeEach(() => {
+    traitRepo.countByIds.mockResolvedValue(traitIds.length);
+  });
 
   it("updates and returns the user", async () => {
     const user = { uid: "uid-1", traitIds };
