@@ -44,11 +44,7 @@ export const upsert = async (uid, data) => {
 
 export const createWithUsername = async (uid, data, username) => {
   try {
-    await User.findOneAndUpdate(
-      { uid },
-      { $set: { uid, ...data, username } },
-      { upsert: true },
-    );
+    await User.create({ uid, ...data, username });
     return true;
   } catch (err) {
     if (err.code === 11000 && err.keyPattern?.username) return false;
