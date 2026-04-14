@@ -15,15 +15,6 @@ export const findByUsername = async (username) => {
   return doc?.toObject({ virtuals: true }) ?? null;
 };
 
-const RESERVED_USERNAMES = new Set(["me"]);
-
-export const claimUsername = async (username, uid) => {
-  if (RESERVED_USERNAMES.has(username)) return false;
-  const existing = await User.findOne({ username }, { uid: 1 }).lean();
-  if (!existing) return true;
-  return existing.uid === uid;
-};
-
 export const findUidByUsername = async (username) => {
   const user = await User.findOne({ username }, { uid: 1 }).lean();
   return user?.uid ?? null;
@@ -49,6 +40,20 @@ export const upsert = async (uid, data) => {
     { $set: { uid, ...data } },
     { upsert: true },
   );
+};
+
+export const createWithUsername = async (uid, data, username) => {
+  try {
+    await User.findOneAndUpdate(
+      { uid },
+      { $set: { uid, ...data, username } },
+      { upsert: true },
+    );
+    return true;
+  } catch (err) {
+    if (err.code === 11000 && err.keyPattern?.username) return false;
+    throw err;
+  }
 };
 
 export const findAll = async (page, limit) => {

@@ -8,7 +8,7 @@ vi.mock("../../services/linkedInService.js", () => ({
 
 vi.mock("../../repositories/userRepository.js", () => ({
   findById: vi.fn().mockResolvedValue(null),
-  claimUsername: vi.fn().mockResolvedValue(true),
+  createWithUsername: vi.fn().mockResolvedValue(true),
   upsert: vi.fn(),
 }));
 
@@ -52,17 +52,15 @@ describe("upsertUser", () => {
       userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
       const { username } = await upsertUser("uid-1", profile);
       expect(username).toBe("amintest");
-      expect(userRepo.claimUsername).not.toHaveBeenCalled();
     });
 
     it("uses firstname + lastname as base username when available", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", profile);
       expect(username).toBe("amintest");
     });
 
     it("increments when base username is taken", async () => {
-      userRepo.claimUsername
+      userRepo.createWithUsername
         .mockResolvedValueOnce(false)
         .mockResolvedValueOnce(true);
       const { username } = await upsertUser("uid-1", profile);
@@ -70,7 +68,7 @@ describe("upsertUser", () => {
     });
 
     it("increments beyond 1 if multiple are taken", async () => {
-      userRepo.claimUsername
+      userRepo.createWithUsername
         .mockResolvedValueOnce(false)
         .mockResolvedValueOnce(false)
         .mockResolvedValueOnce(false)
@@ -80,7 +78,6 @@ describe("upsertUser", () => {
     });
 
     it("handles spaces in names", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "Anna Maria",
@@ -90,7 +87,6 @@ describe("upsertUser", () => {
     });
 
     it("strips special characters like åäö and - _ *", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "Åsa-Britta",
@@ -100,7 +96,6 @@ describe("upsertUser", () => {
     });
 
     it("lowercases all characters", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "JOHN",
@@ -110,7 +105,6 @@ describe("upsertUser", () => {
     });
 
     it("preserves numbers in names", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "Agent",
@@ -120,7 +114,6 @@ describe("upsertUser", () => {
     });
 
     it("strips emoji from names", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "Alex🔥",
@@ -130,7 +123,6 @@ describe("upsertUser", () => {
     });
 
     it("handles accented Latin characters (é, ñ, ü)", async () => {
-      userRepo.claimUsername.mockResolvedValue(true);
       const { username } = await upsertUser("uid-1", {
         ...profile,
         firstName: "René",
@@ -144,7 +136,6 @@ describe("upsertUser", () => {
     userRepo.findById.mockResolvedValueOnce({ username: "amintest", setupComplete: true });
     const { username } = await upsertUser("uid-1", profile);
     expect(username).toBe("amintest");
-    expect(userRepo.claimUsername).not.toHaveBeenCalled();
   });
 
   it("preserves setupComplete status on subsequent login", async () => {
@@ -163,7 +154,6 @@ describe("upsertUser", () => {
   });
 
   it("sets setupComplete to false for new users", async () => {
-    userRepo.claimUsername.mockResolvedValue(true);
     const { setupComplete } = await upsertUser("uid-1", profile);
     expect(setupComplete).toBe(false);
   });
@@ -174,7 +164,6 @@ describe("authenticateWithLinkedIn", () => {
     linkedInService.fetchAccessToken.mockResolvedValue("tok-123");
     linkedInService.fetchProfile.mockResolvedValue(linkedInProfile);
     linkedInService.downloadProfilePicture.mockResolvedValue(Buffer.from("img"));
-    userRepo.claimUsername.mockResolvedValue(true);
   });
 
   it("returns sessionToken, maxAge, setupComplete and username on success", async () => {

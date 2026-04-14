@@ -5,16 +5,8 @@ import * as linkedInService from "../services/linkedInService.js";
 import * as storageService from "../services/storageService.js";
 import { generateUsernameBase } from "../helpers/generateUsernameBase.js";
 
-const generateUsername = async (firstName, lastName, uid) => {
-  const base = generateUsernameBase(firstName, lastName);
-  if (await userRepo.claimUsername(base, uid)) return base;
-
-  const MAX_ATTEMPTS = 100;
-  let n = 1;
-  while (n <= MAX_ATTEMPTS && !(await userRepo.claimUsername(`${base}${n}`, uid))) n++;
-  if (n > MAX_ATTEMPTS) throw { status: 500, message: "Failed to generate unique username" };
-  return `${base}${n}`;
-};
+const RESERVED_USERNAMES = new Set(["me"]);
+const MAX_ATTEMPTS = 100;
 
 export const upsertUser = async (uid, profileData) => {
   const existing = await userRepo.findById(uid);
@@ -24,14 +16,19 @@ export const upsertUser = async (uid, profileData) => {
     return { setupComplete: existing.setupComplete, username: existing.username };
   }
 
-  const username = await generateUsername(profileData.firstName, profileData.lastName, uid);
-  await userRepo.upsert(uid, {
-    ...profileData,
-    setupComplete: false,
-    createdAt: new Date(),
-    username,
-  });
-  return { setupComplete: false, username };
+  const data = { ...profileData, setupComplete: false, createdAt: new Date() };
+  const base = generateUsernameBase(profileData.firstName, profileData.lastName);
+
+  if (!RESERVED_USERNAMES.has(base) && await userRepo.createWithUsername(uid, data, base))
+    return { setupComplete: false, username: base };
+
+  for (let n = 1; n <= MAX_ATTEMPTS; n++) {
+    const candidate = `${base}${n}`;
+    if (!RESERVED_USERNAMES.has(candidate) && await userRepo.createWithUsername(uid, data, candidate))
+      return { setupComplete: false, username: candidate };
+  }
+
+  throw { status: 500, message: "Failed to generate unique username" };
 };
 
 async function uploadProfilePicture(sub, name, linkedInPictureUrl) {
