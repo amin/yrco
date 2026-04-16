@@ -41,7 +41,6 @@ app.use(errorHandler);
 
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled rejection:', err);
-  process.exit(1);
 });
 
 process.on('uncaughtException', (err) => {
