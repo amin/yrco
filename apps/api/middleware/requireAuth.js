@@ -9,6 +9,8 @@ export async function requireAuth(req, res, next) {
   if (!session) return res.status(401).json({ error: "Unauthorized" });
 
   const user = await userRepo.findById(session.uid);
-  req.user = user ?? { uid: session.uid };
+  if (!user) return res.status(401).json({ error: "Unauthorized" });
+
+  req.user = user;
   next();
 }

@@ -83,7 +83,7 @@ describe("requireAuth", () => {
     expect(res.status).not.toHaveBeenCalled();
   });
 
-  it("falls back to uid-only when user record is not found", async () => {
+  it("returns 401 when session exists but user record is not found", async () => {
     sessionRepo.findByToken.mockResolvedValue({ token: "tok-abc", uid: "uid-123" });
     userRepo.findById.mockResolvedValue(null);
     const req = { signedCookies: { session: "tok-abc" } };
@@ -92,7 +92,8 @@ describe("requireAuth", () => {
 
     await requireAuth(req, res, next);
 
-    expect(req.user).toEqual({ uid: "uid-123" });
-    expect(next).toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(401);
+    expect(res.json).toHaveBeenCalledWith({ error: "Unauthorized" });
+    expect(next).not.toHaveBeenCalled();
   });
 });
