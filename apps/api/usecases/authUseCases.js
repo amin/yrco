@@ -16,7 +16,7 @@ export const upsertUser = async (uid, profileData) => {
     return { setupComplete: existing.setupComplete, username: existing.username };
   }
 
-  const data = { ...profileData, setupComplete: false, createdAt: new Date() };
+  const data = { ...profileData, setupComplete: false };
   const base = generateUsernameBase(profileData.firstName, profileData.lastName);
 
   if (!RESERVED_USERNAMES.has(base) && await userRepo.createWithUsername(uid, data, base))
