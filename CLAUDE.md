@@ -9,7 +9,7 @@ Yrco is a mobile-first networking app for Yrgo's industry event. Students and co
 ```
 apps/api        Express REST API (Node 20+, MongoDB/Mongoose)
 apps/web        React SPA (Vite, React 19, Tailwind CSS v4)
-packages/lib    Shared Zod schemas, imported as @yrco/lib
+packages/lib    Shared Zod schemas and utilities, imported as @yrco/lib
 ```
 
 Each app has its own `CLAUDE.md` with app-specific commands, architecture, and conventions.

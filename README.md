@@ -25,7 +25,7 @@ Every attendee picks 7 traits that define them — and those traits become a uni
 | **Auth** | LinkedIn OAuth 2.0, signed HTTP-only session cookies |
 | **Emails** | Resend + React Email |
 | **Media** | Cloudinary |
-| **Validation** | Zod (shared schemas via `@yrco/lib`) |
+| **Validation** | Zod (shared schemas and utilities via `@yrco/lib`) |
 | **Monorepo** | pnpm workspaces + Turborepo |
 
 ## Project Structure
@@ -54,7 +54,7 @@ yrco/
 │       ├── src/lib/      Axios instance, query keys, error redirect
 │       └── src/utils/    Pure helper functions
 └── packages/
-    └── lib/              Shared Zod schemas, imported as @yrco/lib
+    └── lib/              Shared Zod schemas and utilities, imported as @yrco/lib
 ```
 
 ## Auth Flow
