@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
-      await api.post('/auth/logout')
+      await api.delete('/auth/logout')
     } finally {
       queryClient.setQueryData(queryKeys.me, null)
     }

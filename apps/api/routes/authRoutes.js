@@ -14,6 +14,6 @@ router.use(authLimiter);
 router.get("/linkedin", handleLinkedInRedirect);
 router.get("/linkedin/callback", handleLinkedInCallback);
 
-router.post("/logout", requireAuth, handleLogout);
+router.delete("/logout", requireAuth, handleLogout);
 
 export default router;
