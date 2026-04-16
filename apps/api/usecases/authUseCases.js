@@ -66,7 +66,9 @@ export async function authenticateWithLinkedIn(code) {
   await sessionRepo.create(sessionToken, profile.sub, new Date(Date.now() + maxAge));
 
   // Upload profile picture in the background — don't block login
-  uploadProfilePicture(profile.sub, profile.name, profile.picture);
+  uploadProfilePicture(profile.sub, profile.name, profile.picture).catch((err) =>
+    console.error("Unexpected error in uploadProfilePicture:", err)
+  );
 
   return { sessionToken, maxAge, setupComplete, username };
 }
