@@ -24,7 +24,7 @@ router.get("/me/connections", requireAuth, requireSetup, handleGetUserConnection
 router.post("/me/connections", requireAuth, requireSetup, handleAddUserConnection);
 router.delete("/me/connections/:username", requireAuth, requireSetup, handleRemoveUserConnection);
 
-router.get("/", handleGetAllUsers);
-router.get("/:username", handleGetPublicUser);
+router.get("/", requireAuth, requireSetup, handleGetAllUsers);
+router.get("/:username", requireAuth, requireSetup, handleGetPublicUser);
 
 export default router;
