@@ -11,7 +11,13 @@ export function handleLinkedInRedirect(req, res) {
     throw { status: 400, message: "Invalid client origin" };
 
   const csrf = crypto.randomUUID();
-  res.cookie("oauth_state", csrf, { httpOnly: true, signed: true, sameSite: "lax", maxAge: 10 * 60 * 1000 });
+  res.cookie("oauth_state", csrf, {
+    httpOnly: true,
+    signed: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 10 * 60 * 1000,
+  });
 
   const validRedirect = validateRedirect(req.query.redirect);
 
@@ -44,7 +50,12 @@ export async function handleLinkedInCallback(req, res) {
 
     const { sessionToken, maxAge } = await authenticateWithLinkedIn(code);
 
-    res.clearCookie("oauth_state", { httpOnly: true, signed: true, sameSite: "lax" });
+    res.clearCookie("oauth_state", {
+      httpOnly: true,
+      signed: true,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
     res.cookie("session", sessionToken, {
       httpOnly: true,
       signed: true,
