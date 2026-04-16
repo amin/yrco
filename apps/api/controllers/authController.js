@@ -67,6 +67,11 @@ export async function handleLinkedInCallback(req, res) {
 
 export async function handleLogout(req, res) {
   await logout(req.signedCookies.session);
-  res.clearCookie("session", { signed: true });
+  res.clearCookie("session", {
+    signed: true,
+    httpOnly: true,
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
   res.json({ ok: true });
 }
