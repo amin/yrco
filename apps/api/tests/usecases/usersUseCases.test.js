@@ -8,10 +8,6 @@ vi.mock("../../repositories/userRepository.js", () => ({
   search: vi.fn(),
 }));
 
-vi.mock("../../services/storageService.js", () => ({
-  uploadImage: vi.fn(),
-}));
-
 vi.mock("../../repositories/traitRepository.js", () => ({
   countByIds: vi.fn(),
 }));
