@@ -24,10 +24,15 @@ export const fetchAccessToken = async (code) => {
 };
 
 export const fetchProfile = async (accessToken) => {
-  const { data } = await axios.get(LINKEDIN_PROFILE_URL, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-  return data;
+  try {
+    const { data } = await axios.get(LINKEDIN_PROFILE_URL, {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    });
+    return data;
+  } catch (err) {
+    console.error("LinkedIn profile fetch failed:", err.response?.status ?? err.message);
+    throw { status: 401, message: "Login expired, please try again" };
+  }
 };
 
 export const downloadProfilePicture = async (url) => {
