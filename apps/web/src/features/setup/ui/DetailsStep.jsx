@@ -4,7 +4,7 @@ import { useAuth } from '@/providers/AuthProvider'
 import { InputText } from '@/shared/ui/inputs/InputText'
 import { ControllerTwoInput } from '@/shared/ui/inputs/ControllerTwoInput'
 import { Button } from '@/shared/ui/buttons/Button'
-import { toTitleCase } from '@/utils/toTitleCase'
+import { toTitleCase } from '@yrco/lib'
 
 const validateUrl = (field, formData, onChange) => {
   let value = formData[field] ?? ''

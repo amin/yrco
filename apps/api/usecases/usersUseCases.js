@@ -1,7 +1,7 @@
 import * as userRepo from "../repositories/userRepository.js";
 import * as traitRepo from "../repositories/traitRepository.js";
 import * as emailService from "../services/emailService.js";
-import { publicProfileSchema } from "@yrco/lib";
+import { publicProfileSchema, toTitleCase } from "@yrco/lib";
 
 export const getPublicUser = async (username) => {
   const user = await userRepo.findByUsername(username);
@@ -33,8 +33,6 @@ export const setEmailOptIn = async (uid, optIn) => {
   const user = await userRepo.update(uid, { emailOptIn: optIn });
   if (!user) throw { status: 404, message: "User not found" };
 };
-
-const toTitleCase = (str) => str.replace(/\b\w/g, (c) => c.toUpperCase());
 
 export const completeUserSetup = async (uid, data) => {
   const validCount = await traitRepo.countByIds(data.traitIds);

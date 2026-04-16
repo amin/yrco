@@ -1,7 +1,7 @@
 {
   "name": "@yrco/lib",
   "version": "1.0.0",
-  "main": "./validation/index.js",
+  "main": "./index.js",
   "type": "module",
   "license": "MIT",
   "dependencies": {
