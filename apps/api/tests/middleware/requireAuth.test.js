@@ -4,7 +4,12 @@ vi.mock("../../repositories/sessionRepository.js", () => ({
   findByToken: vi.fn(),
 }));
 
+vi.mock("../../repositories/userRepository.js", () => ({
+  findById: vi.fn(),
+}));
+
 import * as sessionRepo from "../../repositories/sessionRepository.js";
+import * as userRepo from "../../repositories/userRepository.js";
 import { requireAuth } from "../../middleware/requireAuth.js";
 
 const mockRes = () => {
@@ -64,8 +69,23 @@ describe("requireAuth", () => {
     expect(next).not.toHaveBeenCalled();
   });
 
-  it("sets req.user from the session record and calls next when token is valid", async () => {
+  it("sets req.user from the user record and calls next when token is valid", async () => {
     sessionRepo.findByToken.mockResolvedValue({ token: "tok-abc", uid: "uid-123" });
+    userRepo.findById.mockResolvedValue({ uid: "uid-123", setupComplete: true });
+    const req = { signedCookies: { session: "tok-abc" } };
+    const res = mockRes();
+    const next = vi.fn();
+
+    await requireAuth(req, res, next);
+
+    expect(req.user).toEqual({ uid: "uid-123", setupComplete: true });
+    expect(next).toHaveBeenCalled();
+    expect(res.status).not.toHaveBeenCalled();
+  });
+
+  it("falls back to uid-only when user record is not found", async () => {
+    sessionRepo.findByToken.mockResolvedValue({ token: "tok-abc", uid: "uid-123" });
+    userRepo.findById.mockResolvedValue(null);
     const req = { signedCookies: { session: "tok-abc" } };
     const res = mockRes();
     const next = vi.fn();
@@ -74,6 +94,5 @@ describe("requireAuth", () => {
 
     expect(req.user).toEqual({ uid: "uid-123" });
     expect(next).toHaveBeenCalled();
-    expect(res.status).not.toHaveBeenCalled();
   });
 });

@@ -1,4 +1,5 @@
 import * as sessionRepo from "../repositories/sessionRepository.js";
+import * as userRepo from "../repositories/userRepository.js";
 
 export async function requireAuth(req, res, next) {
   const token = req.signedCookies.session;
@@ -7,6 +8,7 @@ export async function requireAuth(req, res, next) {
   const session = await sessionRepo.findByToken(token);
   if (!session) return res.status(401).json({ error: "Unauthorized" });
 
-  req.user = { uid: session.uid };
+  const user = await userRepo.findById(session.uid);
+  req.user = user ?? { uid: session.uid };
   next();
 }

@@ -1,10 +1,4 @@
-import { vi, describe, it, expect, beforeEach } from "vitest";
-
-vi.mock("../../repositories/userRepository.js", () => ({
-  findById: vi.fn(),
-}));
-
-import * as userRepo from "../../repositories/userRepository.js";
+import { vi, describe, it, expect } from "vitest";
 import { requireSetup } from "../../middleware/requireSetup.js";
 
 const mockRes = () => {
@@ -14,11 +8,8 @@ const mockRes = () => {
   return res;
 };
 
-beforeEach(() => vi.clearAllMocks());
-
 describe("requireSetup", () => {
-  it("returns 403 when user not found", async () => {
-    userRepo.findById.mockResolvedValue(null);
+  it("returns 403 when setupComplete is missing (user not in DB)", async () => {
     const req = { user: { uid: "uid-1" } };
     const res = mockRes();
     const next = vi.fn();
@@ -31,8 +22,7 @@ describe("requireSetup", () => {
   });
 
   it("returns 403 when setupComplete is false", async () => {
-    userRepo.findById.mockResolvedValue({ setupComplete: false });
-    const req = { user: { uid: "uid-1" } };
+    const req = { user: { uid: "uid-1", setupComplete: false } };
     const res = mockRes();
     const next = vi.fn();
 
@@ -43,8 +33,7 @@ describe("requireSetup", () => {
   });
 
   it("calls next when setupComplete is true", async () => {
-    userRepo.findById.mockResolvedValue({ setupComplete: true });
-    const req = { user: { uid: "uid-1" } };
+    const req = { user: { uid: "uid-1", setupComplete: true } };
     const res = mockRes();
     const next = vi.fn();
 
