@@ -1,4 +1,4 @@
-import { getPublicUser, getAllUsers, getCurrentUser, completeUserSetup, updateUser, setEmailOptIn } from "../usecases/usersUseCases.js";
+import { getPublicUser, getAllUsers, completeUserSetup, updateUser, setEmailOptIn } from "../usecases/usersUseCases.js";
 import { addUserConnection, removeUserConnection, getUserConnections } from "../usecases/connectionsUseCases.js";
 import { setupSchema, usernameSchema, traitIdsSchema } from "@yrco/lib";
 
@@ -18,7 +18,7 @@ export async function handleGetAllUsers(req, res) {
 }
 
 export async function handleGetCurrentUser(req, res) {
-  res.json(await getCurrentUser(req.user.uid));
+  res.json(req.user);
 }
 
 export async function handleCompleteUserSetup(req, res) {

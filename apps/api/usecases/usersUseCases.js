@@ -3,12 +3,6 @@ import * as traitRepo from "../repositories/traitRepository.js";
 import * as emailService from "../services/emailService.js";
 import { publicProfileSchema } from "@yrco/lib";
 
-export const getCurrentUser = async (uid) => {
-  const user = await userRepo.findById(uid);
-  if (!user) throw { status: 404, message: "User not found" };
-  return user;
-};
-
 export const getPublicUser = async (username) => {
   const user = await userRepo.findByUsername(username);
   if (!user) throw { status: 404, message: "User not found" };

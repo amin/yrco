@@ -21,7 +21,6 @@ import * as traitRepo from "../../repositories/traitRepository.js";
 import {
   getPublicUser,
   getAllUsers,
-  getCurrentUser,
   completeUserSetup,
   updateUser,
 } from "../../usecases/usersUseCases.js";
@@ -136,21 +135,6 @@ describe("getAllUsers", () => {
     await getAllUsers(1, "");
     expect(userRepo.findAll).toHaveBeenCalledWith(1, 20);
     expect(userRepo.search).not.toHaveBeenCalled();
-  });
-});
-
-describe("getCurrentUser", () => {
-  it("returns user when found", async () => {
-    const user = { uid: "uid-1", name: "Alex" };
-    userRepo.findById.mockResolvedValue(user);
-    const result = await getCurrentUser("uid-1");
-    expect(result).toEqual(user);
-    expect(userRepo.findById).toHaveBeenCalledWith("uid-1");
-  });
-
-  it("throws 404 when user not found", async () => {
-    userRepo.findById.mockResolvedValue(null);
-    await expect(getCurrentUser("uid-1")).rejects.toEqual({ status: 404, message: "User not found" });
   });
 });
 
