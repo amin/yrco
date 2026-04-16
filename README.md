@@ -23,7 +23,7 @@ Every attendee picks 7 traits that define them — and those traits become a uni
 | **Backend** | Express 5, Node.js 20+ |
 | **Database** | MongoDB (Mongoose) |
 | **Auth** | LinkedIn OAuth 2.0, signed HTTP-only session cookies |
-| **Emails** | Resend + React Email |
+| **Emails** | Resend + React Email _(currently disabled)_ |
 | **Media** | Cloudinary |
 | **Validation** | Zod (shared schemas and utilities via `@yrco/lib`) |
 | **Monorepo** | pnpm workspaces + Turborepo |
@@ -125,8 +125,9 @@ cp apps/web/.env.example apps/web/.env.development
 | `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
 | `CLOUDINARY_API_KEY` | Cloudinary API key |
 | `CLOUDINARY_API_SECRET` | Cloudinary API secret |
-| `RESEND_API_KEY` | Resend API key for transactional emails |
-| `EMAIL_FROM` | Sender address (e.g. `hello@yourdomain.com`) |
+| `RESEND_API_KEY` | Resend API key for transactional emails _(not required while email is disabled)_ |
+| `EMAIL_FROM` | Sender address (e.g. `hello@yourdomain.com`) _(not required while email is disabled)_ |
+| `APP_NAME` | App name used in email templates _(not required while email is disabled)_ |
 | `ALLOWED_CLIENT_ORIGINS` | Comma-separated allowed CORS origins (e.g. `http://localhost:5173`) |
 | `PORT` | API port (default `3000`) |
 
