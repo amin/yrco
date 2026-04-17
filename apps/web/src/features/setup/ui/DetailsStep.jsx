@@ -41,6 +41,30 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
     ? !!formData.education && !websiteError && !websiteError2
     : !!(targetEducation.length > 0 && !orgNameError && !roleError)
 
+  const validateStudentFields = () => {
+    const websiteErr = validateUrl('website', formData, onChange)
+    const website2Err = validateUrl('website2', formData, onChange)
+    setWebsiteError(websiteErr)
+    setWebsiteError2(website2Err)
+    return !websiteErr && !website2Err
+  }
+
+  const validateOrgFields = () => {
+    const name = toTitleCase(formData.organizationName ?? '')
+    const role = toTitleCase(formData.roleAtCompany ?? '')
+    onChange('organizationName', name)
+    onChange('roleAtCompany', role)
+    const nameErr = validateOrgField('organizationName', name)
+    const roleErr = validateOrgField('roleAtCompany', role)
+    setOrgNameError(nameErr)
+    setRoleError(roleErr)
+    return !nameErr && !roleErr
+  }
+
+  const handleNext = () => {
+    if (isStudent ? validateStudentFields() : validateOrgFields()) onNext()
+  }
+
   return (
     <div className="flex flex-col h-full p-base">
       <div className="flex-1 flex flex-col justify-center gap-xl">
@@ -121,7 +145,7 @@ export const DetailsStep = ({ role, formData, onChange, onBack, onNext }) => {
 
       <div className="flex justify-between">
         <Button variant="secondary" onClick={onBack}>Back</Button>
-        <Button disabled={!canProceed} onClick={onNext}>Next</Button>
+        <Button disabled={!canProceed} onClick={handleNext}>Next</Button>
       </div>
     </div>
   )
