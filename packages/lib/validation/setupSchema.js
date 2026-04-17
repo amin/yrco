@@ -3,10 +3,15 @@ import { z } from "zod";
 export const traitIdsSchema = z.array(z.string()).length(7, "Pick exactly 7 traits");
 const traitIds = traitIdsSchema;
 
+const optionalUrl = z.preprocess(
+  (v) => (typeof v === "string" && v !== "" && !/^https?:\/\//i.test(v) ? `https://${v}` : v),
+  z.union([z.url("Must be a valid URL").max(200, "URL is too long"), z.literal("")]).optional(),
+);
+
 export const studentFieldsSchema = z.object({
   education: z.enum(["Web Developer", "Digital Designer"], { error: "Select your education" }),
-  website: z.union([z.url("Must be a valid URL (include https://)").max(200, "URL is too long"), z.literal("")]).optional(),
-  website2: z.union([z.url("Must be a valid URL (include https://)").max(200, "URL is too long"), z.literal("")]).optional(),
+  website: optionalUrl,
+  website2: optionalUrl,
 });
 
 export const organizationFieldsSchema = z.object({

@@ -7,13 +7,11 @@ import { Button } from '@/shared/ui/buttons/Button'
 import { toTitleCase } from '@yrco/lib'
 
 const validateUrl = (field, formData, onChange) => {
-  let value = formData[field] ?? ''
-  if (value && !/^https?:\/\//i.test(value)) {
-    value = `https://${value}`
-    onChange(field, value)
-  }
+  const value = formData[field] ?? ''
   const result = studentFieldsSchema.shape[field].safeParse(value)
-  return result.success ? '' : result.error.issues[0].message
+  if (!result.success) return result.error.issues[0].message
+  if (result.data !== value) onChange(field, result.data)
+  return ''
 }
 
 const validateOrgField = (field, value) => {
