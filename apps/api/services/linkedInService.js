@@ -39,6 +39,9 @@ export const downloadProfilePicture = async (url) => {
   const { data } = await axios.get(url, {
     responseType: "arraybuffer",
     headers: { "User-Agent": "Mozilla/5.0" },
+    timeout: 10_000,
+    maxContentLength: 5 * 1024 * 1024,
+    maxRedirects: 3,
   });
   return Buffer.from(data);
 };
