@@ -5,7 +5,17 @@ import * as linkedInService from "../services/linkedInService.js";
 import * as storageService from "../services/storageService.js";
 import { generateUsernameBase } from "../helpers/generateUsernameBase.js";
 
-const RESERVED_USERNAMES = new Set(["me"]);
+const RESERVED_USERNAMES = new Set([
+  "me",
+  "palette",
+  "users",
+  "connections",
+  "setup",
+  "logout",
+  "login",
+  "auth",
+  "error",
+]);
 const MAX_ATTEMPTS = 100;
 
 export const upsertUser = async (uid, profileData) => {
@@ -24,7 +34,7 @@ export const upsertUser = async (uid, profileData) => {
 
   for (let n = 1; n <= MAX_ATTEMPTS; n++) {
     const candidate = `${base}${n}`;
-    if (!RESERVED_USERNAMES.has(candidate) && await userRepo.createWithUsername(uid, data, candidate))
+    if (await userRepo.createWithUsername(uid, data, candidate))
       return { setupComplete: false, username: candidate };
   }
 
