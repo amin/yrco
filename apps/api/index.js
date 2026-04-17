@@ -22,6 +22,10 @@ app.use(
     crossOriginResourcePolicy: { policy: "cross-origin" }, // allow cross-origin images
   }),
 );
+if (!process.env.ALLOWED_CLIENT_ORIGINS) {
+  console.error("ALLOWED_CLIENT_ORIGINS is required");
+  process.exit(1);
+}
 const allowedOrigins = process.env.ALLOWED_CLIENT_ORIGINS.split(",");
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
