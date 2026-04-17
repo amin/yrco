@@ -4,6 +4,7 @@ import * as sessionRepo from "../repositories/sessionRepository.js";
 import * as linkedInService from "../services/linkedInService.js";
 import * as storageService from "../services/storageService.js";
 import { generateUsernameBase } from "../helpers/generateUsernameBase.js";
+import { buildFallbackPicture } from "../helpers/buildFallbackPicture.js";
 
 const RESERVED_USERNAMES = new Set([
   "me",
@@ -42,7 +43,6 @@ export const upsertUser = async (uid, profileData) => {
 };
 
 async function uploadProfilePicture(sub, name, linkedInPictureUrl) {
-  const fallback = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(name)}`;
   if (!linkedInPictureUrl) return;
 
   try {
@@ -51,7 +51,7 @@ async function uploadProfilePicture(sub, name, linkedInPictureUrl) {
     await userRepo.upsert(sub, { picture: pictureUrl });
   } catch (err) {
     console.error("Failed to upload profile picture, falling back to DiceBear:", err);
-    await userRepo.upsert(sub, { picture: fallback });
+    await userRepo.upsert(sub, { picture: buildFallbackPicture(name) });
   }
 }
 
@@ -59,14 +59,12 @@ export async function authenticateWithLinkedIn(code) {
   const accessToken = await linkedInService.fetchAccessToken(code);
   const profile = await linkedInService.fetchProfile(accessToken);
 
-  const fallbackPicture = `https://api.dicebear.com/9.x/initials/svg?seed=${encodeURIComponent(profile.name)}`;
-
   const { setupComplete, username } = await upsertUser(profile.sub, {
     name: profile.name,
     firstName: profile.given_name,
     lastName: profile.family_name,
     email: profile.email,
-    picture: fallbackPicture,
+    picture: buildFallbackPicture(profile.name),
   });
 
   await sessionRepo.deleteByUid(profile.sub);
