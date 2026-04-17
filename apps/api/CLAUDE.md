@@ -27,6 +27,7 @@ Clean architecture with strict layer separation:
 - **services/**: Abstraction over external APIs (LinkedIn, Cloudinary, Resend). Swap providers without touching use cases
 - **middleware/**: `requireAuth` (validates signed session cookie token against the `Session` collection, sets `req.user.uid`), `requireSetup` (queries DB to confirm onboarding is complete, attaches full user object to `req.user`), rate limiting, error handler
 - **helpers/**: Pure functions with no side effects
+- **utils/**: Dev/tooling scripts (e.g. DB seed and clear). Not imported by runtime code
 
 **Monorepo**: `apps/api` (this app), `apps/web` (React SPA), `packages/lib` (shared Zod schemas, imported as `@yrco/lib`).
 
