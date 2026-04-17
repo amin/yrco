@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { setupSchema } from '@yrco/lib'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
+import { redirectToError } from '@/lib/errorRedirect'
 import { APP_ROUTES } from '@/shared/routes'
 
 export function useSetup() {
@@ -31,7 +32,11 @@ export function useSetup() {
       : { ...base, organizationName: formData.organizationName ?? '', roleAtCompany: formData.roleAtCompany ?? '', targetEducation: formData.targetEducation }
 
     const result = setupSchema.safeParse(data)
-    if (!result.success) return
+    if (!result.success) {
+      console.error('Setup validation failed:', result.error)
+      redirectToError('Something went wrong, please try again')
+      return
+    }
 
     setStep(5)
 
