@@ -1,18 +1,17 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams, matchPath } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { setupSchema } from '@yrco/lib'
 import { queryKeys } from '@/lib/queryKeys'
 import api from '@/lib/api'
 import { redirectToError } from '@/lib/errorRedirect'
-import { APP_ROUTES } from '@/shared/routes'
+import { validateRedirect } from '@/lib/validateRedirect'
 
 export function useSetup() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
-  const raw = searchParams.get('redirect')
-  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
+  const redirect = validateRedirect(searchParams.get('redirect'))
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({ role: null })
 

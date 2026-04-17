@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react'
-import { useSearchParams, matchPath } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { APP_ROUTES } from '@/shared/routes'
+import { validateRedirect } from '@/lib/validateRedirect'
 
 const ANIMATION_URL =
   'https://res.cloudinary.com/dmvfsm0ls/video/upload/q_auto/yrco/login-animation.mp4'
 
 export const Login = () => {
   const [searchParams] = useSearchParams()
-  const raw = searchParams.get('redirect')
-  const redirect = raw && APP_ROUTES.some(r => matchPath(r.path, raw)) ? raw : null
+  const redirect = validateRedirect(searchParams.get('redirect'))
 
   const params = new URLSearchParams({ origin: window.location.origin })
   if (redirect) params.set('redirect', redirect)
