@@ -1,15 +1,7 @@
 import { matchPath } from 'react-router-dom'
-import { APP_ROUTES, AUTH_ROUTES, PUBLIC_ROUTES, OPEN_ROUTES } from '@/shared/routes'
 
-const STATIC_APP_PATHS = new Set(
-  APP_ROUTES.map(r => r.path).filter(p => !p.includes(':')),
-)
-
-const RESERVED_SEGMENTS = new Set(
-  [...AUTH_ROUTES, ...PUBLIC_ROUTES, ...OPEN_ROUTES]
-    .map(r => r.path.split('/')[1])
-    .filter(Boolean),
-)
+const STATIC_APP_PATHS = new Set(['/palette', '/users', '/connections'])
+const RESERVED_SEGMENTS = new Set(['setup', 'logout', 'login', 'auth', 'error'])
 
 export function validateRedirect(raw) {
   if (typeof raw !== 'string') return null
