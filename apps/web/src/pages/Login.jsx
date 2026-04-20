@@ -46,11 +46,14 @@ export const Login = () => {
         {animationDone && (
           <motion.div
             key="login-button"
-            className="absolute inset-0 flex items-center justify-center p-m"
+            className="absolute inset-0 flex flex-col items-center justify-center gap-xl p-base"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4 }}
           >
+            <p className="font-sans font-light text-xl leading-xl tracking-tighter text-black text-center">
+              We promise, this is the only time we&apos;ll ask you to:
+            </p>
             <a
               href={authUrl}
               className="inline-flex items-center justify-center rounded-full h-11 px-l py-s font-sans text-sm leading-base tracking-tight whitespace-nowrap bg-yrgo-red text-white active:bg-yrgo-red-active"
